@@ -6,7 +6,7 @@ export const FORAMINA = [
   {
     id: `cribriform`, name: `הלוחית המנוקבת`, en: `Cribriform plate`, bone: `עצם המסננת`, fossa: `anterior`,
     nerves: [`olfactory`], other: [],
-    text: `לוחית עצם דקה כמו נייר, מלאה בחורים זעירים. עשרות הסיבים של עצב הריח עוברים בהם מחלל האף אל פקעת הריח.`,
+    text: `לוחית עצם דקה כמו נייר, מלאה בחורים זעירים. כעשרים הצרורות הדקים של עצב הריח עוברים בהם מחלל האף אל פקעת הריח.`,
   },
   {
     id: `optic`, name: `תעלת הראייה`, en: `Optic canal`, bone: `עצם הטריז (הכנף הקטנה)`, fossa: `middle`,
@@ -22,7 +22,7 @@ export const FORAMINA = [
   {
     id: `rotundum`, name: `החור העגול`, en: `Foramen rotundum`, bone: `עצם הטריז (הכנף הגדולה)`, fossa: `middle`,
     nerves: [`trigeminal`], other: [],
-    text: `פתח עגול קטן שמוביל קדימה, אל מתחת לארובת העין.`,
+    text: `פתח עגול קטן שמוביל קדימה אל הגומה הכנפית-חכית (pterygopalatine fossa), מאחורי ומתחת לארובת העין.`,
     note: `עובר כאן הענף של הלסת העליונה (V2).`,
   },
   {
