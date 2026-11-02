@@ -30,7 +30,7 @@ function render(id) {
     + `<h3>${esc(n.name)}</h3><p class="nerve-latin" dir="ltr" lang="en">${esc(n.en)}</p></div></div>`
     + `<p>${esc(n.tagline)}</p>`
     + `<ul class="comp-list comp-list-sm">${n.components.map((c) => `<li><span class="comp comp-${c.kind}">${COMPONENTS[c.kind]}</span><span>${esc(c.text)}</span></li>`).join('')}</ul>`
-    + `<p class="panel-exit"><strong>יוצא דרך:</strong> ${esc(foramen[n.foramen].name)}</p>`
+    + `<p class="panel-exit"><strong>יוצא דרך:</strong> ${(n.foramina ?? [n.foramen]).map((id) => esc(foramen[id].name)).join(", ")}</p>`
     + `<a class="btn btn-primary" href="${nerveUrl(n.id)}">לעמוד של ${esc(n.name)}</a></article>`;
 }
 

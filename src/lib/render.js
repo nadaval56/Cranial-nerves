@@ -46,7 +46,6 @@ function tryFirst(n) {
 export function nerveBody(n) {
   const i = n.num - 1;
   const prev = NERVES[i - 1], next = NERVES[i + 1];
-  const f = foramenById[n.foramen];
 
   const strip = `<nav class="nerve-strip" aria-label="12 העצבים"><ol>${NERVES.map((m) =>
     `<li><a href="${nerveUrl(m.id)}" class="t-${m.type}"${m.id === n.id ? ' aria-current="page"' : ''} title="${esc(m.name)}">${m.roman}</a></li>`).join('')}</ol></nav>`;
@@ -75,7 +74,7 @@ export function nerveBody(n) {
 
   const path = section('path', 'path', 'המסלול',
     `<ol class="route">${n.path.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`
-    + (f ? `<p class="route-foramen">יוצא דרך: <a href="./lab-skull.html#${f.id}">${esc(f.name)}</a> <span class="muted" lang="en" dir="ltr">(${esc(f.en)})</span></p>` : ''));
+    + `<p class="route-foramen">יוצא דרך: ${(n.foramina ?? [n.foramen]).map((id) => { const x = foramenById[id]; return `<a href="./lab-skull.html#${x.id}">${esc(x.name)}</a> <span class="muted" lang="en" dir="ltr">(${esc(x.en)})</span>`; }).join(' · ')}</p>`);
 
   const test = section('test', 'test', 'איך בודקים',
     `<ol class="exam-steps">${n.test.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
@@ -112,7 +111,7 @@ export function nerveCard(n) {
 export function nervesList(nerves) {
   const rows = nerves.map((n) => `<tr data-type="${n.type}"><td>${romanBadge(n)}</td>`
     + `<th scope="row"><a href="${nerveUrl(n.id)}">${esc(n.name)}</a><span class="muted" lang="en" dir="ltr">${esc(n.en)}</span></th>`
-    + `<td>${typeTag(n.type)}</td><td>${esc(BRAIN[n.brain])}</td><td>${esc(foramenById[n.foramen].name)}</td>`
+    + `<td>${typeTag(n.type)}</td><td>${esc(BRAIN[n.brain])}</td><td>${(n.foramina ?? [n.foramen]).map((id) => esc(foramenById[id].name)).join(', ')}</td>`
     + `<td>${n.components.map((c) => `<span class="comp comp-${c.kind}" title="${esc(c.text)}">${COMPONENTS[c.kind]}</span>`).join(' ')}</td></tr>`).join('');
   return `<p class="result-count" role="status">${nerves.length} עצבים</p>`
     + `<div class="grid grid-3 nerve-grid">${nerves.map(nerveCard).join('')}</div>`

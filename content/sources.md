@@ -17,7 +17,12 @@
 |---|---|---|
 | כ-80% מהסיבים בעצב התועה תחושתיים (הערכה מקובלת) | עצב X | StatPearls, Vagus |
 | ~400 סוגי קולטני ריח פעילים באדם | עצב I | Wikipedia: Olfactory receptor |
-| השבלול: ~2.5 סיבובים, ~3.5 ס"מ באורך פרוש | עצב VIII | Wikipedia: Cochlea |
+| השבלול: 2.5–2.75 סיבובים, ~3 ס"מ באורך פרוש | עצב VIII | Wikipedia: Cochlea |
+| עצב הריח: ~20 צרורות (fila olfactoria), מיליוני אקסונים; העצב הקצר ביותר | עצב I | Wikipedia: Olfactory nerve |
+| עצב הראייה: 770 אלף עד 1.7 מיליון סיבים, ~53% חוצים | עצב II | Wikipedia: Optic nerve |
+| עור זווית הלסת — C2–C3, לא העצב החמישי | עצב V | Wikipedia: Trigeminal nerve |
+| שריר הארכובה — שריר השלד הקטן ביותר | עצב VII | Wikipedia: Stapedius muscle |
+| התעלפות וזו-וגאלית: האטת הלב (עצב התועה) + נסיגת הטונוס הסימפתטי | עצב X | Wikipedia: Reflex syncope |
 | עצב VI כ"סימן ממקם כוזב" בלחץ תוך-גולגולתי | עצב VI | StatPearls, Abducens |
 | שיתוק מרכזי חוסך את המצח (עצבוב קורטיקלי דו-צדדי של החלק העליון) | עצב VII, המעבדה | StatPearls, Facial |
 | סיבי האישון בהיקף עצב III — לחץ חיצוני פוגע באישון מוקדם | עצב III | StatPearls, Oculomotor |

@@ -17,6 +17,7 @@ NERVES.forEach((n, i) => {
   if (n.num !== i + 1) err(w, `מספר ${n.num} לא תואם למקום ${i + 1}`);
   if (!TYPES[n.type]) err(w, `סוג לא מוכר: ${n.type}`);
   if (!BRAIN[n.brain]) err(w, `מקום חיבור לא מוכר: ${n.brain}`);
+  (n.foramina ?? []).forEach((id) => { if (!foramina.has(id)) err(w, `פתח לא מוכר: ${id}`); });
   if (!foramina.has(n.foramen)) err(w, `פתח לא מוכר: ${n.foramen}`);
   else if (!FORAMINA.find((f) => f.id === n.foramen).nerves.includes(n.id)) err(w, `הפתח ${n.foramen} לא מונה את העצב`);
   n.components?.forEach((c) => { if (!COMPONENTS[c.kind]) err(w, `מרכיב לא מוכר: ${c.kind}`); });
