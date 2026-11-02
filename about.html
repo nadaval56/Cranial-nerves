@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- @head -->
+    <title>אודות · {{SITE_NAME}}</title>
+    <meta name="description" content="על האתר: למי הוא מיועד, הבהרה רפואית, איך נוצרו האיורים, ומאיפה המידע." />
+  </head>
+  <body>
+    <!-- @header -->
+    <main id="main">
+      <svg class="icon-sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".9" fill="currentColor"/></symbol>
+        <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></symbol>
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.5v2.5"/></symbol>
+      </svg>
+
+      <div class="container">
+        <header class="page-head lesson-head">
+          <span class="eyebrow">אודות</span>
+          <h1>על האתר</h1>
+        </header>
+
+        <div class="lesson-layout">
+          <nav class="lesson-nav" aria-label="בעמוד הזה">
+            <p class="lesson-nav-title">בעמוד הזה</p>
+            <ol>
+              <li><a href="#purpose"><span class="lesson-nav-ico"><svg><use href="#i-target"/></svg></span>המטרה</a></li>
+              <li><a href="#medical"><span class="lesson-nav-ico"><svg><use href="#i-info"/></svg></span>הבהרה רפואית</a></li>
+              <li><a href="#illustrations"><span class="lesson-nav-ico"><svg><use href="#i-pen"/></svg></span>האיורים</a></li>
+              <li><a href="#sources"><span class="lesson-nav-ico"><svg><use href="#i-book"/></svg></span>מקורות</a></li>
+              <li><a href="#privacy"><span class="lesson-nav-ico"><svg><use href="#i-lock"/></svg></span>פרטיות</a></li>
+            </ol>
+          </nav>
+
+          <div class="lessons">
+            <section id="purpose" class="lesson" aria-labelledby="purpose-h">
+              <header class="lesson-title">
+                <span class="lesson-ico" aria-hidden="true"><svg><use href="#i-target"/></svg></span>
+                <h2 id="purpose-h">המטרה</h2>
+              </header>
+              <div class="prose">
+                <p>העצבים הקרניאליים הם אחד הנושאים שכל סטודנט לרפואה, לסיעוד, לפיזיותרפיה, לרפואת שיניים או לפרא-רפואה פוגש — ולעיתים קרובות משנן בעל פה, בלי להבין למה. האתר נבנה כדי לתת לנושא היגיון: מאיפה כל עצב יוצא, לאן הוא הולך, ולמה פגיעה בו נראית בדיוק כמו שהיא נראית.</p>
+                <p>הוא מיועד לסטודנטים, לתלמידי ביולוגיה בתיכון ולכל מי שסקרן לדעת איך המוח מדבר עם הפנים. העקרונות: <strong>שואלים לפני שמסבירים</strong>, <strong>מראים במקום רק לספר</strong>, ו<strong>מדייקים</strong> — פישוט מותר, טעות לא.</p>
+              </div>
+            </section>
+
+            <section id="medical" class="lesson lesson-warn" aria-labelledby="medical-h">
+              <header class="lesson-title">
+                <span class="lesson-ico" aria-hidden="true"><svg><use href="#i-info"/></svg></span>
+                <h2 id="medical-h">הבהרה רפואית</h2>
+              </header>
+              <div class="prose">
+                <p><strong>האתר נועד ללימוד בלבד. הוא אינו כלי אבחון ואינו תחליף לייעוץ רפואי.</strong> התיאורים של פגיעות בעצבים פשוטים בכוונה, כדי להבהיר את העיקרון; במציאות התמונה מורכבת יותר, ויש לה סיבות רבות.</p>
+                <p>הסימולטורים במעבדה מציגים מודל פשוט, ולא חיזוי של מה שיקרה אצל אדם מסוים.</p>
+                <p>חולשה פתאומית בפנים או בגפיים, ראייה כפולה חדשה, קושי בדיבור או בבליעה, או כאב ראש פתאומי וחזק — הם מצבי חירום. פונים מיד לעזרה רפואית (בישראל: מד"א, 101).</p>
+              </div>
+            </section>
+
+            <section id="illustrations" class="lesson" aria-labelledby="illustrations-h">
+              <header class="lesson-title">
+                <span class="lesson-ico" aria-hidden="true"><svg><use href="#i-pen"/></svg></span>
+                <h2 id="illustrations-h">האיורים</h2>
+              </header>
+              <div class="prose">
+                <p>כל האיורים באתר — גזע המוח, בסיס הגולגולת, העיניים, הפנים ומסלול הראייה — צוירו במיוחד לאתר, בקוד (SVG). הם סכמטיים: הסדר והיחסים בין המבנים נאמנים לאנטומיה, אבל הפרופורציות מפושטות כדי שיהיה קל לקרוא אותם.</p>
+                <p>העצבים צבועים בצהוב, כמו במסורת של אטלסי האנטומיה. בכל מקום באתר, הצבע של מספר העצב מציין את הסוג שלו: <span class="type-tag type-sensory">תחושתי</span> <span class="type-tag type-motor">תנועתי</span> <span class="type-tag type-mixed">מעורב</span>.</p>
+              </div>
+            </section>
+
+            <section id="sources" class="lesson" aria-labelledby="sources-h">
+              <header class="lesson-title">
+                <span class="lesson-ico" aria-hidden="true"><svg><use href="#i-book"/></svg></span>
+                <h2 id="sources-h">מקורות</h2>
+              </header>
+              <div class="prose">
+                <p>המידע האנטומי והקליני מבוסס על ספרי יסוד בנוירואנטומיה ועל סדרת הפרקים "Neuroanatomy, Cranial Nerve" של StatPearls בספריית NCBI (גישה חופשית), שיש בה פרק לכל עצב. האירועים בציר הזמן מקושרים כל אחד למקור שלו.</p>
+                <ul>
+                  <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK556066/" rel="noopener" target="_blank">StatPearls: Neuroanatomy, Cranial Nerve 1 (Olfactory)</a> — ומשם לפרקים על שאר העצבים</li>
+                  <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK526024/" rel="noopener" target="_blank">StatPearls: Neuroanatomy, Cranial Nerve 7 (Facial)</a></li>
+                  <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK537171/" rel="noopener" target="_blank">StatPearls: Neuroanatomy, Cranial Nerve 10 (Vagus)</a></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Cranial_nerves" rel="noopener" target="_blank">Wikipedia: Cranial nerves</a> — סקירה כללית והיסטוריה</li>
+                </ul>
+                <p class="muted">מצאתם טעות? נשמח לשמוע: <a href="mailto:nadaval56@gmail.com">nadaval56@gmail.com</a>.</p>
+              </div>
+            </section>
+
+            <section id="privacy" class="lesson" aria-labelledby="privacy-h">
+              <header class="lesson-title">
+                <span class="lesson-ico" aria-hidden="true"><svg><use href="#i-lock"/></svg></span>
+                <h2 id="privacy-h">פרטיות</h2>
+              </header>
+              <div class="prose">
+                <p>האתר לא אוסף שום מידע: אין עוגיות, אין כלי מדידה, אין פרסומות ואין טפסים. התשובות במבחן ובשאלות "נסו קודם" נשארות בדפדפן ולא נשמרות. הגופן וכל הקבצים מוגשים מהאתר עצמו. הפרטים המלאים ב<a href="./privacy.html">מדיניות הפרטיות</a>.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- @footer -->
+    <script type="module" src="./src/pages/about.js"></script>
+  </body>
+</html>

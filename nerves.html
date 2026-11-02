@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- @head -->
+    <title>העצבים · {{SITE_NAME}}</title>
+    <meta name="description" content="כל 12 העצבים הקרניאליים: תחושתיים, תנועתיים ומעורבים — עם סינון, וטבלה שמסכמת את כולם." />
+  </head>
+  <body>
+    <!-- @header -->
+    <main id="main">
+      <div class="container">
+        <header class="page-head">
+          <span class="eyebrow">I–XII</span>
+          <h1>העצבים</h1>
+          <p class="lead">שנים-עשר זוגות, ממוספרים לפי הסדר שבו הם יוצאים מהמוח — מלפנים לאחור, מלמעלה למטה.</p>
+        </header>
+        <div class="filters" id="filters" role="group" aria-label="סינון לפי סוג" hidden>
+          <button type="button" class="chip" aria-pressed="true" data-type="all">הכול</button>
+          <button type="button" class="chip" aria-pressed="false" data-type="sensory">תחושתיים</button>
+          <button type="button" class="chip" aria-pressed="false" data-type="motor">תנועתיים</button>
+          <button type="button" class="chip" aria-pressed="false" data-type="mixed">מעורבים</button>
+        </div>
+        <div id="nerves-root"></div>
+      </div>
+    </main>
+    <!-- @footer -->
+    <script type="module" src="./src/pages/nerves.js"></script>
+  </body>
+</html>

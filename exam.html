@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- @head -->
+    <title>הבדיקה · {{SITE_NAME}}</title>
+    <meta name="description" content="איך בודקים את 12 העצבים הקרניאליים ליד מיטת המטופל, בעשר דקות ובכמה כלים פשוטים — ואילו רפלקסים מחברים בין שני עצבים." />
+  </head>
+  <body>
+    <!-- @header -->
+    <main id="main">
+      <div class="container">
+        <header class="page-head">
+          <span class="eyebrow">הבדיקה הנוירולוגית</span>
+          <h1>12 עצבים בעשר דקות</h1>
+          <p class="lead">בדיקת העצבים הקרניאליים היא חלק מכל בדיקה נוירולוגית. היא לא דורשת מכשור מתוחכם — פנס, מזלג קול ועיניים פקוחות.</p>
+        </header>
+
+        <section class="section" aria-labelledby="kit-h">
+          <h2 id="kit-h">מה צריך</h2>
+          <ul class="kit" id="kit">
+            <li><span class="kit-ico" aria-hidden="true">🔦</span>פנס קטן</li>
+            <li><span class="kit-ico" aria-hidden="true">☕</span>משהו עם ריח מוכר: קפה, סבון, וניל</li>
+            <li><span class="kit-ico" aria-hidden="true">📄</span>לוח אותיות לבדיקת ראייה</li>
+            <li><span class="kit-ico" aria-hidden="true">🎵</span>מזלג קול (בדרך כלל 512 הרץ)</li>
+            <li><span class="kit-ico" aria-hidden="true">☁️</span>צמר גפן</li>
+            <li><span class="kit-ico" aria-hidden="true">🥢</span>מקלון (לרפלקס ההקאה)</li>
+          </ul>
+        </section>
+
+        <section class="section" aria-labelledby="steps-h">
+          <h2 id="steps-h">הבדיקה, צעד אחר צעד</h2>
+          <p class="muted section-sub">בדרך כלל בודקים לפי הסדר — זה פשוט קל לזכור. לחצו על צעד כדי לפתוח אותו.</p>
+          <div id="exam-root" class="exam-list"></div>
+        </section>
+
+        <section class="section" aria-labelledby="reflex-h">
+          <h2 id="reflex-h">רפלקסים: שני עצבים בבדיקה אחת</h2>
+          <div class="prose">
+            <p>רפלקס הוא תגובה אוטומטית: עצב אחד מרגיש (הזרוע <strong>הקולטת</strong>, afferent), ועצב אחר מבצע (הזרוע <strong>המבצעת</strong>, efferent). כשרפלקס לא עובד, צריך לברר איזו זרוע נפגעה — ולכן בודקים גם את הצד השני.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table reflex-table">
+              <caption class="visually-hidden">רפלקסים של העצבים הקרניאליים</caption>
+              <thead><tr><th scope="col">רפלקס</th><th scope="col">מה עושים</th><th scope="col">קולט</th><th scope="col">מבצע</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">רפלקס האישון לאור</th><td>מאירים לעין אחת — שני האישונים מתכווצים</td><td><a href="./nerve-optic.html">II</a></td><td><a href="./nerve-oculomotor.html">III</a> (בשני הצדדים)</td></tr>
+                <tr><th scope="row">התאמה לקרוב</th><td>מסתכלים על אצבע שמתקרבת לאף — העיניים מתכנסות, האישונים מתכווצים</td><td><a href="./nerve-optic.html">II</a></td><td><a href="./nerve-oculomotor.html">III</a></td></tr>
+                <tr><th scope="row">רפלקס הקרנית</th><td>נגיעה קלה בקרנית — שתי העיניים ממצמצות</td><td><a href="./nerve-trigeminal.html">V</a> (הענף העיני)</td><td><a href="./nerve-facial.html">VII</a></td></tr>
+                <tr><th scope="row">רפלקס הלסת</th><td>הקשה קלה על הסנטר כשהפה פתוח מעט — הלסת נסגרת</td><td><a href="./nerve-trigeminal.html">V</a></td><td><a href="./nerve-trigeminal.html">V</a></td></tr>
+                <tr><th scope="row">רפלקס ההקאה</th><td>נגיעה בדופן האחורית של הלוע — שרירי הלוע מתכווצים</td><td><a href="./nerve-glossopharyngeal.html">IX</a></td><td><a href="./nerve-vagus.html">X</a></td></tr>
+                <tr><th scope="row">רפלקס וסטיבולו-אוקולרי</th><td>מסובבים את הראש — העיניים זזות לכיוון ההפוך ונשארות על המטרה</td><td><a href="./nerve-vestibulocochlear.html">VIII</a></td><td><a href="./nerve-oculomotor.html">III</a>, <a href="./nerve-abducens.html">VI</a> (ו-<a href="./nerve-trochlear.html">IV</a>)</td></tr>
+                <tr><th scope="row">רפלקס הסטפדיוס</th><td>צליל חזק — שריר הארכובה באוזן מתכווץ</td><td><a href="./nerve-vestibulocochlear.html">VIII</a></td><td><a href="./nerve-facial.html">VII</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><a class="lab-link" href="./lab-pupils.html">לנסות את רפלקס האישון במעבדה ←</a></p>
+        </section>
+
+        <section class="section prose" aria-labelledby="note-h">
+          <h2 id="note-h">חשוב לדעת</h2>
+          <p>העמוד הזה מסביר <strong>מה בודקים ולמה</strong>, כדי להבין את האנטומיה. הוא לא מדריך לאבחון עצמי. בדיקה נוירולוגית אמיתית נעשית בידי איש מקצוע, שמפרש את הממצאים יחד עם הסיפור הרפואי ובדיקות נוספות.</p>
+          <p>אם מופיעים פתאום חולשה בפנים, ראייה כפולה, קושי בדיבור או בבליעה — זה מצב חירום. פונים מיד לעזרה רפואית (בישראל: מד"א, 101).</p>
+        </section>
+      </div>
+    </main>
+    <!-- @footer -->
+    <script type="module" src="./src/pages/exam.js"></script>
+  </body>
+</html>

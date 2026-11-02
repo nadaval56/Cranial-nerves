@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- @head -->
+    <title>{{SITE_NAME}} · {{SITE_TAGLINE}}</title>
+    <meta name="description" content="אתר לימודי בעברית על 12 זוגות העצבים הקרניאליים: מפה אינטראקטיבית של גזע המוח, עמוד מפורט לכל עצב, הבדיקה הנוירולוגית, סימולטורים ומבחן עצמי." />
+  </head>
+  <body>
+    <!-- @header -->
+    <main id="main">
+      <div class="container">
+        <section class="hero hero-cn">
+          <div>
+            <span class="eyebrow">העצבים הקרניאליים</span>
+            <h1>12 זוגות של כבלים, שמחברים את המוח לעולם</h1>
+            <p class="lead">
+              מהם אתם מריחים, רואים, שומעים, מחייכים, בולעים ומדברים. כל זוג יוצא ישירות מהמוח ולא מחוט השדרה,
+              ולכל אחד סיפור משלו. לחצו על עצב במפה כדי להתחיל.
+            </p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="./nerve-olfactory.html">מתחילים מעצב I</a>
+              <a class="btn" href="./lab-eyes.html">נסו את סימולטור העיניים</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="section explorer-section" aria-labelledby="map-title">
+        <div class="container">
+          <h2 id="map-title">מפת גזע המוח</h2>
+          <p class="muted section-sub">כך נראה גזע המוח מלמטה, כשמרימים את המוח ומסתכלים על הצד הקדמי שלו. העצבים מצוירים בצהוב, כמו באטלסים של אנטומיה.</p>
+          <div class="explorer" id="explorer">
+            <figure class="explorer-figure" id="explorer-figure"></figure>
+            <div class="explorer-panel" id="explorer-panel" aria-live="polite"></div>
+            <div class="explorer-picker" id="explorer-picker" role="group" aria-label="בחירת עצב"></div>
+          </div>
+          <noscript><p><a href="./nerves.html">לרשימת העצבים המלאה</a></p></noscript>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="how-title">
+        <div class="container">
+          <h2 id="how-title">איך לומדים כאן</h2>
+          <ol class="steps">
+            <li>
+              <h3>שואלים קודם</h3>
+              <p>בכל עמוד עצב מחכה שאלה אחת, עוד לפני ההסבר. ניחוש לא נכון הוא חלק מהלמידה.</p>
+            </li>
+            <li>
+              <h3>עוקבים אחרי המסלול</h3>
+              <p>מאיפה העצב יוצא, דרך איזה פתח בגולגולת, ואיזה שריר או חוש הוא משרת בסוף הדרך.</p>
+            </li>
+            <li>
+              <h3>"פוגעים" ורואים</h3>
+              <p>במעבדה משביתים עצב ורואים מה קורה: עין שנתקעת, אישון שלא מגיב, חצי פנים שלא מחייך.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="explore-title">
+        <div class="container">
+          <h2 id="explore-title">מה יש באתר</h2>
+          <div class="grid grid-5" id="home-cards"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="mnemonic-title">
+        <div class="container">
+          <h2 id="mnemonic-title">שלושה דברים לזכור</h2>
+          <div class="grid grid-3">
+            <article class="card memo-card">
+              <div class="card-body">
+                <p class="memo-big" dir="ltr">LR6 SO4 R3</p>
+                <p>הישר הצדדי של העין — עצב 6. האלכסוני העליון — עצב 4. כל שאר שרירי העין — עצב 3.</p>
+              </div>
+            </article>
+            <article class="card memo-card">
+              <div class="card-body">
+                <p class="memo-big">3 · 7 · 9 · 10</p>
+                <p>ארבעת העצבים שנושאים סיבים פאראסימפתטיים: אישון, דמעות ורוק, בלוטת הפרוטיד, והלב והמעיים.</p>
+              </div>
+            </article>
+            <article class="card memo-card">
+              <div class="card-body">
+                <p class="memo-big">2 · 2 · 4 · 4</p>
+                <p>מלמעלה למטה: 2 מהמוח הקדמי (I, II), 2 מהמוח התיכון (III, IV), 4 מגשר המוח וסביבו (V–VIII), 4 מהמוח המוארך וחוט השדרה (IX–XII).</p>
+              </div>
+            </article>
+          </div>
+          <p><a class="lab-link" href="./basics.html#mnemonics">עוד דרכים לזכור ←</a></p>
+        </div>
+      </section>
+    </main>
+    <!-- @footer -->
+    <script type="module" src="./src/pages/home.js"></script>
+  </body>
+</html>
