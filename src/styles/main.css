@@ -1550,3 +1550,6 @@ html.a11y-still .sister-clone { display: none; }
 @media (min-width: 900px) { .b3d-stage-sm { aspect-ratio: 1 / 1; height: auto; } }
 .b3d-mini-bar { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0.5rem 0.25rem 0; }
 .b3d-mini-bar .chip { min-height: 32px; padding: 0.15rem 0.7rem; font-size: 0.8rem; }
+.b3d-seg { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; }
+.b3d-seg[hidden] { display: none; }
+.b3d-switch { border-color: var(--accent); color: var(--accent); }

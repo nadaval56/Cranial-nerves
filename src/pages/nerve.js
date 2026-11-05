@@ -70,23 +70,28 @@ if (n && locator && webglOk()) {
       });
       const bar = document.createElement('div');
       bar.className = 'b3d-mini-bar';
-      bar.innerHTML = `<button type="button" class="chip" data-shell aria-pressed="false">בלי מוח</button>`
-        + `<button type="button" class="chip" data-reset>זווית התחלה</button>`
-        + `<button type="button" class="chip" data-2d aria-pressed="false">איור דו-ממדי</button>`;
+      // כפתור אחד שמתחלף בין המודל לאיור; ושלושה מצבים למוח הגדול
+      bar.innerHTML = `<button type="button" class="chip b3d-switch" data-2d>איור דו-ממדי</button>`
+        + `<div class="b3d-seg" role="group" aria-label="המוח הגדול">`
+        + `<button type="button" class="chip" data-shell="ghost" aria-pressed="true">מוח שקוף</button>`
+        + `<button type="button" class="chip" data-shell="solid" aria-pressed="false">מוח מלא</button>`
+        + `<button type="button" class="chip" data-shell="hidden" aria-pressed="false">בלי מוח</button></div>`
+        + `<button type="button" class="chip" data-reset>זווית התחלה</button>`;
       locator.insertBefore(bar, locator.querySelector('figcaption'));
+      let is2d = false;
       bar.addEventListener('click', (e) => {
         const b = e.target.closest('button');
         if (!b) return;
-        if (b.hasAttribute('data-shell')) {
-          const on = b.getAttribute('aria-pressed') !== 'true';
-          b.setAttribute('aria-pressed', String(on));
-          view3d.setShell(on ? 'hidden' : 'ghost');
+        if (b.dataset.shell) {
+          view3d.setShell(b.dataset.shell);
+          bar.querySelectorAll('[data-shell]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
         } else if (b.hasAttribute('data-reset')) view3d.setView(BEST_VIEW[n.id]);
         else if (b.hasAttribute('data-2d')) {
-          const on = b.getAttribute('aria-pressed') !== 'true';
-          b.setAttribute('aria-pressed', String(on));
-          svgEl.style.display = on ? '' : 'none'; stage.hidden = on;
-          bar.querySelectorAll('[data-shell], [data-reset]').forEach((x) => { x.hidden = on; });
+          is2d = !is2d;
+          b.textContent = is2d ? 'מודל תלת-ממדי' : 'איור דו-ממדי';
+          svgEl.style.display = is2d ? '' : 'none'; stage.hidden = is2d;
+          bar.querySelectorAll('.b3d-seg, [data-reset]').forEach((x) => { x.hidden = is2d; });
+          const hint = locator.querySelector('.b3d-cap'); if (hint) hint.hidden = is2d;
         }
       });
       const cap = locator.querySelector('figcaption');
