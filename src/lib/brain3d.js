@@ -95,11 +95,24 @@ const VIEWS = {
   oblique: [-160, -150, -130], // מלפנים-מלמטה ומהצד
   lateral: [-260, -15, 15],  // מצד שמאל
   front: [0, -40, -260],     // מלפנים
+  back: [-150, -60, 230],    // מאחור ומהצד — לעצבים שיוצאים מאחור (IV, XI)
 };
 
 const P = ([d, y, z], side) => new THREE.Vector3(X0 + (side === 'L' ? -d : d), y, z);
 
-export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false }) {
+// הזווית שמראה הכי טוב כל עצב (בעמוד של העצב)
+export const BEST_VIEW = {
+  olfactory: 'ventral', optic: 'ventral', oculomotor: 'oblique', trochlear: 'lateral', trigeminal: 'oblique', abducens: 'ventral',
+  facial: 'oblique', vestibulocochlear: 'oblique', glossopharyngeal: 'oblique', vagus: 'oblique', accessory: 'oblique', hypoglossal: 'ventral',
+};
+// עצבים שהמוחון מסתיר — בעמוד שלהם המוחון שקוף
+export const GHOST_CEREBELLUM = new Set(['trochlear', 'accessory', 'glossopharyngeal', 'vagus', 'vestibulocochlear', 'facial']);
+
+/**
+ * labels: 'all' — תווית לכל עצב (עמוד הבית); 'active' — רק לעצב הנבחר (עמוד עצב).
+ * view: זווית ההתחלה. active: עצב מודגש מההתחלה.
+ */
+export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false, labels: labelMode = 'all', view = 'ventral', active: initialActive = null, ghostCerebellum = false }) {
   const canvasWrap = document.createElement('div');
   canvasWrap.className = 'b3d-canvas';
   const labelLayer = document.createElement('div');
@@ -116,7 +129,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 1, 2000);
-  camera.position.copy(TARGET).add(new THREE.Vector3(...VIEWS.ventral));
+  camera.position.copy(TARGET).add(new THREE.Vector3(...VIEWS[view]));
   scene.add(new THREE.HemisphereLight(0xfff4e6, 0x20242c, 1.1));
   const key = new THREE.DirectionalLight(0xffffff, 1.6);
   camera.add(key); key.position.set(0.4, 0.6, 1);
@@ -133,7 +146,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   // ---------- המוח ----------
   const shellMat = new THREE.MeshStandardMaterial({ color: 0xc9b6ae, roughness: 0.8, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide });
   const stemMat = new THREE.MeshStandardMaterial({ color: 0x9b817a, roughness: 0.65, metalness: 0.02 });
-  const cblMat = new THREE.MeshStandardMaterial({ color: 0x77707f, roughness: 0.75, transparent: true, opacity: 0.92 });
+  const cblMat = new THREE.MeshStandardMaterial({ color: 0x77707f, roughness: 0.75, transparent: true, opacity: ghostCerebellum ? 0.22 : 0.92, depthWrite: !ghostCerebellum });
   const shell = [];
   const gltf = await new GLTFLoader().loadAsync(glbUrl);
   gltf.scene.traverse((o) => {
@@ -208,6 +221,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
     for (const l of labels) {
       l.el.classList.toggle('is-active', l.id === id);
       l.el.classList.toggle('is-dim', !!id && l.id !== id);
+      l.show = labelMode === 'all' || l.id === id;
     }
     needsRender = true;
   }
@@ -287,7 +301,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
       v.copy(l.pos).project(camera);
       const behind = v.z > 1;
       l.el.style.transform = `translate(${((v.x + 1) / 2) * w}px, ${((1 - v.y) / 2) * h}px) translate(-50%, -50%)`;
-      l.el.hidden = behind;
+      l.el.hidden = behind || !l.show;
     }
   }
   raf = requestAnimationFrame(frame);
@@ -298,7 +312,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   });
   io.observe(container);
 
-  highlight(null);
+  highlight(initialActive);
   return {
     highlight, setView, setShell,
     dispose() { running = false; cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); controls.dispose(); renderer.dispose(); canvasWrap.remove(); labelLayer.remove(); },

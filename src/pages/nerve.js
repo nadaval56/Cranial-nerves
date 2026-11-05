@@ -45,3 +45,55 @@ if (tryEl) {
     });
   });
 }
+
+// ---------- מודל תלת-ממדי במקום האיור הקטן ----------
+// האיור הדו-ממדי (SVG) מוצג קודם ונשאר כגיבוי; המודל נטען אחריו, רק אם הדפדפן תומך ב-WebGL.
+const locator = root.querySelector('.nerve-locator');
+function webglOk() {
+  try { const c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); } catch { return false; }
+}
+if (n && locator && webglOk()) {
+  const svgEl = locator.querySelector('svg');
+  const stage = document.createElement('div');
+  stage.className = 'b3d-stage b3d-stage-sm';
+  stage.hidden = true;
+  locator.insertBefore(stage, locator.querySelector('figcaption'));
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+  (async () => {
+    try {
+      const { createBrain3D, BEST_VIEW, GHOST_CEREBELLUM } = await import('../lib/brain3d.js');
+      stage.hidden = false; svgEl.style.display = 'none';
+      const view3d = await createBrain3D(stage, {
+        glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
+        reducedMotion, labels: 'active', active: n.id, view: BEST_VIEW[n.id], ghostCerebellum: GHOST_CEREBELLUM.has(n.id),
+        onSelect: () => view3d?.highlight(n.id), // העצב של העמוד נשאר מודגש
+      });
+      const bar = document.createElement('div');
+      bar.className = 'b3d-mini-bar';
+      bar.innerHTML = `<button type="button" class="chip" data-shell aria-pressed="false">בלי מוח</button>`
+        + `<button type="button" class="chip" data-reset>זווית התחלה</button>`
+        + `<button type="button" class="chip" data-2d aria-pressed="false">איור דו-ממדי</button>`;
+      locator.insertBefore(bar, locator.querySelector('figcaption'));
+      bar.addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        if (b.hasAttribute('data-shell')) {
+          const on = b.getAttribute('aria-pressed') !== 'true';
+          b.setAttribute('aria-pressed', String(on));
+          view3d.setShell(on ? 'hidden' : 'ghost');
+        } else if (b.hasAttribute('data-reset')) view3d.setView(BEST_VIEW[n.id]);
+        else if (b.hasAttribute('data-2d')) {
+          const on = b.getAttribute('aria-pressed') !== 'true';
+          b.setAttribute('aria-pressed', String(on));
+          svgEl.style.display = on ? '' : 'none'; stage.hidden = on;
+          bar.querySelectorAll('[data-shell], [data-reset]').forEach((x) => { x.hidden = on; });
+        }
+      });
+      const cap = locator.querySelector('figcaption');
+      cap.insertAdjacentHTML('beforeend', ' <span class="muted b3d-cap">גררו כדי לסובב.</span>');
+    } catch (err) {
+      console.warn('3D view unavailable, keeping the 2D illustration', err);
+      stage.remove(); svgEl.style.display = '';
+    }
+  })();
+}

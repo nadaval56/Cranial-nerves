@@ -1546,3 +1546,7 @@ html.a11y-still .sister-clone { display: none; }
 .b3d-toggle { margin-top: 0.5rem; font-size: 0.85rem; }
 .b3d-hint { margin: 0.25rem 0 0; font-size: 0.82rem; }
 .explorer-figure:has(.b3d:not([hidden])) { padding: 0.5rem; }
+.b3d-stage-sm { aspect-ratio: 1 / 1; max-height: 420px; }
+@media (min-width: 900px) { .b3d-stage-sm { aspect-ratio: 1 / 1; height: auto; } }
+.b3d-mini-bar { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0.5rem 0.25rem 0; }
+.b3d-mini-bar .chip { min-height: 32px; padding: 0.15rem 0.7rem; font-size: 0.8rem; }
