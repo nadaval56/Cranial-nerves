@@ -1519,3 +1519,30 @@ html.a11y-still .sister-clone { display: none; }
 .fb-bad strong { color: var(--warning); }
 .score-big { font-size: 4rem; font-weight: 800; line-height: 1; margin: 0 0 0.5rem; color: var(--accent); }
 .score-big span { font-size: 1.6rem; color: var(--text-muted); font-weight: 600; }
+
+/* ---------- מפת העצבים בתלת-ממד (src/lib/brain3d.js) ---------- */
+
+.b3d { display: grid; gap: 0.6rem; }
+.b3d-stage { position: relative; width: 100%; aspect-ratio: 1 / 1.08; max-height: 640px; border-radius: 14px; overflow: hidden; background: radial-gradient(ellipse at 50% 45%, #1a1f27, #0b0e12 75%); touch-action: none; }
+@media (min-width: 900px) { .b3d-stage { aspect-ratio: auto; height: 600px; } }
+.b3d-canvas, .b3d-canvas canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.b3d-canvas canvas { cursor: grab; }
+.b3d-canvas canvas:active { cursor: grabbing; }
+.b3d-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.b3d-label {
+  position: absolute; left: 0; top: 0; pointer-events: auto;
+  min-width: 26px; height: 26px; padding: 0 5px; border-radius: 13px;
+  border: 1.4px solid var(--nerve); background: rgba(11, 14, 18, 0.82); color: var(--nerve);
+  font: 700 11px/1 Georgia, 'Times New Roman', serif; cursor: pointer; direction: ltr;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+}
+.b3d-label:hover { background: var(--surface-2); }
+.b3d-label.is-active { background: var(--nerve); color: #2a1c00; border-color: var(--nerve-hi); }
+.b3d-label.is-dim { opacity: 0.35; }
+.b3d-status { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+.b3d-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.b3d-group { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.b3d-bar .chip { min-height: 34px; padding-block: 0.2rem; font-size: 0.85rem; }
+.b3d-toggle { margin-top: 0.5rem; font-size: 0.85rem; }
+.b3d-hint { margin: 0.25rem 0 0; font-size: 0.82rem; }
+.explorer-figure:has(.b3d:not([hidden])) { padding: 0.5rem; }

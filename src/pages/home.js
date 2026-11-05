@@ -34,9 +34,14 @@ function render(id) {
     + `<a class="btn btn-primary" href="${nerveUrl(n.id)}">לעמוד של ${esc(n.name)}</a></article>`;
 }
 
+// המפה מוצגת קודם כאיור דו-ממדי, ומוחלפת במודל התלת-ממדי כשהוא נטען (אם הדפדפן תומך ב-WebGL)
+let view3d = null;
+let mode = '2d';
+
 function highlight(id) {
   svg.classList.toggle('has-active', !!id);
   svg.querySelectorAll('.bs-nerve').forEach((g) => g.classList.toggle('is-active', g.dataset.id === id));
+  view3d?.highlight(id);
 }
 
 function select(id) {
@@ -63,6 +68,91 @@ picker.addEventListener('click', (e) => {
 });
 
 render(null);
+
+// ---------- תלת-ממד ----------
+const svgWrap = document.createElement('div');
+svgWrap.className = 'explorer-2d';
+svgWrap.append(svg);
+fig.append(svgWrap);
+
+function webglOk() {
+  try { const c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); } catch { return false; }
+}
+
+async function start3d() {
+  const box = document.createElement('div');
+  box.className = 'b3d';
+  box.hidden = true;
+  const bar = document.createElement('div');
+  bar.className = 'b3d-bar';
+  bar.innerHTML = `<div class="b3d-group" role="group" aria-label="זווית מבט">
+      <button type="button" class="chip" data-view="ventral" aria-pressed="true">מלמטה</button>
+      <button type="button" class="chip" data-view="oblique" aria-pressed="false">באלכסון</button>
+      <button type="button" class="chip" data-view="lateral" aria-pressed="false">מהצד</button>
+      <button type="button" class="chip" data-view="front" aria-pressed="false">מלפנים</button>
+    </div>
+    <div class="b3d-group" role="group" aria-label="המוח הגדול">
+      <button type="button" class="chip" data-shell="ghost" aria-pressed="true">מוח שקוף</button>
+      <button type="button" class="chip" data-shell="hidden" aria-pressed="false">בלי מוח</button>
+      <button type="button" class="chip" data-shell="solid" aria-pressed="false">מוח מלא</button>
+    </div>`;
+  const stage = document.createElement('div');
+  stage.className = 'b3d-stage';
+  const status = document.createElement('p');
+  status.className = 'b3d-status';
+  status.textContent = 'טוען מודל תלת-ממדי…';
+  stage.append(status);
+  box.append(stage, bar);
+  fig.append(box);
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'btn btn-ghost b3d-toggle';
+  toggle.hidden = true;
+  fig.append(toggle);
+  const hint = document.createElement('p');
+  hint.className = 'b3d-hint muted';
+  hint.textContent = 'גררו כדי לסובב, צבטו או גללו כדי להתקרב. לחיצה על עצב בוחרת אותו.';
+  hint.hidden = true;
+  fig.append(hint);
+
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+  try {
+    const { createBrain3D } = await import('../lib/brain3d.js');
+    box.hidden = false; // צריך מידות לפני היצירה
+    svgWrap.hidden = true;
+    view3d = await createBrain3D(stage, {
+      glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
+      reducedMotion,
+      onSelect: (id) => { if (id) { if (id !== selected) select(id); } else if (selected) select(selected); },
+    });
+    status.remove();
+    view3d.highlight(selected);
+    mode = '3d';
+  } catch (err) {
+    console.warn('3D map unavailable, keeping the 2D illustration', err);
+    box.remove(); svgWrap.hidden = false;
+    return;
+  }
+
+  const setMode = (m) => {
+    mode = m;
+    box.hidden = m !== '3d';
+    svgWrap.hidden = m !== '2d';
+    hint.hidden = m !== '3d';
+    toggle.textContent = m === '3d' ? 'לאיור הדו-ממדי' : 'למודל התלת-ממדי';
+  };
+  setMode('3d');
+  toggle.hidden = false;
+  toggle.addEventListener('click', () => setMode(mode === '3d' ? '2d' : '3d'));
+  bar.addEventListener('click', (e) => {
+    const v = e.target.closest('[data-view]');
+    if (v) { view3d.setView(v.dataset.view); bar.querySelectorAll('[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b === v))); }
+    const sh = e.target.closest('[data-shell]');
+    if (sh) { view3d.setShell(sh.dataset.shell); bar.querySelectorAll('[data-shell]').forEach((b) => b.setAttribute('aria-pressed', String(b === sh))); }
+  });
+}
+
+if (webglOk()) start3d();
 
 // קוביות "מה יש באתר"
 const CARDS = [
