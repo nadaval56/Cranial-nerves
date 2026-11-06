@@ -6,6 +6,8 @@
 // brain: איפה העצב מתחבר למוח — forebrain · midbrain · pons · pmj (הגבול בין גשר המוח למוח המוארך) · medulla · cord
 // components: kind = sensory (תחושה כללית) · special (חוש מיוחד) · motor (שרירים) · para (פאראסימפתטי)
 
+import { IMAGES, ATLAS } from './images.js';
+
 export const TYPES = {
   sensory: { label: `תחושתי`, long: `עצב תחושתי` },
   motor: { label: `תנועתי`, long: `עצב תנועתי` },
@@ -835,6 +837,9 @@ export const NERVES = [
     related: [`vagus`, `accessory`, `glossopharyngeal`],
   },
 ];
+
+// תמונות מאטלס (content/images.js)
+for (const n of NERVES) if (ATLAS[n.id]) n.atlas = ATLAS[n.id].map((k) => IMAGES[k]);
 
 export const byId = Object.fromEntries(NERVES.map((n) => [n.id, n]));
 

@@ -3,7 +3,8 @@ import { resolve, basename } from 'node:path';
 import { SITE, NAV, LAB, DISCLAIMER, SISTER_SITES, SISTER_INVITE } from './src/config.js';
 import { NERVES } from './content/nerves.js';
 import { EVENTS } from './content/timeline.js';
-import { nerveBody, nervesList, timeline, examList } from './src/lib/render.js';
+import { nerveBody, nervesList, timeline, examList, figure, creditsList } from './src/lib/render.js';
+import { IMAGES, CREDITS } from './content/images.js';
 
 const PAGES = [
   'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'about',
@@ -128,6 +129,8 @@ function staticPages() {
       const page = (name, fn) => { bundle[name].source = fn(String(bundle[name].source)); };
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
+      page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
+      page('about.html', (html) => fill(html, '<div id="credits-root">', creditsList(CREDITS)));
       page('exam.html', (html) => fill(html, '<div id="exam-root" class="exam-list">', examList(NERVES)));
 
       // עמוד סטטי לכל עצב: עותק של nerve.html עם כותרת, תיאור ותוכן משלו

@@ -1,5 +1,7 @@
 // ציר הזמן בעמוד ההיסטוריה. לכל אירוע מקור; פירוט נוסף ב-content/sources.md.
-// שנים "בערך" מסומנות כך גם בטקסט.
+// שנים "בערך" מסומנות כך גם בטקסט. image: תמונה מ-content/images.js.
+
+import { IMAGES } from './images.js';
 
 export const EVENTS = [
   {
@@ -13,6 +15,7 @@ export const EVENTS = [
   },
   {
     id: `vesalius`,
+    image: IMAGES.vesalius,
     year: `1543`,
     date: `1543`,
     title: `וזאליוס מצייר את המוח מקרוב`,
@@ -21,6 +24,7 @@ export const EVENTS = [
   },
   {
     id: `willis`,
+    image: IMAGES.willis,
     year: `1664`,
     date: `1664`,
     title: `תומאס וויליס: תשעה זוגות`,
@@ -47,6 +51,7 @@ export const EVENTS = [
   },
   {
     id: `bell`,
+    image: IMAGES.bell,
     year: `1821`,
     date: `1821`,
     title: `צ'רלס בל ועצב הפנים`,
@@ -75,6 +80,7 @@ export const EVENTS = [
   },
   {
     id: `loewi`,
+    image: IMAGES.loewi,
     year: `1921`,
     date: `1921`,
     title: `"החומר של העצב התועה"`,

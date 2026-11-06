@@ -75,3 +75,17 @@
 - Wikipedia: Kallmann syndrome — https://en.wikipedia.org/wiki/Kallmann_syndrome : נדידת תאי GnRH מאזור האף להיפותלמוס, דרך הלוחית המנוקבת יחד עם סיבי עצב הריח.
 - GnRH בסיבי העצב: סקירות 2019 — Zoological Letters, https://link.springer.com/doi/10.1186/s40851-019-0138-y ; Peña-Melián et al., Anat Rec 2019 (doi:10.1002/ar.23826). Bordoni & Zanier 2013, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3601045/
 - לא אומת ולכן לא נכתב באתר: מי מצא אותו באדם ב-1913; מסלול לתוך מחיצת האף; תפקיד בכלי הדם או בבלוטות של האף.
+
+## תמונות היסטוריות (content/images.js)
+
+כל הקבצים מוויקישיתוף. הרישיון נבדק בקוד של עמוד הקובץ עצמו (לא בתוצאות חיפוש), נובמבר 2026:
+
+- איורי "האנטומיה של גריי", מהדורה 20 (1918) — Gray724, Gray772, Gray774, Gray777, Gray784, Gray790, Gray793, Gray795: `{{PD-scan|PD-old-100-1923}}` — נחלת הכלל.
+- וזאליוס, Fabrica (1543), בסיס המוח: `{{PD-old}}`.
+- וויליס, Cerebri anatome (1664), Wellcome L0032335: `{{cc-by-4.0}}` — Wellcome Collection.
+- דיוקן צ'רלס בל, Wellcome L0011359: `{{cc-by-4.0}}`.
+- אוטו לוי 1929: `{{Cc-by-4.0}}`.
+
+טענות בכיתובים:
+- בעצב התת-לשוני "נוסעים" סיבים מעצב הצוואר הראשון (C1), וחלקם יוצאים ממנו ב"ענף היורד" (descending hypoglossal / ansa cervicalis): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve), [Wikipedia: Ansa cervicalis](https://en.wikipedia.org/wiki/Ansa_cervicalis).
+- העצבים IX, X ו-XI יוצאים יחד דרך הפתח הצווארי (Gray793, Gray791) — ראו foramina.js.

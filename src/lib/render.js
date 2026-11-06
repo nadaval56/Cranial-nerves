@@ -137,7 +137,7 @@ export function figure(im, cls = '') {
 // רשימת קרדיטים לכל התמונות באתר (עמוד אודות)
 export function creditsList(items) {
   return `<ul class="credits">${items.map(({ im, where }) => `<li><img src="${imgUrl(esc(im.file))}" alt="" loading="lazy">`
-    + `<div><p class="credit-title"><a href="${esc(im.source.url)}" rel="noopener" target="_blank">${esc(im.source.title)}</a></p>`
+    + `<div><p class="credit-title"><a href="${esc(im.source.url)}" rel="noopener" target="_blank" lang="en" dir="ltr">${esc(im.source.title)}</a></p>`
     + `<p class="muted">${esc(im.source.author)} · ${im.source.licenseUrl ? `<a href="${esc(im.source.licenseUrl)}" rel="noopener" target="_blank">${esc(im.source.license)}</a>` : esc(im.source.license)}`
     + `${im.source.modifications ? ` · ${esc(im.source.modifications)}` : ''}</p><p class="muted">מופיעה ב: ${esc(where)}</p></div></li>`).join('')}</ul>`;
 }
