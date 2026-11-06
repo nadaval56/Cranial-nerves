@@ -1604,14 +1604,14 @@ html.a11y-still .sister-clone { display: none; }
 /* ---------- תמונות (איורים היסטוריים) ---------- */
 
 .pic { margin: 1.25rem 0 0; }
-.pic img { display: block; width: 100%; height: auto; border-radius: var(--radius); background: #f4efe6; }
+.pic img { display: block; width: auto; max-width: 100%; max-height: min(78vh, 720px); height: auto; border-radius: var(--radius); background: #f4efe6; }
 .pic-zoom { display: block; border-radius: var(--radius); }
 .pic figcaption { margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-2); line-height: 1.55; }
 .pic-credit { display: block; color: var(--text-muted); font-size: 0.78rem; }
 .pic-credit a { color: var(--text-muted); }
 .pic-atlas { max-width: 560px; }
 .tl-figure.pic { margin: -1rem -1.15rem 0.9rem; }
-.tl-figure.pic img { border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 420px; object-fit: contain; }
+.tl-figure.pic img { width: 100%; border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 420px; object-fit: contain; }
 .tl-figure.pic figcaption { padding: 0 1.15rem; }
 .credits { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
 .credits li { display: grid; grid-template-columns: 64px 1fr; gap: 0.85rem; align-items: start; }
@@ -1633,3 +1633,4 @@ html.a11y-still .sister-clone { display: none; }
 .zero-hypo li { margin-bottom: 0.35rem; }
 .zero-sources { margin-top: 1.5rem; font-size: 0.82rem; }
 #zero-root .lessons { display: grid; gap: 1.25rem; }
+.credits p.muted a, .pic-credit a { white-space: nowrap; }

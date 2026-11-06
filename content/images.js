@@ -14,19 +14,19 @@ export const IMAGES = {
     source: { title: `1543, Andreas Vesalius' Fabrica, Base Of The Brain.jpg`, author: `אנדראס וזאליוס, De humani corporis fabrica`, url: commons(`1543, Andreas Vesalius' Fabrica, Base Of The Brain.jpg`), ...PD },
   },
   willis: {
-    file: `willis-1664-base.webp`,
+    file: `willis-1664-base.webp`, w: 900, h: 1015,
     alt: `תחריט מ-1664: בסיס המוח במבט מלמטה, עם גזע המוח, המוחון והעצבים`,
     caption: `בסיס המוח ב"אנטומיה של המוח" של וויליס, 1664 — לפי ציור של כריסטופר רן.`,
     source: { title: `T. Willis, Cerebri anatome (Wellcome L0032335)`, author: `תומאס וויליס וכריסטופר רן; Wellcome Collection`, url: commons(`T. Willis, Cerebri anatome ; cui accessit n Wellcome L0032335.jpg`), ...CCBY4, modifications: `נחתך והוקטן` },
   },
   bell: {
-    file: `bell-portrait.webp`,
+    file: `bell-portrait.webp`, w: 560, h: 708,
     alt: `דיוקן של צ'רלס בל`,
     caption: `צ'רלס בל (1774–1842).`,
-    source: { title: `Portrait of Sir Charles Bell (Wellcome L0011359)`, author: `אלמוני, לפי ג'ון סטיבנס; Wellcome Collection`, url: commons(`Portrait of Sir Charles Bell (1774-1842) Wellcome L0011359.jpg`), ...CCBY4, modifications: `הוקטן` },
+    source: { title: `Portrait of Sir Charles Bell (Wellcome L0011359)`, author: `אלמוני, לפי ג'ון סטיבנס; Wellcome Collection`, url: commons(`Portrait of Sir Charles Bell (1774-1842) Wellcome L0011359.jpg`), ...CCBY4, modifications: `נחתך לגבולות הציור והוקטן` },
   },
   loewi: {
-    file: `loewi-1929.webp`,
+    file: `loewi-1929.webp`, w: 600, h: 774,
     alt: `תצלום של אוטו לוי`,
     caption: `אוטו לוי ב-1929, בקונגרס הפיזיולוגיה הבינלאומי בבוסטון.`,
     source: { title: `Otto Loewi 1929.jpg`, author: `צלם לא ידוע; Wellcome Collection`, url: commons(`Otto Loewi 1929.jpg`), ...CCBY4, modifications: `הוקטן` },
@@ -44,7 +44,7 @@ export const IMAGES = {
     source: GRAY(772),
   },
   optic: {
-    file: `gray774-optic.webp`,
+    file: `gray774-optic.webp`, w: 330, h: 451,
     alt: `תרשים של מסלול הראייה: שני עצבי הראייה, ההצטלבות, והסיבים שממשיכים אחורה במוח`,
     caption: `מסלול הראייה בתרשים מ-1918: הסיבים מהחצי הפנימי של כל רשתית חוצים בהצטלבות לצד השני. מגריי.`,
     source: GRAY(774),
