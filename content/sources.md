@@ -69,3 +69,9 @@
 - עצבוב הלשון (טעם: VII קדמי, IX אחורי כולל הפטמות המוקפות, X בסיס ומכסה הגרון; מגע: V3 קדמי, IX אחורי; תנועה: XII חוץ מ-palatoglossus שמקבל X): Wikipedia: Tongue — https://en.wikipedia.org/wiki/Tongue ; TeachMeAnatomy: https://teachmeanatomy.info/head/organs/tongue/
 - חמשת ענפי עצב הפנים והשרירים שלהם: TeachMeAnatomy — https://teachmeanatomy.info/head/cranial-nerves/facial-nerve/
 - החלום של אוטו לוי (עצב X): הסיפור של לוי עצמו, מצוטט ב-British Pharmacological Society, Pharmacology Hall of Fame — https://www.bps.ac.uk/about/About-pharmacology/Pharmacology-Hall-of-Fame/Articles/otto-loewi ; ראו גם https://en.wikipedia.org/wiki/Otto_Loewi (בחלק מהמקורות השנה 1920 ובחלקם 1921; הניסוי עצמו נעשה באביב 1921 — לכן באתר לא נכתבה שנה לחלום).
+
+## עצב 0 (nerve-zero.html)
+- Wikipedia: Terminal nerve — https://en.wikipedia.org/wiki/Terminal_nerve : התגלה ב-1878 בכרישים (פריטש), נמצא באדם ב-1913; "first appears bilaterally as a microscopic plexus of unmyelinated peripheral nerve fibers in the subarachnoid space covering the straight gyrus"; "not connected to the olfactory bulb"; נקרע בקלות בהוצאת המוח; מופיע ב-TA2; השערות: פרומונים, רבייה (ניסוי באוגרים 1987); קשר אפשרי לתסמונת קלמן. השמות: nerve of Pinkus, CN XIII, zero nerve, nerve N.
+- Wikipedia: Kallmann syndrome — https://en.wikipedia.org/wiki/Kallmann_syndrome : נדידת תאי GnRH מאזור האף להיפותלמוס, דרך הלוחית המנוקבת יחד עם סיבי עצב הריח.
+- GnRH בסיבי העצב: סקירות 2019 — Zoological Letters, https://link.springer.com/doi/10.1186/s40851-019-0138-y ; Peña-Melián et al., Anat Rec 2019 (doi:10.1002/ar.23826). Bordoni & Zanier 2013, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3601045/
+- לא אומת ולכן לא נכתב באתר: מי מצא אותו באדם ב-1913; מסלול לתוך מחיצת האף; תפקיד בכלי הדם או בבלוטות של האף.

@@ -87,6 +87,12 @@ const NERVES_3D = {
   },
 };
 
+// עצב 0 (העצב הטרמינלי): רשת דקיקה מתחת לאונה המצחית, פנימה מעצב הריח, מהלוחית המנוקבת אחורה
+// אל אזור ה-lamina terminalis. מוצג רק בעמוד שלו (האפשרות extra).
+NERVES_3D.terminal = {
+  paths: [{ r: 0.45, flow: null, pts: [[3.5, -45, -62], [4, -44.6, -48], [4.5, -42.5, -34], [5, -38, -22], [4, -33, -12]] }],
+  label: [3, -49, -66],
+};
 const ORDER = ['olfactory', 'optic', 'oculomotor', 'trochlear', 'trigeminal', 'abducens', 'facial', 'vestibulocochlear', 'glossopharyngeal', 'vagus', 'accessory', 'hypoglossal'];
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
@@ -96,7 +102,8 @@ const VIEWS = {
   oblique: [-160, -150, -130], // מלפנים-מלמטה ומהצד
   lateral: [-260, -15, 15],  // מצד שמאל
   front: [0, -40, -260],     // מלפנים
-  back: [-150, -60, 230],    // מאחור ומהצד — לעצבים שיוצאים מאחור (IV, XI)
+  back: [-150, -60, 230],
+  close: [0, -175, -95],     // מלמטה ומלפנים — לעצב 0    // מאחור ומהצד — לעצבים שיוצאים מאחור (IV, XI)
 };
 
 const P = ([d, y, z], side) => new THREE.Vector3(X0 + (side === 'L' ? -d : d), y, z);
@@ -113,7 +120,7 @@ export const GHOST_CEREBELLUM = new Set(['trochlear', 'accessory', 'glossopharyn
  * labels: 'all' — תווית לכל עצב (עמוד הבית); 'active' — רק לעצב הנבחר (עמוד עצב).
  * view: זווית ההתחלה. active: עצב מודגש מההתחלה.
  */
-export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false, labels: labelMode = 'all', view = 'ventral', active: initialActive = null, ghostCerebellum = false }) {
+export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false, labels: labelMode = 'all', view = 'ventral', active: initialActive = null, ghostCerebellum = false, extra = false }) {
   const canvasWrap = document.createElement('div');
   canvasWrap.className = 'b3d-canvas';
   const labelLayer = document.createElement('div');
@@ -122,7 +129,26 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   const legend = document.createElement('p');
   legend.className = 'b3d-legend';
   legend.hidden = true;
-  container.append(canvasWrap, labelLayer, legend);
+  // עצירה והפעלה של תנועת נקודות האור (WCAG 2.2.2: תנועה שנמשכת יותר מ-5 שניות צריכה דרך לעצור אותה)
+  const pauseBtn = document.createElement('button');
+  pauseBtn.type = 'button';
+  pauseBtn.className = 'b3d-pause';
+  pauseBtn.hidden = true;
+  container.append(canvasWrap, labelLayer, legend, pauseBtn);
+  let paused = false;
+  const setPaused = (v) => {
+    paused = v;
+    pauseBtn.setAttribute('aria-pressed', String(v));
+    pauseBtn.innerHTML = v
+      ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>הפעלת התנועה'
+      : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>עצירת התנועה';
+  };
+  setPaused(false);
+  pauseBtn.addEventListener('click', () => setPaused(!paused));
+  // "עצירת אנימציות" בתפריט הנגישות — עוצרת גם כאן, גם אם הופעלה אחרי שהדף נטען
+  const html = document.documentElement;
+  const mo = new MutationObserver(() => { if (html.classList.contains('a11y-still')) setPaused(true); });
+  mo.observe(html, { attributes: true, attributeFilter: ['class'] });
   const legendHtml = (type) => [
     type !== 'motor' && '<span><i class="lg-in"></i>תחושה — אל המוח</span>',
     type !== 'sensory' && '<span><i class="lg-out"></i>פקודה — מהמוח</span>',
@@ -171,7 +197,8 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   const hitMat = new THREE.MeshBasicMaterial({ visible: false });
   const groups = {};
   const hitMeshes = [];
-  for (const id of ORDER) {
+  const order = extra ? [...ORDER, 'terminal'] : ORDER;
+  for (const id of order) {
     const def = NERVES_3D[id];
     const g = new THREE.Group();
     const mat = nerveMat();
@@ -185,7 +212,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
         cap.position.copy(curve.getPoint(1)); g.add(cap);
         const hit = new THREE.Mesh(new THREE.TubeGeometry(curve, 20, Math.max(3.2, p.r * 2), 6, false), hitMat);
         hit.userData.id = id; g.add(hit); hitMeshes.push(hit);
-        curves.push({ curve, dir: p.dir ?? 'out', flow: p.flow ?? byId[id].type, r: p.r });
+        curves.push({ curve, dir: p.dir ?? 'out', flow: p.flow === undefined ? byId[id].type : p.flow, r: p.r });
       }
       for (const e of def.extra ?? []) {
         if (e.center && side === 'R') continue;
@@ -200,12 +227,12 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   }
 
   // ---------- תוויות (HTML מעל הקנבס) ----------
-  const labels = ORDER.map((id, i) => {
+  const labels = order.map((id, i) => {
     const el = document.createElement('button');
     el.type = 'button';
     el.tabIndex = -1;
     el.className = 'b3d-label';
-    el.textContent = ROMAN[i];
+    el.textContent = ROMAN[i] ?? '0';
     el.dataset.id = id;
     labelLayer.append(el);
     return { id, el, pos: P(NERVES_3D[id].label, 'L') };
@@ -235,7 +262,9 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
     }
     buildPulses(id);
     legend.hidden = !id || reducedMotion;
-    if (id) legend.innerHTML = legendHtml(byId[id].type);
+    pauseBtn.hidden = !id || reducedMotion;
+    if (id && byId[id]) legend.innerHTML = legendHtml(byId[id].type);
+    if (id && !byId[id]) legend.hidden = pauseBtn.hidden = true;
     needsRender = true;
   }
 
@@ -252,7 +281,9 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
     pulseGroup.clear();
     pulses = [];
     if (!id || reducedMotion) return;
+    queueMicrotask(() => stepPulses(0)); // מיקום ראשון — גם כשהתנועה עצורה
     for (const c of groups[id].userData.curves) {
+      if (!c.flow) continue; // עצב 0 — התפקיד לא ידוע, אין כיוון זרימה להראות
       const kinds = c.flow === 'mixed' ? ['sensory', 'motor'] : [c.flow];
       const len = c.curve.getLength();
       const n = Math.max(2, Math.round(len / 18));
@@ -349,7 +380,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
     raf = requestAnimationFrame(frame);
     const dt = Math.min(0.05, (now - (frame.last ?? now)) / 1000); frame.last = now;
     if (anim) { anim(now); needsRender = true; }
-    if (pulses.length) { stepPulses(dt); needsRender = true; }
+    if (pulses.length && !paused) { stepPulses(dt); needsRender = true; }
     if (controls.update()) needsRender = true;
     if (!needsRender) return;
     needsRender = false;
@@ -373,6 +404,6 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   highlight(initialActive);
   return {
     highlight, setView, setShell,
-    dispose() { running = false; cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); controls.dispose(); renderer.dispose(); canvasWrap.remove(); labelLayer.remove(); },
+    dispose() { mo.disconnect(); running = false; cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); controls.dispose(); renderer.dispose(); canvasWrap.remove(); labelLayer.remove(); },
   };
 }

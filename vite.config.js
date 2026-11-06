@@ -6,7 +6,7 @@ import { EVENTS } from './content/timeline.js';
 import { nerveBody, nervesList, timeline, examList } from './src/lib/render.js';
 
 const PAGES = [
-  'index', 'nerves', 'nerve', 'basics', 'exam', 'history', 'about',
+  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'about',
   'lab', ...LAB.map((t) => t.page), 'privacy', 'accessibility', '404',
 ];
 
@@ -119,7 +119,7 @@ function staticPages() {
     // בשרת הפיתוח אין עמודים סטטיים לעצבים: nerve-<id>.html מוגש כ-nerve.html?id=<id>
     configureServer(server) {
       server.middlewares.use((req, _res, next) => {
-        const m = req.url?.match(/^\/nerve-([\w-]+)\.html(\?.*)?$/);
+        const m = req.url?.match(/^\/nerve-(?!zero\.)([\w-]+)\.html(\?.*)?$/);
         if (m) req.url = `/nerve.html?id=${m[1]}`;
         next();
       });

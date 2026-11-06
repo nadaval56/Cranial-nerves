@@ -1618,3 +1618,18 @@ html.a11y-still .sister-clone { display: none; }
 .credits img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; background: #f4efe6; }
 .credits p { margin: 0 0 0.15rem; font-size: 0.875rem; }
 .credit-title { font-weight: 600; }
+.b3d-pause { position: absolute; inset-inline-end: 10px; top: 10px; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 34px; padding: 0.25rem 0.75rem; border: 1px solid var(--border-strong); border-radius: 999px; background: rgba(11, 14, 18, 0.8); color: var(--text); font: inherit; font-size: 0.8rem; cursor: pointer; }
+.b3d-pause:hover { border-color: var(--accent); }
+.b3d-pause svg { width: 12px; height: 12px; }
+.b3d-pause[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- עצב 0 ---------- */
+.roman-zero { --rc: #9aa4b2; border-style: dashed; }
+.type-zero { color: #9aa4b2; background: rgba(154, 164, 178, 0.1); }
+.zero-card { display: flex; gap: 1rem; align-items: flex-start; margin-top: 2rem; padding: 1.1rem 1.25rem; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); background: var(--bg-elev); }
+.zero-card h2 { font-size: 1.15rem; margin: 0 0 0.3rem; }
+.zero-card p { color: var(--text-2); margin: 0 0 0.6rem; }
+.zero-fallback { padding: 1rem; }
+.zero-hypo li { margin-bottom: 0.35rem; }
+.zero-sources { margin-top: 1.5rem; font-size: 0.82rem; }
+#zero-root .lessons { display: grid; gap: 1.25rem; }

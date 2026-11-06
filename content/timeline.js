@@ -71,6 +71,7 @@ export const EVENTS = [
     title: `עצב שלא נכנס לספירה`,
     text: `גוסטב פריטש תיאר אצל כרישים עצב דקיק שרץ לצד עצב הריח. מאוחר יותר הוא זוהה גם אצל בני אדם, וכונה "העצב הטרמינלי" או "עצב אפס" (CN 0). תפקידו עדיין לא ברור לגמרי, והוא לא נכלל במניין המסורתי של שנים-עשר הזוגות.`,
     source: { label: `Wikipedia: Terminal nerve`, url: `https://en.wikipedia.org/wiki/Terminal_nerve` },
+    link: { href: `nerve-zero.html`, label: `לעמוד של עצב 0` },
   },
   {
     id: `loewi`,
