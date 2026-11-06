@@ -1553,3 +1553,8 @@ html.a11y-still .sister-clone { display: none; }
 .b3d-seg { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; }
 .b3d-seg[hidden] { display: none; }
 .b3d-switch { border-color: var(--accent); color: var(--accent); }
+.b3d-legend { position: absolute; inset-inline-start: 10px; bottom: 10px; display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem; margin: 0; padding: 0.3rem 0.6rem; border-radius: 8px; background: rgba(11, 14, 18, 0.72); font-size: 0.75rem; color: var(--text-2); pointer-events: none; }
+.b3d-legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.b3d-legend i { width: 9px; height: 9px; border-radius: 50%; }
+.lg-in { background: #38c8ff; box-shadow: 0 0 6px #38c8ff; }
+.lg-out { background: #ff5544; box-shadow: 0 0 6px #ff5544; }

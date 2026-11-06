@@ -12,6 +12,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { byId } from '../../content/nerves.js';
 
 const X0 = -1.5; // קו האמצע של המודל
 
@@ -19,14 +20,14 @@ const X0 = -1.5; // קו האמצע של המודל
 // r — רדיוס הצינור במ"מ. extra — צורות נוספות (פקעת, גנגליון, מצטלבת). label — נקודת התווית.
 const NERVES_3D = {
   olfactory: {
-    paths: [{ r: 1.1, pts: [[8.5, -44.6, -58], [9.5, -43.5, -44], [11, -40.5, -30], [13, -35.5, -17], [15, -31.5, -9]] }],
+    paths: [{ r: 1.1, dir: 'in', pts: [[8.5, -44.6, -58], [9.5, -43.5, -44], [11, -40.5, -30], [13, -35.5, -17], [15, -31.5, -9]] }],
     extra: [{ type: 'ellipsoid', at: [8.5, -45.2, -60], s: [2.6, 2, 8] }],
     label: [8.5, -48, -70],
   },
   optic: {
     paths: [
-      { r: 2, pts: [[26, -40, -62], [18, -37, -42], [10, -33, -22], [4, -31, -11], [0, -30.5, -7]] },
-      { r: 1.7, pts: [[0, -30.5, -7], [6, -29, -3], [13, -26, 3], [18, -22, 11], [20, -19, 17]] },
+      { r: 2, dir: 'in', pts: [[26, -40, -62], [18, -37, -42], [10, -33, -22], [4, -31, -11], [0, -30.5, -7]] },
+      { r: 1.7, dir: 'in', pts: [[0, -30.5, -7], [6, -29, -3], [13, -26, 3], [18, -22, 11], [20, -19, 17]] },
     ],
     extra: [{ type: 'ellipsoid', at: [0, -30.5, -7], s: [6, 1.6, 3.6], center: true }],
     label: [28, -42, -66],
@@ -42,8 +43,8 @@ const NERVES_3D = {
   trigeminal: {
     paths: [
       { r: 2.5, pts: [[15, -37, 11], [20, -37, 6], [25, -38, 0]] },
-      { r: 1.1, pts: [[27, -38, -3], [25, -37, -16], [22, -37, -32]] },
-      { r: 1.2, pts: [[29, -40, -4], [30, -43, -16], [29, -46, -28]] },
+      { r: 1.1, flow: 'sensory', pts: [[27, -38, -3], [25, -37, -16], [22, -37, -32]] },
+      { r: 1.2, flow: 'sensory', pts: [[29, -40, -4], [30, -43, -16], [29, -46, -28]] },
       { r: 1.5, pts: [[31, -41, -1], [34, -48, -6], [36, -56, -10]] },
     ],
     extra: [{ type: 'ellipsoid', at: [28.5, -39.5, -2], s: [5, 3, 4] }],
@@ -118,7 +119,14 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   const labelLayer = document.createElement('div');
   labelLayer.className = 'b3d-labels';
   labelLayer.setAttribute('aria-hidden', 'true');
-  container.append(canvasWrap, labelLayer);
+  const legend = document.createElement('p');
+  legend.className = 'b3d-legend';
+  legend.hidden = true;
+  container.append(canvasWrap, labelLayer, legend);
+  const legendHtml = (type) => [
+    type !== 'motor' && '<span><i class="lg-in"></i>תחושה — אל המוח</span>',
+    type !== 'sensory' && '<span><i class="lg-out"></i>פקודה — מהמוח</span>',
+  ].filter(Boolean).join('');
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -167,6 +175,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
     const def = NERVES_3D[id];
     const g = new THREE.Group();
     const mat = nerveMat();
+    const curves = [];
     for (const side of ['L', 'R']) {
       for (const p of def.paths) {
         const curve = new THREE.CatmullRomCurve3(p.pts.map((pt) => P(pt, side)));
@@ -176,6 +185,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
         cap.position.copy(curve.getPoint(1)); g.add(cap);
         const hit = new THREE.Mesh(new THREE.TubeGeometry(curve, 20, Math.max(3.2, p.r * 2), 6, false), hitMat);
         hit.userData.id = id; g.add(hit); hitMeshes.push(hit);
+        curves.push({ curve, dir: p.dir ?? 'out', flow: p.flow ?? byId[id].type, r: p.r });
       }
       for (const e of def.extra ?? []) {
         if (e.center && side === 'R') continue;
@@ -184,7 +194,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
         g.add(m);
       }
     }
-    g.userData = { id, mat };
+    g.userData = { id, mat, curves };
     scene.add(g);
     groups[id] = g;
   }
@@ -223,7 +233,53 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
       l.el.classList.toggle('is-dim', !!id && l.id !== id);
       l.show = labelMode === 'all' || l.id === id;
     }
+    buildPulses(id);
+    legend.hidden = !id || reducedMotion;
+    if (id) legend.innerHTML = legendHtml(byId[id].type);
     needsRender = true;
+  }
+
+  // ---------- זרימת המידע: נקודות אור שרצות לאורך העצב הנבחר ----------
+  // כחול — מידע תחושתי שנכנס אל המוח; אדום — פקודה שיוצאת מהמוח אל שריר או בלוטה. בעצב מעורב — שניהם.
+  // כל מסלול מוגדר עם dir: 'out' (מתחיל בגזע המוח) או 'in' (מתחיל בפריפריה). flow לפי סוג העצב, או לפי המסלול.
+  const PULSE = { sensory: 0x38c8ff, motor: 0xff5544 };
+  const pulseGroup = new THREE.Group();
+  scene.add(pulseGroup);
+  let pulses = [];
+  const pulseGeo = new THREE.SphereGeometry(1, 12, 8);
+  const pulseMats = Object.fromEntries(Object.entries(PULSE).map(([k, c]) => [k, new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.95, depthWrite: false })]));
+  function buildPulses(id) {
+    pulseGroup.clear();
+    pulses = [];
+    if (!id || reducedMotion) return;
+    for (const c of groups[id].userData.curves) {
+      const kinds = c.flow === 'mixed' ? ['sensory', 'motor'] : [c.flow];
+      const len = c.curve.getLength();
+      const n = Math.max(2, Math.round(len / 18));
+      kinds.forEach((kind, ki) => {
+        for (let i = 0; i < n; i++) {
+          const m = new THREE.Mesh(pulseGeo, pulseMats[kind]);
+          m.userData.base = Math.max(1.5, c.r * 1.7);
+          m.scale.setScalar(m.userData.base);
+          pulseGroup.add(m);
+          // תחושה זורמת אל המוח, תנועה החוצה ממנו — בהתאם לכיוון שבו המסלול צויר
+          const inward = kind === 'sensory';
+          const reverse = (c.dir === 'out') === inward;
+          pulses.push({ m, curve: c.curve, t: (i + ki * 0.5) / n, speed: 22 / len, reverse });
+          m.renderOrder = 5;
+        }
+      });
+    }
+  }
+  function stepPulses(dt) {
+    for (const p of pulses) {
+      p.t = (p.t + p.speed * dt) % 1;
+      const u = p.reverse ? 1 - p.t : p.t;
+      p.m.position.copy(p.curve.getPointAt(u));
+      // נדלקות בתחילת הדרך ודועכות בסופה
+      const f = Math.min(1, p.t * 6, (1 - p.t) * 6);
+      p.m.scale.setScalar(Math.max(0.4, f) * p.m.userData.base);
+    }
   }
 
   const ray = new THREE.Raycaster();
@@ -291,7 +347,9 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   function frame(now) {
     if (!running) return;
     raf = requestAnimationFrame(frame);
+    const dt = Math.min(0.05, (now - (frame.last ?? now)) / 1000); frame.last = now;
     if (anim) { anim(now); needsRender = true; }
+    if (pulses.length) { stepPulses(dt); needsRender = true; }
     if (controls.update()) needsRender = true;
     if (!needsRender) return;
     needsRender = false;
