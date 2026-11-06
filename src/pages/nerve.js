@@ -2,6 +2,7 @@
 // בשני המקרים — כאן הופכים את שאלת "נסו קודם" לאינטראקטיבית.
 import { byId, NERVES } from '../../content/nerves.js';
 import { nerveBody } from '../lib/render.js';
+import { DIAGRAMS } from '../lib/diagrams.js';
 import { SITE } from '../config.js';
 
 const root = document.getElementById('nerve-root');
@@ -16,6 +17,9 @@ if (!root.querySelector('.nerve-head')) {
     root.innerHTML = `<header class="page-head"><h1>העצב לא נמצא</h1><p class="lead">אולי הקישור שגוי. <a href="./nerves.html">לכל ${NERVES.length} העצבים</a></p></header>`;
   }
 }
+
+// מפות אינטראקטיביות (אזורי הפנים, הלשון, ענפי עצב הפנים)
+root.querySelectorAll('.dgm').forEach((el) => DIAGRAMS[el.dataset.dgm]?.init(el));
 
 const tryEl = root.querySelector('.try');
 if (tryEl) {

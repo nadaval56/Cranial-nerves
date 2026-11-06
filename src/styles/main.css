@@ -1558,3 +1558,45 @@ html.a11y-still .sister-clone { display: none; }
 .b3d-legend i { width: 9px; height: 9px; border-radius: 50%; }
 .lg-in { background: #38c8ff; box-shadow: 0 0 6px #38c8ff; }
 .lg-out { background: #ff5544; box-shadow: 0 0 6px #ff5544; }
+
+/* ---------- מפות אינטראקטיביות בעמודי העצבים (src/lib/diagrams.js) ---------- */
+
+.dgm { display: grid; gap: 1.25rem; align-items: start; }
+@media (min-width: 760px) { .dgm { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+.dgm-fig { padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: radial-gradient(ellipse at 50% 40%, #151a21, var(--bg) 75%); }
+.dgm-svg { width: 100%; max-width: 320px; height: auto; margin-inline: auto; display: block; font-family: var(--font); }
+.dgm-side { display: grid; gap: 0.85rem; }
+.dgm-btns, .dgm-modes { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.dgm-btn { border-color: color-mix(in srgb, var(--dc) 50%, var(--border-strong)); }
+.dgm-btn::before { content: ''; width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--dc); margin-inline-end: 0.45em; }
+.dgm-btn[aria-pressed='true'] { background: color-mix(in srgb, var(--dc) 18%, transparent); border-color: var(--dc); color: var(--text); }
+.dgm-info { min-height: 7rem; padding: 0.9rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.dgm-info p { margin: 0 0 0.5rem; color: var(--text-2); font-size: 0.95rem; }
+.dgm-info p:last-child { margin-bottom: 0; }
+.dgm-title { color: var(--text) !important; font-weight: 700; font-size: 1.02rem !important; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.dgm-title::before { content: ''; width: 0.75em; height: 0.75em; border-radius: 3px; background: var(--dc); }
+
+.dgm-zone { fill: color-mix(in srgb, var(--dc) 42%, #1a1e25); stroke: #0b0e12; stroke-width: 1.5; cursor: pointer; transition: fill 0.2s, opacity 0.2s; }
+.dgm-zone:hover, .dgm-zone.is-on { fill: color-mix(in srgb, var(--dc) 80%, #1a1e25); }
+.dgm-zone.is-off { opacity: 0.35; }
+.dgm-outline { fill: none; stroke: #c9b6ae; stroke-width: 2; pointer-events: none; }
+.dgm-ear { fill: #3a302b; stroke: #5a4c44; stroke-width: 1.5; }
+.dgm-features { fill: none; stroke: #0b0e12; stroke-width: 2.2; stroke-linecap: round; opacity: 0.75; pointer-events: none; }
+.dgm-tags text { fill: #0b0e12; font: 700 15px Georgia, 'Times New Roman', serif; pointer-events: none; }
+.dgm-small text { fill: var(--text-muted); font-size: 11px; }
+.dgm-sulcus { fill: none; stroke: #0b0e12; stroke-width: 2.5; stroke-dasharray: 5 4; pointer-events: none; }
+.dgm-midline { stroke: #0b0e12; stroke-width: 1.5; opacity: 0.45; pointer-events: none; }
+.dgm-papillae circle { fill: #0b0e12; opacity: 0.35; pointer-events: none; }
+.dgm-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; font-size: 0.875rem; color: var(--text-2); }
+.dgm-legend li { display: flex; align-items: center; gap: 0.5rem; }
+.dgm-legend i { width: 0.8em; height: 0.8em; border-radius: 3px; background: var(--dc); flex: none; }
+.dgm-legend b { font-family: Georgia, serif; color: var(--text); min-width: 2.2em; }
+
+.dgm-head { fill: #2a2522; stroke: #5a4c44; stroke-width: 1.8; }
+.dgm-parotid { fill: #5b4a3f; stroke: #7d6656; stroke-width: 1.5; }
+.dgm-branch { cursor: pointer; }
+.dgm-branch path:not(.dgm-hit) { fill: none; stroke: var(--dc); stroke-width: 4; stroke-linecap: round; transition: stroke-width 0.2s, opacity 0.2s; }
+.dgm-branch .dgm-hit { fill: none; stroke: transparent; stroke-width: 20; stroke-linecap: round; }
+.dgm-branch:hover path:not(.dgm-hit), .dgm-branch.is-on path:not(.dgm-hit) { stroke-width: 6.5; filter: drop-shadow(0 0 4px var(--dc)); }
+.dgm-branch.is-off { opacity: 0.3; }
+.dgm-origin { fill: var(--nerve); stroke: #0b0e12; stroke-width: 1.5; }

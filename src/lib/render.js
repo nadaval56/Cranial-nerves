@@ -5,6 +5,7 @@
 import { NERVES, TYPES, COMPONENTS, BRAIN, byId, nerveUrl } from '../../content/nerves.js';
 import { FORAMINA } from '../../content/foramina.js';
 import { brainstemSvg } from './brainstem.js';
+import { DIAGRAMS } from './diagrams.js';
 
 export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -72,6 +73,8 @@ export function nerveBody(n) {
     `<ul class="comp-list">${n.components.map((c) => `<li><span class="comp comp-${c.kind}">${COMPONENTS[c.kind]}</span><span>${esc(c.text)}</span></li>`).join('')}</ul>`
     + `<div class="prose">${n.intro.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`);
 
+  const maps = (n.diagrams ?? []).map((d, i) => section(`map-${i + 1}`, 'map', DIAGRAMS[d.id].title, DIAGRAMS[d.id].html(d), 'lesson-map')).join('');
+
   const path = section('path', 'path', 'המסלול',
     `<ol class="route">${n.path.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`
     + `<p class="route-foramen">יוצא דרך: ${(n.foramina ?? [n.foramen]).map((id) => { const x = foramenById[id]; return `<a href="./lab-skull.html#${x.id}">${esc(x.name)}</a> <span class="muted" lang="en" dir="ltr">(${esc(x.en)})</span>`; }).join(' · ')}</p>`);
@@ -97,7 +100,7 @@ export function nerveBody(n) {
   return NERVE_ICONS + strip + `<div class="nerve-top">${head}${locator}</div>` + facts
     + `<section class="lesson try-section" aria-labelledby="try-h"><header class="lesson-title"><span class="lesson-ico" aria-hidden="true">${icon('q')}</span><h2 id="try-h">נסו קודם</h2></header>`
     + `<p class="muted">לפני שקוראים — מה דעתכם?</p>${tryFirst(n)}</section>`
-    + `<div class="lessons">${does}${path}${test}${lesion}${facts2}</div>` + related + pager;
+    + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}</div>` + related + pager;
 }
 
 export function nerveCard(n) {

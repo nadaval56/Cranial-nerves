@@ -298,6 +298,7 @@ export const NERVES = [
 
   {
     id: `trigeminal`,
+    diagrams: [{ id: `face-zones` }],
     num: 5,
     roman: `V`,
     name: `העצב התלת-ראשי`,
@@ -431,6 +432,7 @@ export const NERVES = [
 
   {
     id: `facial`,
+    diagrams: [{ id: `facial-branches` }, { id: `tongue`, mode: `taste` }],
     num: 7,
     roman: `VII`,
     name: `עצב הפנים`,
@@ -569,6 +571,7 @@ export const NERVES = [
 
   {
     id: `glossopharyngeal`,
+    diagrams: [{ id: `tongue`, mode: `taste` }],
     num: 9,
     roman: `IX`,
     name: `העצב הלשוני-לועי`,
@@ -769,6 +772,7 @@ export const NERVES = [
 
   {
     id: `hypoglossal`,
+    diagrams: [{ id: `tongue`, mode: `move` }],
     num: 12,
     roman: `XII`,
     name: `העצב תת-הלשוני`,

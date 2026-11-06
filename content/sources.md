@@ -63,3 +63,8 @@
 - לשון: בפגיעה בעצב XII היא סוטה לצד הפגוע (הגניוגלוסוס הבריא דוחף לבד). ענבל: נמשך לצד הבריא בפגיעה בעצב X.
   Radiopaedia: https://radiopaedia.org/articles/98541 ; Medbullets Step 1: https://step1.medbullets.com/testview?qid=108926 ;
   Deranged Physiology, CN IX–X: https://derangedphysiology.com/main/required-reading/neurological-intensive-care/Chapter-469/lesions-glossopharyngeal-and-vagus-nerves-cn-ix-and-x
+
+## המפות האינטראקטיביות (src/lib/diagrams.js)
+- אזורי העצב החמישי וזווית הלסת (C2–C3, great auricular): Wikipedia: Trigeminal nerve — https://en.wikipedia.org/wiki/Trigeminal_nerve
+- עצבוב הלשון (טעם: VII קדמי, IX אחורי כולל הפטמות המוקפות, X בסיס ומכסה הגרון; מגע: V3 קדמי, IX אחורי; תנועה: XII חוץ מ-palatoglossus שמקבל X): Wikipedia: Tongue — https://en.wikipedia.org/wiki/Tongue ; TeachMeAnatomy: https://teachmeanatomy.info/head/organs/tongue/
+- חמשת ענפי עצב הפנים והשרירים שלהם: TeachMeAnatomy — https://teachmeanatomy.info/head/cranial-nerves/facial-nerve/

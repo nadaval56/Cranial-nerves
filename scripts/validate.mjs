@@ -3,6 +3,7 @@
 import { NERVES, TYPES, BRAIN, COMPONENTS, byId } from '../content/nerves.js';
 import { FORAMINA } from '../content/foramina.js';
 import { EVENTS } from '../content/timeline.js';
+import { DIAGRAMS } from '../src/lib/diagrams.js';
 
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -21,6 +22,7 @@ NERVES.forEach((n, i) => {
   if (!foramina.has(n.foramen)) err(w, `פתח לא מוכר: ${n.foramen}`);
   else if (!FORAMINA.find((f) => f.id === n.foramen).nerves.includes(n.id)) err(w, `הפתח ${n.foramen} לא מונה את העצב`);
   n.components?.forEach((c) => { if (!COMPONENTS[c.kind]) err(w, `מרכיב לא מוכר: ${c.kind}`); });
+  n.diagrams?.forEach((d) => { if (!DIAGRAMS[d.id]) err(w, `מפה לא קיימת: ${d.id}`); });
   n.related?.forEach((r) => { if (!byId[r]) err(w, `עצב קשור לא קיים: ${r}`); });
   const t = n.try;
   if (t && !(Number.isInteger(t.answer) && t.answer >= 0 && t.answer < t.options.length)) err(w, 'תשובה מחוץ לטווח');
