@@ -41,3 +41,25 @@
 
 המודל התלת-ממדי (`public/models/brain-cn.glb`): Anderson M. Winkler, Brain for Blender, https://brainder.org/research/brain-for-blender/ — CC BY-SA 3.0, דרך nadaval56/brain (assets/brain.glb). הנגזרת שלנו (scripts/make-model.py) משותפת באותו רישיון. מסלולי העצבים על המודל צוירו באתר (src/lib/brain3d.js) לפי מקומות היציאה מגזע המוח במודל; הם מפושטים.
 אם יתווספו תמונות — אותם כללי רישיון כמו באתר הרנטגן: CC BY / CC0 / נחלת הכלל בלבד, בלי NC, ND או SA.
+
+## כללים קליניים — אימות (נובמבר 2026)
+
+### חיסכון במצח בפגיעה מוחית (עצב VII)
+- **התצפית הקלינית** (בפגיעה מעל הגרעין המצח נשמר; בפגיעה בעצב — כל חצי הפנים): מוסכמת. Radiopaedia, "Facial palsy":
+  "in the former there is sparing of the ipsilateral forehead muscles ... This is due to bilateral innervation of the forehead muscles"
+  https://radiopaedia.org/articles/facial-palsy
+- **המנגנון:** ההסבר הקלאסי (עצבוב דו-צדדי של החלק העליון) נתמך במחקר מעקב-מסלולים בקופים:
+  Morecraft RJ et al., Brain 2001;124(1):176-208, doi:10.1093/brain/124.1.176 —
+  "M1, LPMCv, LPMCd and M4 projected primarily to the contralateral lateral subnucleus, which innervated the perioral musculature" ;
+  "M3 projected bilaterally to the dorsal and intermediate subnuclei, which innervated the frontalis and orbicularis oculi" ;
+  "Bilateral innervation of the upper face is supplied by M2 and M3."
+  https://academic.oup.com/brain/article/124/1/176/309282
+  כלומר: הקלט הדו-צדדי למצח מגיע בעיקר מאזורים מוטוריים בצד הפנימי של המוח (M2, M3 — כולל קליפת החגורה), ולכן נשמר גם כששבץ פוגע בקליפה המוטורית הצדדית.
+- **הסתייגות:** Radiopaedia מציין שההסבר המסורתי "may not be supported by the literature", ומפנה ל-
+  Mahadevappa K et al., "Facial paralysis: a critical review of accepted explanation", Med Hypotheses 2010;74(3):508-9.
+  הניסוח באתר ("החלק בגרעין שמפעיל את המצח מקבל פקודות משני צדי המוח") הוא הפישוט המקובל, ונתמך ב-Morecraft 2001.
+
+### כיוון הסטייה של הלשון והענבל (עצבים XII ו-X)
+- לשון: בפגיעה בעצב XII היא סוטה לצד הפגוע (הגניוגלוסוס הבריא דוחף לבד). ענבל: נמשך לצד הבריא בפגיעה בעצב X.
+  Radiopaedia: https://radiopaedia.org/articles/98541 ; Medbullets Step 1: https://step1.medbullets.com/testview?qid=108926 ;
+  Deranged Physiology, CN IX–X: https://derangedphysiology.com/main/required-reading/neurological-intensive-care/Chapter-469/lesions-glossopharyngeal-and-vagus-nerves-cn-ix-and-x
