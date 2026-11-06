@@ -71,7 +71,8 @@ export function nerveBody(n) {
 
   const does = section('does', 'do', 'מה הוא עושה',
     `<ul class="comp-list">${n.components.map((c) => `<li><span class="comp comp-${c.kind}">${COMPONENTS[c.kind]}</span><span>${esc(c.text)}</span></li>`).join('')}</ul>`
-    + `<div class="prose">${n.intro.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`);
+    + `<div class="prose">${n.intro.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
+    + (n.atlas ?? []).map((im) => figure(im, 'pic-atlas')).join(''));
 
   const maps = (n.diagrams ?? []).map((d, i) => section(`map-${i + 1}`, 'map', DIAGRAMS[d.id].title, DIAGRAMS[d.id].html(d), 'lesson-map')).join('');
 
@@ -124,12 +125,30 @@ export function nervesList(nerves) {
     + `<tbody>${rows}</tbody></table></div>`;
 }
 
+// תמונה עם כיתוב וקרדיט קצר. image: { file, alt, caption, source: { title, author, url, license, licenseUrl } }
+export const imgUrl = (file) => `./images/${file}`;
+export function figure(im, cls = '') {
+  const src = im.source;
+  return `<figure class="pic ${cls}"><a class="pic-zoom" href="${imgUrl(esc(im.file))}" target="_blank" rel="noopener">`
+    + `<img src="${imgUrl(esc(im.file))}" alt="${esc(im.alt)}" loading="lazy" decoding="async"${im.w ? ` width="${im.w}" height="${im.h}"` : ''}></a>`
+    + `<figcaption>${esc(im.caption)} <span class="pic-credit">${esc(src.author)} · <a href="${esc(src.url)}" rel="noopener" target="_blank">${esc(src.license)}</a></span></figcaption></figure>`;
+}
+
+// רשימת קרדיטים לכל התמונות באתר (עמוד אודות)
+export function creditsList(items) {
+  return `<ul class="credits">${items.map(({ im, where }) => `<li><img src="${imgUrl(esc(im.file))}" alt="" loading="lazy">`
+    + `<div><p class="credit-title"><a href="${esc(im.source.url)}" rel="noopener" target="_blank">${esc(im.source.title)}</a></p>`
+    + `<p class="muted">${esc(im.source.author)} · ${im.source.licenseUrl ? `<a href="${esc(im.source.licenseUrl)}" rel="noopener" target="_blank">${esc(im.source.license)}</a>` : esc(im.source.license)}`
+    + `${im.source.modifications ? ` · ${esc(im.source.modifications)}` : ''}</p><p class="muted">מופיעה ב: ${esc(where)}</p></div></li>`).join('')}</ul>`;
+}
+
 export function timeline(events) {
   const link = (l) => `<a class="tl-case" href="./${esc(l.href)}">${esc(l.label)}</a>`;
   const nav = `<nav class="tl-nav" aria-label="קפיצה לשנה"><ol>${events.map((e) => `<li><a href="#tl-${esc(e.id)}" data-id="${esc(e.id)}">${esc(e.year)}</a></li>`).join('')}</ol></nav>`;
   const items = events.map((e) => {
     const sources = [e.source, ...(e.moreSources ?? [])].map((s, i) => `<a href="${esc(s.url)}" rel="noopener" target="_blank">${i ? '' : 'מקור: '}${esc(s.label)}</a>`).join('');
-    return `<li class="tl-item" id="tl-${esc(e.id)}"><div class="tl-marker" aria-hidden="true"><span>${esc(e.year)}</span></div><article class="tl-card">`
+    const fig = e.image ? figure(e.image, 'tl-figure') : '';
+    return `<li class="tl-item" id="tl-${esc(e.id)}"><div class="tl-marker" aria-hidden="true"><span>${esc(e.year)}</span></div><article class="tl-card">${fig}`
       + `<p class="tl-date">${esc(e.date)}</p><h2 class="tl-title">${esc(e.title)}</h2><p class="tl-text">${esc(e.text)}</p>`
       + `<p class="tl-meta">${sources}${e.link ? link(e.link) : ''}</p></article></li>`;
   }).join('');

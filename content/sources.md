@@ -68,3 +68,4 @@
 - אזורי העצב החמישי וזווית הלסת (C2–C3, great auricular): Wikipedia: Trigeminal nerve — https://en.wikipedia.org/wiki/Trigeminal_nerve
 - עצבוב הלשון (טעם: VII קדמי, IX אחורי כולל הפטמות המוקפות, X בסיס ומכסה הגרון; מגע: V3 קדמי, IX אחורי; תנועה: XII חוץ מ-palatoglossus שמקבל X): Wikipedia: Tongue — https://en.wikipedia.org/wiki/Tongue ; TeachMeAnatomy: https://teachmeanatomy.info/head/organs/tongue/
 - חמשת ענפי עצב הפנים והשרירים שלהם: TeachMeAnatomy — https://teachmeanatomy.info/head/cranial-nerves/facial-nerve/
+- החלום של אוטו לוי (עצב X): הסיפור של לוי עצמו, מצוטט ב-British Pharmacological Society, Pharmacology Hall of Fame — https://www.bps.ac.uk/about/About-pharmacology/Pharmacology-Hall-of-Fame/Articles/otto-loewi ; ראו גם https://en.wikipedia.org/wiki/Otto_Loewi (בחלק מהמקורות השנה 1920 ובחלקם 1921; הניסוי עצמו נעשה באביב 1921 — לכן באתר לא נכתבה שנה לחלום).
