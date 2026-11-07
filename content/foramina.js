@@ -34,7 +34,7 @@ export const FORAMINA = [
   {
     id: `spinosum`, name: `החור הקוצני`, en: `Foramen spinosum`, bone: `עצם הטריז (הכנף הגדולה)`, fossa: `middle`,
     nerves: [], other: [`עורק קרום המוח האמצעי (middle meningeal artery)`, `ענף קטן של V3 לקרומי המוח`],
-    text: `פתח קטן מאחורי החור הסגלגל. לא עובר בו אף אחד מ-12 העצבים כגזע — בעיקר עורק שמזין את קרומי המוח.`,
+    text: `פתח קטן מאחורי החור הסגלגל. לא עובר בו אף אחד מ-12 העצבים כגזע. עובר בו בעיקר עורק שמזין את קרומי המוח.`,
   },
   {
     id: `iam`, name: `פתח השמע הפנימי`, en: `Internal acoustic meatus`, bone: `העצם הרקתית (החלק הסלעי)`, fossa: `posterior`,
