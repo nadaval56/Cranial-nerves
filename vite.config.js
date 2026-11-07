@@ -3,12 +3,12 @@ import { resolve, basename } from 'node:path';
 import { SITE, NAV, LAB, DISCLAIMER, SISTER_SITES, SISTER_INVITE } from './src/config.js';
 import { NERVES } from './content/nerves.js';
 import { EVENTS } from './content/timeline.js';
-import { nerveBody, nervesList, timeline, examList, pressList, figure, creditsList } from './src/lib/render.js';
+import { nerveBody, nervesList, timeline, examList, pressCards, pressStory, figure, creditsList } from './src/lib/render.js';
 import { IMAGES, CREDITS } from './content/images.js';
 import { PRESS } from './content/press.js';
 
 const PAGES = [
-  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'press', 'about',
+  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'press', 'press-story', 'about',
   'lab', ...LAB.map((t) => t.page), 'privacy', 'accessibility', '404',
 ];
 
@@ -29,8 +29,9 @@ const CRUMB = {
   history: ['היסטוריה'], press: ['בתקשורת'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
+  ...Object.fromEntries(PRESS.map((x) => [`press-${x.id}`, ['בתקשורת', x.title]])),
 };
-const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab' };
+const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab', 'בתקשורת': 'press' };
 const WEBSITE = { '@type': 'WebSite', '@id': `${SITE.url}#website`, name: SITE.name, url: SITE.url, inLanguage: 'he' };
 const EDU_LEVEL = 'תיכון, סטודנטים למקצועות הבריאות';
 
@@ -169,13 +170,15 @@ function staticPages() {
       server.middlewares.use((req, _res, next) => {
         const m = req.url?.match(/^\/nerve-(?!zero\.)([\w-]+)\.html(\?.*)?$/);
         if (m) req.url = `/nerve.html?id=${m[1]}`;
+        const ps = req.url?.match(/^\/press-(?!story\.)([\w-]+)\.html(\?.*)?$/);
+        if (ps) req.url = `/press-story.html?id=${ps[1]}`;
         next();
       });
     },
     generateBundle(_, bundle) {
       const page = (name, fn) => { bundle[name].source = fn(String(bundle[name].source)); };
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
-      page('press.html', (html) => fill(html, '<div id="press-root" class="press-list">', pressList(PRESS)));
+      page('press.html', (html) => fill(html, '<div id="press-root">', pressCards(PRESS)));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
       page('about.html', (html) => fill(html, '<div id="credits-root">', creditsList(CREDITS)));
@@ -200,9 +203,25 @@ function staticPages() {
       }
       delete bundle['nerve.html'];
 
+      // עמוד סטטי לכל סיפור ב"בתקשורת"
+      const storyBase = String(bundle['press-story.html'].source);
+      for (const x of PRESS) {
+        const title = `${x.title} · בתקשורת · ${SITE.name}`;
+        const description = x.teaser.slice(0, 158);
+        let html = storyBase
+          .replace('<html lang="he" dir="rtl">', `<html lang="he" dir="rtl" data-story-id="${attr(x.id)}">`)
+          .replace(/<title>.*?<\/title>/, `<title>${attr(title)}</title>`)
+          .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${attr(description)}"`)
+          .replace(/<!--og-->[\s\S]*?<!--\/og-->/, metaTags({ page: `press-${x.id}`, title, description }));
+        html = fill(html, '<div class="container" id="story-root">', pressStory(x));
+        this.emitFile({ type: 'asset', fileName: `press-${x.id}.html`, source: html });
+      }
+      delete bundle['press-story.html'];
+
       const urls = [
-        ...PAGES.filter((p) => p !== 'nerve' && p !== '404').map((p) => (p === 'index' ? '' : `${p}.html`)),
+        ...PAGES.filter((p) => p !== 'nerve' && p !== 'press-story' && p !== '404').map((p) => (p === 'index' ? '' : `${p}.html`)),
         ...NERVES.map((n) => `nerve-${n.id}.html`),
+        ...PRESS.map((x) => `press-${x.id}.html`),
       ].map((u) => `  <url><loc>${SITE.url}${u}</loc></url>`).join('\n');
       this.emitFile({ type: 'asset', fileName: 'sitemap.xml',
         source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n` });
