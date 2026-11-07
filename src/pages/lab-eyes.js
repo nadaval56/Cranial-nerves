@@ -75,44 +75,127 @@ const EYES = { R: { cx: 228, cy: 176 }, L: { cx: 412, cy: 176 } };
 const RX = 30, RY = 17; // טווח תנועה של הקשתית
 
 const svg = s('svg', { class: 'eyes-stage', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'שתי עיניים שעוקבות אחרי מטרה', direction: 'ltr', tabindex: '0' });
-const defs = s('defs');
+
+// סגנון ומעברי צבע של האיור, באותה שפה כמו מעבדות הפנים והאישונים. חל רק על האיור הזה.
+const STYLE = `
+.eyes-stage .ex-skin { fill: url(#ex-skin); }
+.eyes-stage .ex-socket { fill: url(#ex-socket); }
+.eyes-stage .ex-bridge { fill: none; stroke: #9a6650; stroke-width: 1.8; stroke-linecap: round; opacity: 0.38; }
+.eyes-stage .ex-bridge-hi { fill: #f0cdb4; opacity: 0.3; }
+.eyes-stage .ex-nostril { fill: #7a4a3a; opacity: 0.35; }
+.eyes-stage .ex-brow { fill: #4a3022; stroke: #3a251a; stroke-width: 1; stroke-linejoin: round; }
+.eyes-stage .eye-white { fill: url(#ex-sclera); }
+.eyes-stage .ex-vessel { fill: none; stroke: #d48a80; stroke-width: 0.7; opacity: 0.35; }
+.eyes-stage .iris { fill: url(#ex-iris); stroke: none; }
+.eyes-stage .ex-fiber { stroke: #9cc3cf; stroke-width: 0.9; opacity: 0.32; }
+.eyes-stage .ex-fiber-d { stroke: #1f3d47; stroke-width: 1; opacity: 0.35; }
+.eyes-stage .ex-collarette { fill: none; stroke: #b9946a; stroke-width: 1.3; opacity: 0.45; }
+.eyes-stage .ex-limbus { fill: none; stroke: #16303a; stroke-width: 2.4; opacity: 0.85; }
+.eyes-stage .pupil { fill: #07090b; }
+.eyes-stage .glint { fill: #ffffff; opacity: 0.9; }
+.eyes-stage .ex-glint2 { fill: #ffffff; opacity: 0.45; }
+.eyes-stage .ex-lid { fill: url(#ex-lid); }
+.eyes-stage .ex-lidedge { fill: none; stroke: #2a1a14; stroke-width: 2.6; stroke-linecap: round; }
+.eyes-stage .ex-lidshadow { fill: none; stroke: #5a3426; stroke-width: 6; opacity: 0.18; }
+.eyes-stage .ex-lash { fill: none; stroke: #241610; stroke-width: 1.2; stroke-linecap: round; opacity: 0.9; }
+.eyes-stage .eye-line { fill: none; stroke: #6e4636; stroke-width: 1.2; }
+.eyes-stage .ex-crease { fill: none; stroke: #8a5843; stroke-width: 1.5; stroke-linecap: round; opacity: 0.8; }
+.eyes-stage .ex-lowlid { fill: none; stroke: #a06c56; stroke-width: 1.2; stroke-linecap: round; opacity: 0.75; }
+.eyes-stage .stage-label { fill: #e8ecf1; paint-order: stroke; stroke: #0b0e12; stroke-width: 4px; stroke-linejoin: round; }
+.eyes-stage .target-ring { stroke-width: 2.5; }
+.eyes-stage .ex-target-halo { fill: none; stroke: #0b0e12; stroke-width: 5; opacity: 0.55; }
+`;
+const grad = (id, kind, attrs, stops) => s(kind, { id, ...attrs }, ...stops.map(([o, c, op = 1]) => s('stop', { offset: o, 'stop-color': c, 'stop-opacity': op })));
+const defs = s('defs', {},
+  s('style', {}, document.createTextNode(STYLE)),
+  grad('ex-skin', 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, [['0', '#e2b597'], ['0.6', '#cf9c7e'], ['1', '#a8705a']]),
+  grad('ex-socket', 'radialGradient', {}, [['0.4', '#8a5340', 0.45], ['1', '#8a5340', 0]]),
+  grad('ex-sclera', 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, [['0', '#fdfaf6'], ['0.7', '#ece4dc'], ['1', '#c9bcb0']]),
+  grad('ex-iris', 'radialGradient', {}, [['0', '#6fa4b2'], ['0.45', '#4f8696'], ['0.85', '#2e5562'], ['1', '#1d3a44']]),
+  grad('ex-lid', 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, [['0', '#d8a98b'], ['0.85', '#c48f72'], ['1', '#a06c56']]),
+  // העור דוהה בשוליים אל הרקע
+  s('filter', { id: 'ex-soft', x: '-30%', y: '-30%', width: '160%', height: '160%' }, s('feGaussianBlur', { stdDeviation: 16 })),
+  s('mask', { id: 'ex-face', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H },
+    s('path', { d: 'M84 246 C58 160 100 52 320 40 C540 52 582 160 556 246 C530 276 420 286 372 300 C356 318 284 318 268 300 C220 286 110 276 84 246 Z', fill: '#fff', filter: 'url(#ex-soft)' })),
+);
 svg.append(defs);
 
-// רקע ופנים
+// רקע ופלג הפנים העליון: עור, גשר האף וצללית סביב העיניים
 svg.append(s('rect', { class: 'stage-bg', x: 0, y: 0, width: W, height: H, rx: 18 }));
-svg.append(s('path', { class: 'face-skin', d: 'M140 70 C200 30 440 30 500 70 C540 110 540 250 500 300 C440 350 200 350 140 300 C100 250 100 110 140 70 Z' }));
-svg.append(s('path', { class: 'face-nose', d: 'M320 168 C316 210 306 240 300 262 C312 272 328 272 340 262 C334 240 324 210 320 168' }));
+const face = s('g', { mask: 'url(#ex-face)' });
+face.append(s('rect', { class: 'ex-skin', x: 0, y: 0, width: W, height: H }));
+for (const side of ['R', 'L']) face.append(s('ellipse', { class: 'ex-socket', cx: EYES[side].cx + (side === 'R' ? 8 : -8), cy: EYES[side].cy - 4, rx: 90, ry: 56 }));
+face.append(s('ellipse', { class: 'ex-bridge-hi', cx: 320, cy: 200, rx: 10, ry: 48 }));
+face.append(s('path', { class: 'ex-bridge', d: 'M302 140 C308 172 306 214 296 262' }));
+face.append(s('path', { class: 'ex-bridge', d: 'M338 140 C332 172 334 214 344 262' }));
+face.append(s('path', { class: 'ex-bridge', d: 'M296 262 C290 284 300 296 320 298 C340 296 350 284 344 262' }));
+face.append(s('ellipse', { class: 'ex-nostril', cx: 306, cy: 292, rx: 7, ry: 3.5 }));
+face.append(s('ellipse', { class: 'ex-nostril', cx: 334, cy: 292, rx: 7, ry: 3.5 }));
+svg.append(face);
 
+// מיקום שפת העפעף העליון במנוחה (ביחס לגובה המרכז), ומשרעת המעקב אחרי מבט
+const LID_REST = 4;
 const parts = {};
 for (const side of ['R', 'L']) {
   const { cx, cy } = EYES[side];
+  // dir: 1 לכיוון האף. העין הימנית של האדם משמאל במסך, ולכן האף מימינה.
+  const dir = side === 'R' ? 1 : -1;
   const almond = `M${cx - 62} ${cy} C${cx - 36} ${cy - 40} ${cx + 36} ${cy - 40} ${cx + 62} ${cy} C${cx + 36} ${cy + 38} ${cx - 36} ${cy + 38} ${cx - 62} ${cy} Z`;
-  const clip = s('clipPath', { id: `clip-${side}` }, s('path', { d: almond }));
-  defs.append(clip);
-  const g = s('g', { class: 'eye' });
-  g.append(s('path', { class: 'eye-white', d: almond }));
+  defs.append(s('clipPath', { id: `clip-${side}` }, s('path', { d: almond })));
+
+  // גבה: עבה ליד האף, דקה בקצה
+  const bIn = cx + dir * 52, bOut = cx - dir * 66;
+  svg.append(s('path', { class: 'ex-brow', d: `M${bIn} ${cy - 48} C${cx + dir * 18} ${cy - 66} ${cx - dir * 36} ${cy - 68} ${bOut} ${cy - 52} C${cx - dir * 36} ${cy - 61} ${cx + dir * 18} ${cy - 57} ${bIn} ${cy - 41} Z` }));
+  // קפל העפעף העליון
+  svg.append(s('path', { class: 'ex-crease', d: `M${cx - 56} ${cy - 14} C${cx - 32} ${cy - 50} ${cx + 32} ${cy - 50} ${cx + 56} ${cy - 14}` }));
+
+  svg.append(s('path', { class: 'eye-white', d: almond }));
   const ball = s('g', { 'clip-path': `url(#clip-${side})` });
+  for (const k of [-1, 1]) ball.append(s('path', { class: 'ex-vessel', d: `M${cx + k * 60} ${cy + 2} C${cx + k * 50} ${cy - 2} ${cx + k * 44} ${cy + 5} ${cx + k * 36} ${cy + 3}` }));
   const iris = s('g', { class: 'iris-g' });
   iris.append(s('circle', { class: 'iris', cx, cy, r: 21 }));
+  const fibers = s('g');
+  for (let i = 0; i < 40; i++) {
+    const a = (i / 40) * Math.PI * 2 + (i % 2) * 0.03;
+    const r0 = 9.5 + (i % 3) * 0.7, r1 = 19 - (i % 4) * 0.7;
+    fibers.append(s('line', { class: i % 3 ? 'ex-fiber' : 'ex-fiber-d', x1: cx + Math.cos(a) * r0, y1: cy + Math.sin(a) * r0, x2: cx + Math.cos(a) * r1, y2: cy + Math.sin(a) * r1 }));
+  }
+  iris.append(fibers);
+  iris.append(s('circle', { class: 'ex-collarette', cx, cy, r: 12.5 }));
+  iris.append(s('circle', { class: 'ex-limbus', cx, cy, r: 20.6 }));
   const pupil = s('circle', { class: 'pupil', cx, cy, r: 8.5 });
   iris.append(pupil);
-  iris.append(s('circle', { class: 'glint', cx: cx + 6, cy: cy - 7, r: 3 }));
+  iris.append(s('circle', { class: 'glint', cx: cx + 7, cy: cy - 8, r: 3 }));
+  iris.append(s('circle', { class: 'ex-glint2', cx: cx - 6, cy: cy + 7, r: 1.4 }));
   ball.append(iris);
-  // עפעף עליון: מלבן בצבע העור שיורד מלמעלה, חתוך לצורת העין
-  const lid = s('rect', { class: 'lid', x: cx - 70, y: cy - 60, width: 140, height: 0 });
+  // העפעף העליון: עוקב מעט אחרי מבט למעלה ולמטה, וצונח בפגיעה בעצב III
+  const edge = `M${cx - 66} ${cy - 2} C${cx - 36} ${cy - 37} ${cx + 36} ${cy - 37} ${cx + 66} ${cy - 2}`;
+  const lid = s('g');
+  lid.append(s('path', { class: 'ex-lid', d: `${edge} L${cx + 72} ${cy - 110} L${cx - 72} ${cy - 110} Z` }));
+  lid.append(s('path', { class: 'ex-lidshadow', d: edge, transform: 'translate(0 3)' }));
+  lid.append(s('path', { class: 'ex-lidedge', d: edge }));
   ball.append(lid);
-  g.append(ball);
-  g.append(s('path', { class: 'eye-line', d: almond }));
-  const brow = s('path', { class: 'brow', d: `M${cx - 60} ${cy - 48} C${cx - 20} ${cy - 68} ${cx + 20} ${cy - 68} ${cx + 60} ${cy - 50}` });
-  if (side === 'L') brow.setAttribute('d', `M${cx - 60} ${cy - 50} C${cx - 20} ${cy - 68} ${cx + 20} ${cy - 68} ${cx + 60} ${cy - 48}`);
-  g.append(brow);
-  svg.append(g);
+  ball.append(s('path', { class: 'ex-lowlid', d: `M${cx - 54} ${cy + 8} C${cx - 32} ${cy + 33} ${cx + 32} ${cy + 33} ${cx + 54} ${cy + 8}` }));
+  svg.append(ball);
+  svg.append(s('path', { class: 'eye-line', d: almond }));
+  // ריסים: יוצאים מקו העפעף וזזים איתו
+  const lashes = s('g');
+  for (let i = 1; i < 10; i++) {
+    const t = i / 10, u = 1 - t;
+    const x = u ** 3 * (cx - 66) + 3 * u * u * t * (cx - 36) + 3 * u * t * t * (cx + 36) + t ** 3 * (cx + 66);
+    const y = u ** 3 * (cy - 2) + 3 * u * u * t * (cy - 37) + 3 * u * t * t * (cy - 37) + t ** 3 * (cy - 2);
+    const lean = (x - cx) / 62;
+    const len = 4.5 + 3 * Math.sin(t * Math.PI);
+    lashes.append(s('path', { class: 'ex-lash', d: `M${x} ${y} q${lean * 2} ${-len * 0.7} ${lean * 5.5 + (lean > 0 ? 2 : -2)} ${-len}` }));
+  }
+  svg.append(lashes);
   svg.append(s('text', { class: 'stage-label', x: cx, y: cy + 70, 'text-anchor': 'middle' }, document.createTextNode(side === 'R' ? 'העין הימנית' : 'העין השמאלית')));
-  parts[side] = { iris, pupil, lid, cx, cy };
+  parts[side] = { iris, pupil, lid, lashes, cx, cy };
 }
 
 // המטרה
 const target = s('g', { class: 'target' });
+target.append(s('circle', { r: 17.5, class: 'ex-target-halo' }));
 target.append(s('circle', { r: 16, class: 'target-ring' }));
 target.append(s('circle', { r: 5, class: 'target-dot' }));
 svg.append(target);
@@ -173,15 +256,15 @@ function update() {
   for (const side of ['R', 'L']) {
     const p = eyePose(side, gx, gy);
     poses[side] = p;
-    const { iris, pupil, lid, cy } = parts[side];
+    const { iris, pupil, lid, lashes } = parts[side];
     iris.setAttribute('transform', `translate(${p.h * RX} ${p.v * RY})`);
     const hit = lside === side && nerve === 'III';
     pupil.setAttribute('r', hit ? 14 : 8.5);
-    // העפעף עוקב מעט אחרי מבט למטה; בפגיעה ב-III הוא צנוח כמעט עד הסוף
-    const base = 16 + Math.max(0, p.v) * 10;
-    const droop = hit && !lidLifted ? 56 : base;
-    lid.setAttribute('height', droop);
-    lid.setAttribute('y', cy - 60);
+    // העפעף עוקב מעט אחרי המבט (עולה במבט למעלה, יורד במבט למטה); בפגיעה ב-III הוא צנוח כמעט עד הסוף
+    const follow = LID_REST + (p.v < 0 ? p.v * 7 : p.v * 9);
+    const off = hit && !lidLifted ? 30 : follow;
+    lid.setAttribute('transform', `translate(0 ${off})`);
+    lashes.setAttribute('transform', `translate(0 ${off})`);
 
     const list = document.getElementById(`mus-${side}`);
     // השרירים שהמבט הזה *דורש* — לפי הכיוון המבוקש, לא לפי מה שהעין הצליחה לעשות
@@ -267,7 +350,7 @@ document.getElementById('lift').addEventListener('click', (e) => {
 
 // מבחן ה-H: מסלול של נקודות, עם עצירה קצרה בכל אחת מ-6 העמדות
 const H_PATH = [[0, 0], [0.85, 0], [0.85, -0.8], [0.85, 0.8], [0.85, 0], [-0.85, 0], [-0.85, -0.8], [-0.85, 0.8], [-0.85, 0], [0, 0]];
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
 function stopAnim() { if (anim) { cancelAnimationFrame(anim.raf); clearTimeout(anim.t); anim = null; } }
 document.getElementById('h-test').addEventListener('click', () => {
   stopAnim();
@@ -277,7 +360,7 @@ document.getElementById('h-test').addEventListener('click', () => {
     if (!anim) return;
     if (++i >= H_PATH.length) { anim = null; return; }
     const [fx, fy] = [gx, gy], [tx, ty] = H_PATH[i];
-    if (reduced) { gx = tx; gy = ty; update(); anim.t = setTimeout(next, 1100); return; }
+    if (reduced()) { gx = tx; gy = ty; update(); anim.t = setTimeout(next, 1100); return; }
     const t0 = performance.now(), dur = 650;
     const step = (now) => {
       if (!anim) return;
