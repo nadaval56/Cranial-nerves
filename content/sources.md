@@ -85,6 +85,7 @@
 - וויליס, Cerebri anatome (1664), Wellcome L0032335: `{{cc-by-4.0}}` — Wellcome Collection.
 - דיוקן צ'רלס בל, Wellcome L0011359: `{{cc-by-4.0}}`.
 - אוטו לוי 1929: `{{Cc-by-4.0}}`.
+- ראש אוגוסטוס בפרופיל, Getty Museum (78.AA.261), בסיס למפת ענפי עצב הפנים: `photo license = {{cc-zero}}`, היצירה מהמאה ה-1 לפני הספירה. [עמוד הקובץ](https://commons.wikimedia.org/wiki/File:Portrait_Head_of_Augustus,_left_profile_-_Getty_Museum_(78.AA.261).jpg).
 
 טענות בכיתובים:
 - בעצב התת-לשוני "נוסעים" סיבים מעצב הצוואר הראשון (C1), וחלקם יוצאים ממנו ב"ענף היורד" (descending hypoglossal / ansa cervicalis): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve), [Wikipedia: Ansa cervicalis](https://en.wikipedia.org/wiki/Ansa_cervicalis).

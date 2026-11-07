@@ -255,68 +255,35 @@ const tongueInfo = (mode, k) => {
 // ---------- 3. ענפי עצב הפנים ----------
 
 const BRANCHES = {
-  temporal: { title: 'הענף הרקתי', label: 'רקתי', en: 'Temporal', c: '#7cc7dc', d: 'M214 196 C210 160 196 128 170 96', muscles: 'שריר המצח והחלק העליון של השריר הטבעתי של העין.', action: 'הרמת גבות וקימוט המצח.' },
-  zygomatic: { title: 'הענף הזיגומטי', label: 'זיגומטי', en: 'Zygomatic', c: '#c3a6f0', d: 'M212 202 C190 186 160 172 128 160', muscles: 'השריר הטבעתי של העין.', action: 'עצימת עיניים חזקה.' },
-  buccal: { title: 'הענף הבוקלי', label: 'בוקלי', en: 'Buccal', c: '#7fcf9b', d: 'M212 210 C186 210 156 214 116 218', muscles: 'שרירי הלחי (buccinator) והשרירים שמרימים את השפה העליונה וזוויות הפה.', action: 'חיוך, ניפוח לחיים, שריקה.' },
-  mandibular: { title: 'ענף שפת הלסת', label: 'שפת הלסת', en: 'Marginal mandibular', c: '#f0a372', d: 'M214 222 C200 250 178 268 132 272', muscles: 'השרירים של השפה התחתונה והסנטר.', action: 'הורדת השפה התחתונה, "פרצוף עצוב".' },
-  cervical: { title: 'הענף הצווארי', label: 'צווארי', en: 'Cervical', c: '#ef9a8f', d: 'M220 228 C222 262 216 296 204 330', muscles: 'שריר הצוואר הדק (platysma).', action: 'מתיחת עור הצוואר כלפי מטה.' },
+  temporal: { title: 'הענף הרקתי', label: 'רקתי', en: 'Temporal', c: '#7cc7dc', d: 'M326 572 C314 528 300 486 284 452 C266 412 242 372 214 336 C204 322 194 312 182 302', muscles: 'שריר המצח והחלק העליון של השריר הטבעתי של העין.', action: 'הרמת גבות וקימוט המצח.' },
+  zygomatic: { title: 'הענף הזיגומטי', label: 'זיגומטי', en: 'Zygomatic', c: '#c3a6f0', d: 'M326 576 C300 546 274 506 248 474 C232 456 214 440 196 428', muscles: 'השריר הטבעתי של העין.', action: 'עצימת עיניים חזקה.' },
+  buccal: { title: 'הענף הבוקלי', label: 'בוקלי', en: 'Buccal', c: '#7fcf9b', d: 'M326 581 C292 576 254 566 218 560 C190 556 162 552 136 548', muscles: 'שרירי הלחי (buccinator) והשרירים שמרימים את השפה העליונה וזוויות הפה.', action: 'חיוך, ניפוח לחיים, שריקה.' },
+  mandibular: { title: 'ענף שפת הלסת', label: 'שפת הלסת', en: 'Marginal mandibular', c: '#f0a372', d: 'M326 586 C320 626 302 662 270 686 C238 708 196 708 166 690 C152 680 144 668 140 656', muscles: 'השרירים של השפה התחתונה והסנטר.', action: 'הורדת השפה התחתונה, "פרצוף עצוב".' },
+  cervical: { title: 'הענף הצווארי', label: 'צווארי', en: 'Cervical', c: '#ef9a8f', d: 'M328 590 C340 636 342 690 334 740 C328 778 318 812 306 846', muscles: 'שריר הצוואר הדק (platysma).', action: 'מתיחת עור הצוואר כלפי מטה.' },
 };
 
 function branchesSvg() {
-  const u = uid('fb');
-  const head = 'M248 336 L250 292 C276 286 296 260 300 226 C306 186 304 140 290 104 C270 52 222 22 166 22 C110 22 72 54 58 96 C52 114 52 128 48 138 L30 172 C26 178 30 184 38 184 L46 186 L44 200 L52 206 L48 216 C46 228 54 236 66 236 L74 238 C80 256 94 266 116 268 L140 270 C150 296 160 318 172 336 Z';
+  // בסיס: תצלום של ראש פסל (אוגוסטוס, Getty Museum, CC0) בפרופיל שמאלי; הרקע הוסר.
+  // הקואורדינטות במערכת של התמונה (720×998). העצב יוצא מהגולגולת (החור הסטילומסטואידי) מתחת ולפני האוזן,
+  // חודר לבלוטת הפרוטיד ומתפצל בה לחמישה ענפים.
   const paths = Object.entries(BRANCHES).map(([k, b]) => `<g data-k="${k}" class="dgm-branch" style="--dc:${b.c}"><path class="dgm-hit" d="${b.d}"/><path class="dgx-case" d="${b.d}"/><path d="${b.d}"/></g>`).join('');
-  return `<svg class="dgm-svg" viewBox="0 0 320 350" role="img" aria-label="ראש בפרופיל, ועליו חמשת הענפים של עצב הפנים שיוצאים מבלוטת הפרוטיד" direction="ltr">
+  return `<svg class="dgm-svg dgm-photo" viewBox="20 150 690 740" role="img" aria-label="ראש של פסל בפרופיל, ועליו חמשת הענפים של עצב הפנים שיוצאים מבלוטת הפרוטיד: רקתי, זיגומטי, בוקלי, שפת הלסת וצווארי" direction="ltr" style="max-width:420px">
   <style>
-  .dgm[data-dgm="facial-branches"] .dgm-branch .dgx-case { fill: none; stroke: #2a1610; stroke-width: 7; stroke-linecap: round; opacity: 0.45; filter: none; }
-  .dgm[data-dgm="facial-branches"] .dgm-small text { fill: #2a1610; font-weight: 600; paint-order: stroke; stroke: rgba(255, 244, 236, 0.8); stroke-width: 3px; stroke-linejoin: round; }
+  .dgm[data-dgm="facial-branches"] .dgm-branch path:not(.dgm-hit) { stroke-width: 9; }
+  .dgm[data-dgm="facial-branches"] .dgm-branch:hover path:not(.dgm-hit), .dgm[data-dgm="facial-branches"] .dgm-branch.is-on path:not(.dgm-hit) { stroke-width: 13; }
+  .dgm[data-dgm="facial-branches"] .dgm-branch .dgx-case { stroke: #1c120c; stroke-width: 15; opacity: 0.75; filter: none; }
+  .dgm[data-dgm="facial-branches"] .dgm-branch:hover .dgx-case, .dgm[data-dgm="facial-branches"] .dgm-branch.is-on .dgx-case { stroke-width: 19; }
+  .dgm[data-dgm="facial-branches"] .dgm-branch .dgm-hit { stroke-width: 44; }
+  .dgm[data-dgm="facial-branches"] .dgm-origin { stroke-width: 3; }
+  .dgm[data-dgm="facial-branches"] .dgm-small text { fill: #1c120c; font-size: 26px; font-weight: 700; paint-order: stroke; stroke: rgba(255, 246, 232, 0.92); stroke-width: 7px; stroke-linejoin: round; }
   </style>
-  <defs>
-    ${grad(`${u}-skin`, 'radialGradient', { cx: '40%', cy: '45%', r: '65%' }, SKIN)}
-    ${grad(`${u}-hair`, 'linearGradient', { x1: '0', y1: '0', x2: '1', y2: '1' }, HAIR)}
-    ${grad(`${u}-ear`, 'radialGradient', { cx: '45%', cy: '45%', r: '60%' }, [['0', '#d29f81'], ['1', '#a06a53']])}
-    ${grad(`${u}-shade`, 'radialGradient', { cx: '38%', cy: '42%', r: '62%' }, [['0.6', '#5a3426', 0], ['1', '#5a3426', 0.45]])}
-    ${grad(`${u}-jaw`, 'radialGradient', {}, [['0', '#5a3426', 0.35], ['1', '#5a3426', 0]])}
-    ${grad(`${u}-blush`, 'radialGradient', {}, [['0', '#d77f6e', 0.32], ['1', '#d77f6e', 0]])}
-    ${grad(`${u}-gland`, 'radialGradient', { cx: '45%', cy: '40%', r: '60%' }, [['0', '#e7c7a0', 0.85], ['1', '#b98e6a', 0.75]])}
-    ${grad(`${u}-sclera`, 'radialGradient', {}, SCLERA)}
-    ${grad(`${u}-iris`, 'radialGradient', {}, IRIS)}
-    ${grad(`${u}-lips`, 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, LIPS)}
-    <clipPath id="${u}-clip"><path d="${head}"/></clipPath>
-    <clipPath id="${u}-eye"><path d="M98 150 C104 143 118 142 128 148 C120 154 106 155 98 150 Z"/></clipPath>
-  </defs>
-  <g pointer-events="none">
-    <path d="${head}" fill="url(#${u}-skin)"/>
-    <g clip-path="url(#${u}-clip)">
-      <path d="M40 0 H320 V262 C300 252 288 236 282 214 C276 182 268 150 248 132 C226 112 196 98 160 90 C126 82 96 82 70 96 C66 74 60 60 40 60 Z" fill="url(#${u}-hair)"/>
-      <path d="M70 96 C96 82 126 82 160 90 C196 98 226 112 248 132" fill="none" stroke="#1a110c" stroke-width="2" opacity="0.5"/>
-      <path d="M120 40 C150 50 180 64 200 86 M180 34 C210 48 236 70 252 98 M240 60 C262 84 276 112 284 140" fill="none" stroke="#5a3d2c" stroke-width="1.4" opacity="0.6"/>
-      <circle cx="132" cy="206" r="34" fill="url(#${u}-blush)"/>
-      <ellipse cx="200" cy="270" rx="70" ry="34" fill="url(#${u}-jaw)"/>
-      <path d="M74 238 C80 256 94 266 116 268 L140 270 C176 266 206 250 224 232" fill="none" stroke="#8e5d48" stroke-width="1.4" opacity="0.6"/>
-      <path d="${head}" fill="url(#${u}-shade)"/>
-    </g>
-    <path d="${head}" fill="none" stroke="#8e5d48" stroke-width="1.6"/>
-    <path d="M236 170 C232 146 252 134 266 146 C280 158 280 196 268 214 C260 226 244 222 240 208 Z" fill="url(#${u}-ear)" stroke="#8e5d48" stroke-width="1.3"/>
-    <path d="M246 172 C246 156 260 150 266 160 C272 172 270 194 262 204 C256 210 250 206 250 198" fill="none" stroke="#9a634d" stroke-width="1.6" stroke-linecap="round"/>
-    <ellipse cx="248" cy="190" rx="3.5" ry="5" fill="#7a4a38" opacity="0.6"/>
-    <path d="M222 176 C236 178 244 196 242 216 C240 238 232 252 220 252 C206 250 200 230 202 210 C204 192 210 176 222 176 Z" fill="url(#${u}-gland)" stroke="#8e6a4e" stroke-width="1.2"/>
-    <path d="M208 196 C214 200 222 198 228 192 M206 214 C214 218 226 216 236 210 M208 232 C216 236 226 234 234 228" fill="none" stroke="#a07c5c" stroke-width="1" opacity="0.7"/>
-    <path d="M86 135 C98 125 118 122 136 128 C134 131 132 132 129 132 C116 128 102 129 90 138 Z" fill="#4a3022" stroke="#3a251a" stroke-width="0.8"/>
-    <path d="M98 150 C104 143 118 142 128 148 C120 154 106 155 98 150 Z" fill="url(#${u}-sclera)" stroke="#a87a64" stroke-width="0.6"/>
-    <g clip-path="url(#${u}-eye)"><ellipse cx="104" cy="149" rx="3.6" ry="5.6" fill="url(#${u}-iris)" stroke="#2c4a55" stroke-width="0.8"/><ellipse cx="102.8" cy="149" rx="1.6" ry="2.6" fill="#0b0d10"/></g>
-    <path d="M98 150 C104 143 118 142 128 148" fill="none" stroke="#2a1a14" stroke-width="1.6" stroke-linecap="round"/>
-    <path d="M100 147.5 l-2.6 -1.6 M103 145.5 l-2.2 -2 M106.5 144.3 l-1.6 -2.3 M110 143.8 l-1 -2.4" stroke="#2a1a14" stroke-width="0.9" stroke-linecap="round"/>
-    <path d="M100 141 C108 136 120 136 128 141" fill="none" stroke="#8a5843" stroke-width="1.1" opacity="0.7"/>
-    <path d="M50 168 C44 174 44 182 50 186" fill="none" stroke="#8a5843" stroke-width="1.4" stroke-linecap="round"/>
-    <ellipse cx="42" cy="182" rx="3.2" ry="1.8" fill="#6e3f30" opacity="0.7"/>
-    <path d="M46 188 L44 200 L52 206 L62 205 C58 198 52 192 46 188 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.8"/>
-    <path d="M52 206 L48 216 C48 220 51 222 55 221 C61 216 64 210 62 205 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.8"/>
-    <path d="M52 206 C58 207 64 206 70 204" fill="none" stroke="#4a1f1b" stroke-width="1.4" stroke-linecap="round"/>
-  </g>
+  <image href="./images/augustus-profile.webp" x="0" y="0" width="720" height="998" preserveAspectRatio="xMidYMid meet"/>
+  <path d="M296 470 C326 462 356 472 366 500 C374 526 372 560 366 590 C360 620 352 644 336 654 C318 664 300 652 292 630 C284 604 282 572 282 540 C282 508 284 482 296 470 Z" fill="rgba(240, 196, 107, 0.38)" stroke="rgba(120, 80, 25, 0.9)" stroke-width="3" stroke-dasharray="8 5" pointer-events="none"/>
+  <path d="M350 566 C342 572 334 576 326 579" fill="none" stroke="#1c120c" stroke-width="15" stroke-linecap="round" opacity="0.75" pointer-events="none"/>
+  <path d="M350 566 C342 572 334 576 326 579" fill="none" stroke="var(--nerve)" stroke-width="9" stroke-linecap="round" pointer-events="none"/>
   ${paths}
-  <circle class="dgm-origin" cx="226" cy="200" r="5"/>
-  <g class="dgm-small"><text x="226" y="270" text-anchor="middle">בלוטת הפרוטיד</text></g>
+  <circle class="dgm-origin" cx="350" cy="566" r="11"/>
+  <g class="dgm-small"><text x="372" y="700" text-anchor="start">בלוטת הפרוטיד</text></g>
 </svg>`;
 }
 const branchesInfo = (k) => { const b = BRANCHES[k]; return `<p class="dgm-title" style="--dc:${b.c}">${b.title} <span class="muted" dir="ltr" lang="en">(${b.en})</span></p><p><b>שרירים:</b> ${b.muscles}</p><p><b>תנועה:</b> ${b.action}</p>`; };

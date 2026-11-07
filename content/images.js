@@ -4,6 +4,7 @@
 const commons = (file) => `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, '_'))}`;
 const PD = { license: `נחלת הכלל`, licenseUrl: `https://creativecommons.org/publicdomain/mark/1.0/deed.he` };
 const CCBY4 = { license: `CC BY 4.0`, licenseUrl: `https://creativecommons.org/licenses/by/4.0/deed.he` };
+const CC0 = { license: `CC0`, licenseUrl: `https://creativecommons.org/publicdomain/zero/1.0/deed.he` };
 const GRAY = (n) => ({ title: `Gray${n}.png`, author: `"האנטומיה של גריי", מהדורה 20 (1918)`, url: commons(`Gray${n}.png`), ...PD });
 
 export const IMAGES = {
@@ -79,6 +80,12 @@ export const IMAGES = {
     caption: `העצב התת-לשוני מגיע לשרירי הלשון. חלק מהענפים שנראים יוצאים ממנו הם סיבים של עצבי הצוואר, שרק "נוסעים" איתו. מגריי, 1918.`,
     source: GRAY(795),
   },
+  profile: {
+    file: `augustus-profile.webp`, w: 720, h: 998,
+    alt: `ראש של פסל שיש רומי בפרופיל, פונה שמאלה`,
+    caption: `ראש הפסל של אוגוסטוס (25-1 לפני הספירה), בסיס למפת ענפי עצב הפנים.`,
+    source: { title: `Portrait Head of Augustus, left profile - Getty Museum (78.AA.261).jpg`, author: `J. Paul Getty Museum (צילום); הפסל: אמן רומי`, url: commons(`Portrait Head of Augustus, left profile - Getty Museum (78.AA.261).jpg`), ...CC0, modifications: `הרקע הוסר, נחתך והוקטן; הענפים צוירו מעליו` },
+  },
 };
 
 // תמונות בעמודי העצבים (בסעיף "מה הוא עושה")
@@ -110,4 +117,5 @@ export const CREDITS = [
   [`face`, `עצב הפנים`],
   [`vagus`, `העצבים IX, X ו-XI`],
   [`hypoglossal`, `העצב התת-לשוני`],
+  [`profile`, `עצב הפנים: מפת חמשת הענפים`],
 ].map(([k, where]) => ({ im: IMAGES[k], where }));
