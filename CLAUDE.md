@@ -29,7 +29,7 @@
 | `src/lib/brain3d.js` | מפת העצבים בתלת-ממד בעמוד הבית ובעמודי העצבים (three.js; בעמוד עצב — `BEST_VIEW` ו-`GHOST_CEREBELLUM`): המודל + 12 זוגות העצבים כצינורות. מסלולי העצבים מוגדרים ב-`NERVES_3D` בקואורדינטות המודל |
 | `public/models/brain-cn.glb` | מודל המוח (גזע, מוחון, אונות). נגזר מ-Brain for Blender (CC BY-SA 3.0) דרך אתר המוח; נוצר ב-`scripts/make-model.py`. הקרדיט ב-`about.html#illustrations` |
 | `src/lib/diagrams.js` | מפות אינטראקטיביות בעמודי העצבים (אזורי הפנים, הלשון, ענפי עצב הפנים). עצב מקבל מפה דרך השדה `diagrams` ב-`content/nerves.js` |
-| `nerve-zero.html` | עצב 0 (העצב הטרמינלי) — עמוד נפרד, לא חלק מ-12 העצבים ב-`content/nerves.js`. במודל התלת-ממדי הוא מוצג רק באפשרות `extra` |
+| `nerve-zero.html` | עצב 0 (העצב הטרמינלי) — עמוד נפרד, לא חלק מ-12 העצבים ב-`content/nerves.js`. במודל התלת-ממדי הוא מוצג באפשרות `extra` (בעמוד הבית ובעמוד שלו) |
 | `src/pages/lab-*.js` | ששת כלי המעבדה |
 | `vite.config.js` | partials, עמוד סטטי `nerve-<id>.html` לכל עצב, prerender, sitemap |
 | `scripts/validate.mjs` | בדיקת תוכן; רץ לפני כל build ונכשל על שדה חסר או קישור שבור |

@@ -1757,3 +1757,4 @@ html.a11y-still .sister-clone { display: none; }
 /* תמונות היסטוריות: רקע כהה במקום שמנת בוהק */
 .pic img { background: #1b1a17; }
 .tl-figure.pic img { background: #14130f; }
+.lab-layout > * { scroll-margin-top: 90px; }

@@ -81,7 +81,7 @@ export function nerveBody(n) {
 
   const path = section('path', 'path', 'המסלול',
     `<ol class="route">${n.path.map((p) => `<li>${esc(p)}</li>`).join('')}</ol>`
-    + `<p class="route-foramen">יוצא דרך: ${(n.foramina ?? [n.foramen]).map((id) => { const x = foramenById[id]; return `<a href="./lab-skull.html#${x.id}">${esc(x.name)}</a> <span class="muted" lang="en" dir="ltr">(${esc(x.en)})</span>`; }).join(' · ')}</p>`);
+    + `<p class="route-foramen">יוצא מחלל הגולגולת דרך: ${(n.foramina ?? [n.foramen]).map((id) => { const x = foramenById[id]; return `<a href="./lab-skull.html#${x.id}">${esc(x.name)}</a> <span class="muted" lang="en" dir="ltr">(${esc(x.en)})</span>`; }).join(' · ')}</p>`);
 
   const test = section('test', 'test', 'איך בודקים',
     `<ol class="exam-steps">${n.test.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`

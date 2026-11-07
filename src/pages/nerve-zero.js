@@ -9,6 +9,10 @@ const tryEl = document.querySelector('.try');
 const answer = Number(tryEl.dataset.answer);
 const feedback = tryEl.querySelector('.try-feedback');
 const details = tryEl.querySelector('.try-answer');
+// סדר התשובות מעורבב בכל טעינה, כדי שהתשובה הנכונה לא תהיה תמיד באותו מקום
+{ const ol = tryEl.querySelector('.quiz-options'); const items = [...ol.children];
+  for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
+  ol.append(...items); }
 const buttons = [...tryEl.querySelectorAll('.quiz-option')];
 details.hidden = true;
 buttons.forEach((b) => {

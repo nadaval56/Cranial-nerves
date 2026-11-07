@@ -20,9 +20,9 @@ const LESIONS = [
   { id: 'tract-R', label: '4 · מסלול הראייה הימני', at: [348, 228],
     fields: { L: ['left'], R: ['left'] }, text: 'אחרי המצטלבת, המסלול הימני נושא את כל המידע על החצי השמאלי של העולם, משתי העיניים. פגיעה בו מוחקת את החצי השמאלי בשתי העיניים ("המיאנופסיה הומונימית").' },
   { id: 'meyer-R', label: '5 · לולאת מאייר הימנית', at: [414, 296],
-    fields: { L: ['left-top'], R: ['left-top'] }, text: 'חלק מקרינת הראייה עוקף דרך האונה הרקתית, בלולאה שנקראת לולאת מאייר. הסיבים האלה נושאים את החלק העליון של השדה. פגיעה בהם מוחקת רבע עליון בשתי העיניים. באנגלית קוראים לזה "pie in the sky", פשטידה בשמיים.' },
-  { id: 'parietal-R', label: '6 · הקרינה בצד הקודקודי', at: [360, 362],
-    fields: { L: ['left-bottom'], R: ['left-bottom'] }, text: 'החלק העליון של קרינת הראייה עובר באונה הקודקודית ונושא את החלק התחתון של השדה. פגיעה כאן מוחקת רבע תחתון בשתי העיניים.' },
+    fields: { L: ['left-top'], R: ['left-top'] }, text: 'חלק מקרינת הראייה עוקף דרך האונה הרקתית, בלולאה שנקראת לולאת מאייר. הסיבים האלה נושאים את החלק העליון של השדה. פגיעה בהם מצד ימין מוחקת את הרבע השמאלי העליון בשתי העיניים. באנגלית קוראים לזה "pie in the sky", פשטידה בשמיים.' },
+  { id: 'parietal-R', label: '6 · הקרינה הקודקודית הימנית', at: [360, 362],
+    fields: { L: ['left-bottom'], R: ['left-bottom'] }, text: 'החלק העליון של קרינת הראייה עובר באונה הקודקודית ונושא את החלק התחתון של השדה. פגיעה כאן מצד ימין מוחקת את הרבע השמאלי התחתון בשתי העיניים.' },
   { id: 'occipital-R', label: '7 · קליפת הראייה הימנית', at: [334, 410],
     fields: { L: ['left', 'spare'], R: ['left', 'spare'] }, text: 'פגיעה בקליפת הראייה באונה העורפית מוחקת את החצי השמאלי בשתי העיניים, אבל לעיתים קרובות המרכז (המקולה) נשמר. אחת ההשערות: לאזור המקולה בקליפה יש אספקת דם כפולה.' },
 ];
@@ -66,7 +66,7 @@ svg.append(s('circle', { class: 'vp-node', cx: 240, cy: 244, r: 9 }));
 svg.append(s('circle', { class: 'vp-node', cx: 360, cy: 244, r: 9 }));
 svg.append(s('path', { class: 'vp-cortex', d: 'M240 418 C262 438 284 442 296 440 M360 418 C338 438 316 442 304 440' }));
 const tag = (x, y, t) => svg.append(s('text', { class: 'vp-tag', x, y, 'text-anchor': 'middle' }, document.createTextNode(t)));
-tag(300, 202, 'מצטלבת'); tag(196, 236, 'LGN'); tag(404, 236, 'LGN'); tag(300, 432, 'קליפת הראייה');
+tag(240, 182, 'מצטלבת'); tag(196, 236, 'גוף ברכי'); tag(404, 236, 'גוף ברכי'); tag(300, 452, 'קליפת הראייה');
 
 // נקודות פגיעה
 const marks = {};
@@ -161,6 +161,14 @@ function select(id) {
   explain.textContent = l.text;
 }
 
-controls.addEventListener('click', (e) => { const c = e.target.closest('.chip'); if (c) select(c.dataset.id); });
-svg.addEventListener('click', (e) => { const g = e.target.closest('.vp-mark'); if (g) select(g.dataset.id); });
+// אחרי בחירה: אם שדות הראייה לא נראים במסך, גוללים אליהם (בלי זה, במחשב התוצאה מוסתרת מתחת לקצה המסך)
+function reveal() {
+  const r = side.getBoundingClientRect();
+  if (r.top > innerHeight - 120 || r.bottom < 80) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+    side.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+}
+controls.addEventListener('click', (e) => { const c = e.target.closest('.chip'); if (c) { select(c.dataset.id); reveal(); } });
+svg.addEventListener('click', (e) => { const g = e.target.closest('.vp-mark'); if (g) { select(g.dataset.id); reveal(); } });
 select('none');
