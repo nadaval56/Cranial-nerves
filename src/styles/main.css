@@ -1648,3 +1648,21 @@ html.a11y-still .sister-clone { display: none; }
 .report-error { margin: 1.5rem 0 0; font-size: 0.875rem; text-align: center; }
 .quiz-nerve-list { columns: 2; }
 @media (max-width: 560px) { .quiz-nerve-list { columns: 1; } }
+
+/* ---------- בתקשורת ---------- */
+.press-list { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+.press-item { padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); }
+.press-item h2 { font-size: 1.35rem; margin: 0.2rem 0 0.75rem; }
+.press-item p { color: var(--text-2); }
+.press-date { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
+.press-quote { margin: 1rem 0; padding: 0.5rem 1rem; border-inline-start: 3px solid var(--accent); color: var(--text); font-size: 1.1rem; }
+.press-quote p { margin: 0; color: var(--text); }
+.press-sources { font-size: 0.85rem; }
+.press-known { margin-top: 1rem; padding: 1rem 1.1rem; border-radius: var(--radius); background: var(--surface); }
+.press-known h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.press-known ul { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: 0.4rem; }
+.press-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-bottom: 0; }
+.press-note { margin-top: 1.5rem; font-size: 0.875rem; }
+.in-news { margin-top: 1.5rem; padding: 0.9rem 1.1rem; border: 1px dashed var(--border-strong); border-radius: var(--radius); }
+.in-news-kicker { margin: 0 0 0.25rem; font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+.in-news p:last-child { margin-bottom: 0; }

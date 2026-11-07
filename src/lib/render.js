@@ -7,6 +7,7 @@ import { FORAMINA } from '../../content/foramina.js';
 import { brainstemSvg } from './brainstem.js';
 import { DIAGRAMS } from './diagrams.js';
 import { RESEARCH, RESEARCH_UPDATED } from '../../content/research.js';
+import { PRESS } from '../../content/press.js';
 
 export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -93,7 +94,6 @@ export function nerveBody(n) {
     `<ul class="fact-list">${n.facts.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
     + (n.lab ? `<p><a class="lab-link" href="./${n.lab.href}">${esc(n.lab.label)} ←</a></p>` : ''));
 
-  const heDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ב${['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'][m - 1]} ${y}`; };
   const papers = RESEARCH[n.id] ?? [];
   const research = papers.length ? section('research', 'lab', 'מהמחקר החדש',
     `<p class="muted">מאמרים מהשנה האחרונה על ${esc(n.name)}, מתוך PubMed, מאגר המאמרים הרפואיים של ספריית הרפואה האמריקאית. הכותרות תורגמו לעברית; המאמרים עצמם באנגלית.</p>`
@@ -103,6 +103,9 @@ export function nerveBody(n) {
     + `<p class="paper-note muted">עודכן ב-${heDate(RESEARCH_UPDATED)}. הרשימה מתעדכנת מדי שבוע. המאמרים מוצגים לעיון ולא כהמלצה רפואית.</p>`) : '';
 
   const report = `<p class="report-error muted">מצאתם טעות בעמוד? נשמח לשמוע: <a href="mailto:nadaval56@gmail.com?subject=${encodeURIComponent(`טעות בעמוד ${n.name}`)}">nadaval56@gmail.com</a></p>`;
+
+  const press = PRESS.filter((x) => x.nerve === n.id);
+  const inNews = press.length ? `<aside class="in-news"><p class="in-news-kicker">בתקשורת</p>${press.map((x) => `<p><a href="./press.html#${esc(x.id)}">${esc(x.title)}</a> <span class="muted">· ${heDate(x.date)}</span></p>`).join('')}</aside>` : '';
 
   const related = `<section class="related" aria-labelledby="related-h"><h2 id="related-h">עצבים קשורים</h2><div class="grid grid-3">${n.related.map((id) => nerveCard(byId[id])).join('')}</div></section>`;
 
@@ -114,7 +117,7 @@ export function nerveBody(n) {
   return NERVE_ICONS + strip + `<div class="nerve-top">${head}${locator}</div>` + facts
     + `<section class="lesson try-section" aria-labelledby="try-h"><header class="lesson-title"><span class="lesson-ico" aria-hidden="true">${icon('q')}</span><h2 id="try-h">נסו קודם</h2></header>`
     + `<p class="muted">לפני שקוראים: מה דעתכם?</p>${tryFirst(n)}</section>`
-    + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}${research}</div>` + report + related + pager;
+    + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}${research}</div>` + inNews + report + related + pager;
 }
 
 export function nerveCard(n) {
@@ -137,6 +140,9 @@ export function nervesList(nerves) {
     + `<thead><tr><th scope="col">#</th><th scope="col">שם</th><th scope="col">סוג</th><th scope="col">מתחבר ל</th><th scope="col">פתח</th><th scope="col">מרכיבים</th></tr></thead>`
     + `<tbody>${rows}</tbody></table></div>`;
 }
+
+const HE_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+export const heDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ב${HE_MONTHS[m - 1]} ${y}`; };
 
 // תמונה עם כיתוב וקרדיט קצר. image: { file, alt, caption, source: { title, author, url, license, licenseUrl } }
 export const imgUrl = (file) => `./images/${file}`;
@@ -179,4 +185,19 @@ export function examList(nerves) {
     + `<summary>${romanBadge(n)}<span class="exam-name">${esc(n.name)}</span><span class="exam-what">${EXAM_SHORT[n.id]}</span></summary>`
     + `<div class="exam-body"><ol class="exam-steps">${n.test.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
     + `<p class="callout">${esc(n.test.tip)}</p><p><a href="${nerveUrl(n.id)}">לעמוד של ${esc(n.name)} ←</a></p></div></details>`).join('');
+}
+
+// עמוד "בתקשורת"
+export function pressList(items) {
+  const links = (arr) => arr.map((l) => `<a href="${esc(l.url)}" rel="noopener" target="_blank">${esc(l.label)}</a>`).join(' · ');
+  return items.map((x) => `<article class="press-item" id="${esc(x.id)}" aria-labelledby="${esc(x.id)}-h">`
+    + `<p class="press-date">${heDate(x.date)} · <a href="${nerveUrl(x.nerve)}">${esc(byId[x.nerve].name)} (${byId[x.nerve].roman})</a></p>`
+    + `<h2 id="${esc(x.id)}-h">${esc(x.title)}</h2>`
+    + x.summary.map((t) => `<p>${esc(t)}</p>`).join('')
+    + (x.quote ? `<blockquote class="press-quote"><p>"${esc(x.quote)}"</p></blockquote>` : '')
+    + `<p class="press-sources">בחדשות: ${links(x.sources)}</p>`
+    + `<div class="press-known"><h3>מה ידוע</h3><ul>${x.known.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`
+    + `<p class="press-sources muted">מקורות: ${links(x.knownSources)}</p></div>`
+    + `<p class="press-links">${x.links.map((l) => `<a class="lab-link" href="./${esc(l.href)}">${esc(l.label)} ←</a>`).join(' ')}</p>`
+    + `</article>`).join('');
 }

@@ -93,3 +93,11 @@
 ## מהמחקר החדש (content/research.js)
 
 המאמרים נבחרים מ-PubMed (ספריית הרפואה הלאומית של ארה"ב) דרך E-utilities: https://www.ncbi.nlm.nih.gov/books/NBK25501/ . הכותרות בעברית הן תרגום שלנו לכותרת המקורית בלבד; לא סיכמנו ולא שפטנו את התוכן. הקישורים מובילים לעמוד המאמר ב-PubMed.
+
+## בתקשורת (content/press.js)
+
+### אברי גלעד ושיתוק בל (נובמבר 2026)
+- הדיווחים: [ynet](https://www.ynet.co.il/entertainment/article/hyvg6qo6fe), [mako](https://www.mako.co.il/news-entertainment/2026_q4/Article-7ba45b6ab60b1a1027.htm), [ice](https://www.ice.co.il/media/news/article/1136603), [ice, למחרת](https://www.ice.co.il/media/news/article/1136632). ההשערה על המסטיק היא של גלעד; mako ציינו שאין לה ביסוס רפואי.
+- הסיבה לא ידועה, חשד להרפס: [סקירה ב-PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC3275144/), [patient.info](https://patient.info/health/bells-palsy).
+- סטרואידים בתוך 72 שעות מקטינים החלמה חלקית: [NIHR](https://evidence.nihr.ac.uk/alert/corticosteroids-improve-recovery-rates-after-bells-palsy).
+- רוב המטופלים מחלימים בתוך שבועות עד חודשים: patient.info; גם content/nerves.js (עצב הפנים).

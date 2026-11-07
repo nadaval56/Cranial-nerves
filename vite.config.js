@@ -3,11 +3,12 @@ import { resolve, basename } from 'node:path';
 import { SITE, NAV, LAB, DISCLAIMER, SISTER_SITES, SISTER_INVITE } from './src/config.js';
 import { NERVES } from './content/nerves.js';
 import { EVENTS } from './content/timeline.js';
-import { nerveBody, nervesList, timeline, examList, figure, creditsList } from './src/lib/render.js';
+import { nerveBody, nervesList, timeline, examList, pressList, figure, creditsList } from './src/lib/render.js';
 import { IMAGES, CREDITS } from './content/images.js';
+import { PRESS } from './content/press.js';
 
 const PAGES = [
-  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'about',
+  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'press', 'about',
   'lab', ...LAB.map((t) => t.page), 'privacy', 'accessibility', '404',
 ];
 
@@ -25,7 +26,7 @@ const pageUrl = (page) => `${SITE.url}${page === 'index' ? '' : `${page}.html`}`
 // ולעמודי העצבים תמונה משלהם (public/og/nerve-<id>.png, נוצרת ב-scripts/make-images.cjs).
 const CRUMB = {
   nerves: ['העצבים'], 'nerve-zero': ['העצבים', 'עצב 0'], basics: ['היסודות'], exam: ['הבדיקה'],
-  history: ['היסטוריה'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
+  history: ['היסטוריה'], press: ['בתקשורת'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
 };
@@ -174,6 +175,7 @@ function staticPages() {
     generateBundle(_, bundle) {
       const page = (name, fn) => { bundle[name].source = fn(String(bundle[name].source)); };
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
+      page('press.html', (html) => fill(html, '<div id="press-root" class="press-list">', pressList(PRESS)));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
       page('about.html', (html) => fill(html, '<div id="credits-root">', creditsList(CREDITS)));
