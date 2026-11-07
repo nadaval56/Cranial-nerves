@@ -59,6 +59,7 @@ svg.append(defs);
 svg.append(s('style', {}, document.createTextNode(`
   .visual-stage .vpv-hemi { fill: url(#vpv-hemi); stroke: #4a3d33; stroke-width: 1.5; }
   .visual-stage .vpv-gyrus { fill: none; stroke: #120f0d; stroke-width: 1.6; stroke-linecap: round; opacity: 0.55; }
+  .visual-stage .vpv-sheen { fill: #fff; opacity: 0.04; }
   .visual-stage .vpv-gyrus-hi { fill: none; stroke: #5a4a3e; stroke-width: 1; stroke-linecap: round; opacity: 0.45; }
   .visual-stage .vpv-sheath { fill: none; stroke: #c9b07a; stroke-linecap: round; opacity: 0.28; }
   .visual-stage .vpv-rad { fill: #c9b07a; opacity: 0.1; }
@@ -78,10 +79,13 @@ svg.append(s('style', {}, document.createTextNode(`
 `)));
 
 // שתי ההמיספרות במבט מלמטה-מלמעלה (האונות המצחיות למעלה, האונות הרקתיות בצדדים, העורף למטה)
-const HEMI_L = 'M296 146 C250 142 196 150 162 182 C136 206 132 238 140 262 C120 282 112 318 122 352 C136 400 186 440 240 450 C266 455 284 452 296 446 Z';
-const HEMI_R = 'M304 146 C350 142 404 150 438 182 C464 206 468 238 460 262 C480 282 488 318 478 352 C464 400 414 440 360 450 C334 455 316 452 304 446 Z';
+const HEMI_L = 'M296 150 C268 138 214 136 178 158 C146 178 134 212 142 248 C124 272 116 312 124 350 C134 398 182 440 238 450 C266 455 284 452 296 446 Z';
+const HEMI_R = HEMI_L.replace(/(\d+(?:\.\d+)?) (\d+(?:\.\d+)?)/g, (m, x, y) => `${600 - Number(x)} ${y}`);
 svg.append(s('path', { class: 'vpv-hemi', d: HEMI_L }));
 svg.append(s('path', { class: 'vpv-hemi', d: HEMI_R }));
+// אור רך מלמעלה, שנותן לאונות נפח
+svg.append(s('path', { class: 'vpv-sheen', d: 'M200 168 C230 152 270 152 290 160 C272 176 240 180 214 194 C200 190 194 178 200 168 Z' }));
+svg.append(s('path', { class: 'vpv-sheen', d: 'M400 168 C370 152 330 152 310 160 C328 176 360 180 386 194 C400 190 406 178 400 168 Z' }));
 // קפלי קליפת המוח (מעט, כדי לרמוז על מרקם)
 const gyri = [
   'M180 196 C200 186 226 190 240 204', 'M156 232 C180 226 200 236 206 252', 'M150 300 C168 290 186 300 190 318',
