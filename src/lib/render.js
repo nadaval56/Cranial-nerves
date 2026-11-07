@@ -114,7 +114,7 @@ export function nerveBody(n) {
     + (next ? `<a class="pager-link pager-next" href="${nerveUrl(next.id)}"><span class="pager-dir">העצב הבא · ${next.roman}</span><span class="pager-title">${esc(next.name)}</span></a>` : '<span></span>')
     + '</nav>';
 
-  return NERVE_ICONS + strip + `<div class="nerve-top">${head}${locator}</div>` + facts
+  return NERVE_ICONS + strip + `<div class="nerve-top"><div class="nerve-intro">${head}${facts}</div>${locator}</div>`
     + `<section class="lesson try-section" aria-labelledby="try-h"><header class="lesson-title"><span class="lesson-ico" aria-hidden="true">${icon('q')}</span><h2 id="try-h">נסו קודם</h2></header>`
     + `<p class="muted">לפני שקוראים: מה דעתכם?</p>${tryFirst(n)}</section>`
     + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}${research}</div>` + inNews + report + related + pager;

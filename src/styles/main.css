@@ -1271,7 +1271,7 @@ html.a11y-still .sister-clone { display: none; }
 .fact-list li::marker { color: var(--accent); }
 .sign-list li::marker { color: var(--warning); }
 .lessons > .lesson + .lesson { margin-top: 0; }
-.nerve-top + .nerve-facts + .try-section + .lessons { display: grid; gap: 1.25rem; }
+.nerve-top + .try-section + .lessons, .nerve-top + .nerve-facts + .try-section + .lessons { display: grid; gap: 1.25rem; }
 
 .related { margin-top: 2.5rem; }
 .related h2 { font-size: 1.3rem; }
@@ -1779,3 +1779,8 @@ html:has(.lesson-nav) { scroll-padding-top: 124px; }
 .is-loading-3d { position: relative; }
 .b3d-loading { position: absolute !important; inset: 0 0 auto 0; visibility: hidden; pointer-events: none; }
 .b3d-loading-note { margin: 0.25rem 0.5rem 0; font-size: 0.8rem; text-align: center; }
+
+/* ראש עמוד עצב: כרטיסי העובדות ליד הכותרת, 2×2, במקום שורה נפרדת מתחת */
+.nerve-intro { display: grid; gap: 1.25rem; align-content: start; }
+.nerve-intro .nerve-facts { margin: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 860px) { .nerve-top { align-items: start; } }
