@@ -9,7 +9,7 @@ export function initLessonNav(nav) {
     const current = [...links.keys()].find((id) => visible.has(id));
     if (!current) return;
     for (const [id, a] of links) {
-      if (id === current) a.setAttribute('aria-current', 'true');
+      if (id === current) a.setAttribute('aria-current', 'location');
       else a.removeAttribute('aria-current');
     }
     const a = links.get(current);

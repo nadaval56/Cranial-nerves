@@ -52,7 +52,7 @@ export function nerveBody(n) {
   const prev = NERVES[i - 1], next = NERVES[i + 1];
 
   const strip = `<nav class="nerve-strip" aria-label="12 העצבים"><ol>${NERVES.map((m) =>
-    `<li><a href="${nerveUrl(m.id)}" class="t-${m.type}"${m.id === n.id ? ' aria-current="page"' : ''} title="${esc(m.name)}">${m.roman}</a></li>`).join('')}</ol></nav>`;
+    `<li><a href="${nerveUrl(m.id)}" class="t-${m.type}"${m.id === n.id ? ' aria-current="page"' : ''} title="${esc(m.name)}" aria-label="עצב ${m.roman}: ${esc(m.name)}">${m.roman}</a></li>`).join('')}</ol></nav>`;
 
   const head = `<header class="nerve-head">`
     + `<nav class="breadcrumb" aria-label="נתיב"><a href="./nerves.html">העצבים</a> / עצב ${n.roman}</nav>`
@@ -136,7 +136,7 @@ export function nervesList(nerves) {
   return `<p class="result-count" role="status">${nerves.length} עצבים</p>`
     + `<div class="grid grid-3 nerve-grid">${nerves.map(nerveCard).join('')}</div>`
     + `<h2 class="table-title">כל העצבים בטבלה אחת</h2>`
-    + `<div class="table-wrap"><table class="data-table nerve-table"><caption class="visually-hidden">12 העצבים הקרניאליים: סוג, מקום החיבור למוח, פתח היציאה ומרכיבים</caption>`
+    + `<div class="table-wrap" tabindex="0" role="region" aria-label="טבלת 12 העצבים"><table class="data-table nerve-table"><caption class="visually-hidden">12 העצבים הקרניאליים: סוג, מקום החיבור למוח, פתח היציאה ומרכיבים</caption>`
     + `<thead><tr><th scope="col">#</th><th scope="col">שם</th><th scope="col">סוג</th><th scope="col">חיבור למוח</th><th scope="col">פתח</th><th scope="col">מרכיבים</th></tr></thead>`
     + `<tbody>${rows}</tbody></table></div>`;
 }
@@ -149,7 +149,7 @@ export const imgUrl = (file) => `./images/${file}`;
 export function figure(im, cls = '') {
   const src = im.source;
   return `<figure class="pic ${cls}"><a class="pic-zoom" href="${imgUrl(esc(im.file))}" target="_blank" rel="noopener">`
-    + `<img src="${imgUrl(esc(im.file))}" alt="${esc(im.alt)}" loading="lazy" decoding="async"${im.w ? ` width="${im.w}" height="${im.h}"` : ''}></a>`
+    + `<img src="${imgUrl(esc(im.file))}" alt="${esc(im.alt)}" loading="lazy" decoding="async"${im.w ? ` width="${im.w}" height="${im.h}"` : ''}><span class="visually-hidden"> (הגדלה, נפתח בכרטיסייה חדשה)</span></a>`
     + `<figcaption>${esc(im.caption)} <span class="pic-credit">${esc(src.author)} · <a href="${esc(src.url)}" rel="noopener" target="_blank">${esc(src.license)}</a></span></figcaption></figure>`;
 }
 

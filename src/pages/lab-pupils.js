@@ -235,6 +235,13 @@ function explain(st) {
     if (st.nerve === 'II') return 'בלי אור, אי אפשר לראות פגיעה בעצב II: האישונים נראים רגילים ושווים. הדליקו את הפנס על כל עין.';
     return 'בחדר מואר למחצה שני האישונים בגודל בינוני ושווה. הדליקו את הפנס.';
   }
+  // בפנס המתנדנד ההסבר כללי ולא תלוי באיזו עין מוארת ברגע זה (הוא לא מתעדכן בכל נדנוד)
+  if (lightMode === 'swing') {
+    const sd = st.side === 'R' ? 'הימנית' : 'השמאלית';
+    if (st.nerve === 'II') return `בפנס המתנדנד מעבירים את האור מעין לעין. כשהאור עובר לעין ${sd}, שעצב II שלה פגוע, שני האישונים דווקא מתרחבים, כי המוח "מרגיש" פחות אור. זה סימן חשוב לפגיעה בעצב הראייה.`;
+    if (st.nerve === 'III') return `בפנס המתנדנד מעבירים את האור מעין לעין. האישון בעין ${sd}, שעצב III שלה פגוע, נשאר רחב כל הזמן. האישון השני מתכווץ בכל פעם שהאור נכנס לאחת העיניים.`;
+    return 'בפנס המתנדנד מעבירים את האור מעין לעין. בלי פגיעה, שני האישונים נשארים מכווצים באותה מידה, כי כל עין מעבירה את האור כרגיל.';
+  }
   const lit = sideName[light];
   const other = sideName[light === 'R' ? 'L' : 'R'];
   if (!st.ii[light]) {
@@ -253,7 +260,8 @@ function explain(st) {
   return t;
 }
 
-function update() {
+// tick: עדכון מהטיימר של הפנס המתנדנד. אז לא משנים את טקסט ההסבר (אזור חי), כדי שקורא מסך לא יקריא אותו כל 1.8 שניות
+function update(tick = false) {
   const st = state();
   for (const e of ['R', 'L']) {
     const { pupil, lid, lashes, beam, mm } = parts[e];
@@ -264,7 +272,7 @@ function update() {
     lashes.style.transform = drop;
     beam.classList.toggle('is-on', light === e);
     mm.textContent = `${st.size[e]} מ"מ`;
-    const word = !st.iii[e] ? 'רחב, לא מגיב' : st.size[e] === SIZE.lit ? (light === e ? 'מתכווץ (ישיר)' : 'מתכווץ (מוסכם)') : 'בגודל בינוני';
+    const word = !st.iii[e] ? 'רחב, לא מגיב' : st.size[e] === SIZE.lit ? (light === e ? 'מתכווץ (ישיר)' : 'מתכווץ (עקיף)') : 'בגודל בינוני';
     document.getElementById(`read-${e}`).textContent = `${st.size[e]} מ"מ · ${word}`;
   }
   // תרשים המסלול
@@ -275,7 +283,7 @@ function update() {
     breaks[`aff-${e}`].classList.toggle('is-on', !st.ii[e]);
     breaks[`eff-${e}`].classList.toggle('is-on', !st.iii[e]);
   }
-  document.getElementById('explain').textContent = explain(st);
+  if (!tick) document.getElementById('explain').textContent = explain(st);
 }
 
 function setLightMode(mode) {
@@ -287,7 +295,7 @@ function setLightMode(mode) {
     // עצירת אנימציות בתפריט הנגישות עוצרת גם את הנדנוד; בחירה בפנס אחר עוצרת אותו תמיד
     swingTimer = setInterval(() => {
       if (document.documentElement.classList.contains('a11y-still')) return;
-      light = light === 'R' ? 'L' : 'R'; update();
+      light = light === 'R' ? 'L' : 'R'; update(true);
     }, 1800);
   } else light = mode;
   update();

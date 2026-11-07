@@ -57,12 +57,13 @@ function makeRound() {
 
 let qs, idx, score, missed;
 
-function start() {
+// בטעינת העמוד לא מזיזים את הפוקוס (כדי שקורא מסך יתחיל מראש העמוד); אחר כך כן
+function start(focus = true) {
   qs = makeRound(); idx = 0; score = 0; missed = [];
-  show();
+  show(focus);
 }
 
-function show() {
+function show(focus = true) {
   const q = qs[idx];
   root.innerHTML = `<div class="quiz quiz-lab">
     <div class="quiz-progress"><span>שאלה ${idx + 1} מתוך ${ROUND}</span><span>${score} נכונות</span></div>
@@ -72,7 +73,7 @@ function show() {
     <div class="quiz-feedback" role="status" aria-live="polite"></div>
   </div>`;
   root.querySelector('.quiz-options').addEventListener('click', onAnswer);
-  root.querySelector('.quiz-option').focus({ preventScroll: true });
+  if (focus) root.querySelector('.quiz-option').focus();
 }
 
 function onAnswer(e) {
@@ -90,9 +91,9 @@ function onAnswer(e) {
   const fb = root.querySelector('.quiz-feedback');
   fb.innerHTML = `<p class="${ok ? 'fb-ok' : 'fb-bad'}"><strong>${ok ? 'נכון!' : 'לא הפעם.'}</strong> ${esc(q.explain)}</p>`
     + `<div class="btn-row"><button type="button" class="btn btn-primary" id="next">${idx + 1 < ROUND ? 'לשאלה הבאה' : 'לתוצאות'}</button>`
-    + `<a class="btn btn-ghost" href="${nerveUrl(q.nerve.id)}" target="_blank" rel="noopener">לעמוד של ${esc(q.nerve.name)}</a></div>`;
+    + `<a class="btn btn-ghost" href="${nerveUrl(q.nerve.id)}" target="_blank" rel="noopener">לעמוד של ${esc(q.nerve.name)}<span class="visually-hidden"> (נפתח בכרטיסייה חדשה)</span></a></div>`;
   const next = document.getElementById('next');
-  next.focus({ preventScroll: true });
+  next.focus();
   next.addEventListener('click', () => { idx++; if (idx < ROUND) show(); else end(); });
 }
 
@@ -100,12 +101,13 @@ function end() {
   const msg = score === ROUND ? 'מושלם! כל השאלות נכונות.' : score >= 8 ? 'מצוין, כמעט הכול.' : score >= 5 ? 'יפה. כדאי לחזור על כמה עצבים.' : 'התחלה טובה. עמודי העצבים יעזרו.';
   const uniq = [...new Map(missed.map((n) => [n.id, n])).values()];
   root.innerHTML = `<div class="quiz quiz-lab quiz-end">
-    <p class="score-big">${score}<span>/${ROUND}</span></p>
+    <p class="score-big" tabindex="-1" aria-label="התוצאה: ${score} מתוך ${ROUND}">${score}<span>/${ROUND}</span></p>
     <p class="lead">${msg}</p>
     ${uniq.length ? `<p class="muscle-h">כדאי לחזור על</p><div class="pill-row">${uniq.map((n) => `<a class="nerve-pill t-${n.type}" href="${nerveUrl(n.id)}"><b>${n.roman}</b> ${esc(n.name)}</a>`).join('')}</div>` : ''}
     <div class="btn-row"><button type="button" class="btn btn-primary" id="again">סבב חדש</button></div>
   </div>`;
-  document.getElementById('again').addEventListener('click', start);
+  document.getElementById('again').addEventListener('click', () => start());
+  root.querySelector('.score-big').focus();
 }
 
-start();
+start(false);

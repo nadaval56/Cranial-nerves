@@ -120,7 +120,7 @@ export const GHOST_CEREBELLUM = new Set(['trochlear', 'accessory', 'glossopharyn
  * labels: 'all' — תווית לכל עצב (עמוד הבית); 'active' — רק לעצב הנבחר (עמוד עצב).
  * view: זווית ההתחלה. active: עצב מודגש מההתחלה.
  */
-export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false, labels: labelMode = 'all', view = 'ventral', active: initialActive = null, ghostCerebellum = false, extra = false }) {
+export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion = false, labels: labelMode = 'all', view = 'ventral', active: initialActive = null, ghostCerebellum = false, extra = false, ariaLabel = 'מודל תלת-ממדי של גזע המוח והמוחון, ועליו 12 זוגות העצבים הקרניאליים. אפשר לבחור עצב גם מרשימת הכפתורים.' }) {
   const canvasWrap = document.createElement('div');
   canvasWrap.className = 'b3d-canvas';
   const labelLayer = document.createElement('div');
@@ -159,7 +159,7 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   canvasWrap.append(renderer.domElement);
   renderer.domElement.setAttribute('role', 'img');
-  renderer.domElement.setAttribute('aria-label', 'מודל תלת-ממדי של גזע המוח והמוחון, ועליו 12 זוגות העצבים הקרניאליים. אפשר לבחור עצב גם מרשימת הכפתורים.');
+  renderer.domElement.setAttribute('aria-label', ariaLabel);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 1, 2000);
@@ -176,6 +176,9 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   controls.minDistance = 70;
   controls.maxDistance = 380;
   controls.enablePan = false;
+  // OrbitControls קובע touch-action: none, ואז החלקה אנכית על המודל לא גוללת את העמוד בטלפון.
+  // pan-y: החלקה אנכית גוללת, החלקה אופקית מסובבת את המודל
+  renderer.domElement.style.touchAction = 'pan-y';
 
   // ---------- המוח ----------
   const shellMat = new THREE.MeshStandardMaterial({ color: 0xc9b6ae, roughness: 0.8, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide });

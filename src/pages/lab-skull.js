@@ -81,7 +81,7 @@ controls.innerHTML = `
     ${FORAMINA.map((f) => `<button type="button" class="chip" data-foramen="${f.id}" aria-pressed="false">${f.name}</button>`).join('')}
   </fieldset>
   <fieldset class="chip-set chip-set-roman"><legend>או: איפה יוצא העצב…</legend>
-    ${NERVES.map((n) => `<button type="button" class="chip t-${n.type}" data-nerve="${n.id}" aria-pressed="false" title="${n.name}">${n.roman}</button>`).join('')}
+    ${NERVES.map((n) => `<button type="button" class="chip t-${n.type}" data-nerve="${n.id}" aria-pressed="false" title="${n.name}" aria-label="עצב ${n.roman}: ${n.name}">${n.roman}</button>`).join('')}
   </fieldset>`;
 
 const stageWrap = document.createElement('div');

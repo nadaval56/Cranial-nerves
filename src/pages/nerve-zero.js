@@ -15,16 +15,22 @@ const details = tryEl.querySelector('.try-answer');
   ol.append(...items); }
 const buttons = [...tryEl.querySelectorAll('.quiz-option')];
 details.hidden = true;
+// לא משתמשים ב-disabled, כדי שהפוקוס של המקלדת לא ייעלם; aria-disabled + בדיקה בלחיצה
+feedback.tabIndex = -1;
+const off = (x) => x.setAttribute('aria-disabled', 'true');
 buttons.forEach((b) => {
   b.disabled = false;
+  b.removeAttribute('aria-disabled');
   b.addEventListener('click', () => {
+    if (b.getAttribute('aria-disabled') === 'true') return;
     if (Number(b.dataset.i) === answer) {
-      buttons.forEach((x) => { x.disabled = true; });
+      buttons.forEach(off);
       b.classList.add('is-correct');
       feedback.textContent = 'נכון!'; feedback.className = 'try-feedback is-correct';
       details.hidden = false; details.open = true;
+      feedback.focus();
     } else {
-      b.classList.add('is-wrong'); b.disabled = true;
+      b.classList.add('is-wrong'); off(b);
       feedback.textContent = 'לא נכון. נסו שוב, או פתחו את התשובה.'; feedback.className = 'try-feedback is-wrong';
       details.hidden = false;
     }
@@ -40,6 +46,11 @@ if (webglOk()) {
   const fallback = locator.querySelector('.zero-fallback');
   const stage = document.createElement('div');
   stage.className = 'b3d-stage b3d-stage-sm';
+  // אין כאן איור דו-ממדי, אז מציגים הודעת טעינה בתוך המסגרת עד שהמודל מוכן
+  const status = document.createElement('p');
+  status.className = 'b3d-status';
+  status.textContent = 'טוען מודל תלת-ממדי…';
+  stage.append(status);
   locator.insertBefore(stage, locator.querySelector('figcaption'));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
   (async () => {
@@ -50,7 +61,9 @@ if (webglOk()) {
         glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
         reducedMotion, labels: 'active', active: 'terminal', view: 'close', extra: true,
         onSelect: () => view3d?.highlight('terminal'),
+        ariaLabel: 'מודל תלת-ממדי של המוח מלמטה, ועליו עצב 0 מודגש לצד עצב הריח. אפשר לסובב אותו בגרירה.',
       });
+      status.remove();
       const bar = document.createElement('div');
       bar.className = 'b3d-mini-bar';
       bar.innerHTML = `<div class="b3d-seg" role="group" aria-label="המוח הגדול">`

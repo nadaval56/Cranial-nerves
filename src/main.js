@@ -23,6 +23,11 @@ if (toggle && nav) {
   document.addEventListener('click', (e) => {
     if (nav.classList.contains('is-open') && !nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
   });
+  // כשהפוקוס של המקלדת יוצא מהכותרת, התפריט נסגר (אחרת הוא מסתיר את מה שבא אחריו)
+  const header = toggle.closest('header') ?? nav.parentElement;
+  header.addEventListener('focusout', (e) => {
+    if (nav.classList.contains('is-open') && e.relatedTarget && !header.contains(e.relatedTarget)) setOpen(false);
+  });
 }
 
 // תפריט משני שנגלל לרוחב (בנייד): לגלול אליו כך שהפריט הנוכחי ייראה

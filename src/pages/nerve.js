@@ -32,20 +32,26 @@ if (tryEl) {
     ol.append(...items); }
   const buttons = [...tryEl.querySelectorAll('.quiz-option')];
   details.hidden = true;
+  // לא משתמשים ב-disabled, כדי שהפוקוס של המקלדת לא ייעלם; aria-disabled + בדיקה בלחיצה
+  feedback.tabIndex = -1;
+  const off = (x) => x.setAttribute('aria-disabled', 'true');
   buttons.forEach((b) => {
     b.disabled = false;
+    b.removeAttribute('aria-disabled');
     b.addEventListener('click', () => {
+      if (b.getAttribute('aria-disabled') === 'true') return;
       const i = Number(b.dataset.i);
       if (i === answer) {
-        buttons.forEach((x) => { x.disabled = true; });
+        buttons.forEach(off);
         b.classList.add('is-correct');
         feedback.textContent = 'נכון!';
         feedback.className = 'try-feedback is-correct';
         details.hidden = false;
         details.open = true;
+        feedback.focus();
       } else {
         b.classList.add('is-wrong');
-        b.disabled = true;
+        off(b);
         feedback.textContent = 'לא נכון. נסו שוב, או פתחו את התשובה.';
         feedback.className = 'try-feedback is-wrong';
         details.hidden = false;
@@ -63,19 +69,26 @@ function webglOk() {
 if (n && locator && webglOk()) {
   const svgEl = locator.querySelector('svg');
   const stage = document.createElement('div');
-  stage.className = 'b3d-stage b3d-stage-sm';
-  stage.hidden = true;
+  // בזמן הטעינה המודל לא נראה (אבל יש לו מידות), והאיור הדו-ממדי נשאר במקומו; מחליפים רק כשהמודל מוכן
+  stage.className = 'b3d-stage b3d-stage-sm b3d-loading';
+  locator.classList.add('is-loading-3d');
+  const note = document.createElement('p');
+  note.className = 'b3d-loading-note muted';
+  note.textContent = 'טוען מודל תלת-ממדי…';
   locator.insertBefore(stage, locator.querySelector('figcaption'));
+  locator.insertBefore(note, locator.querySelector('figcaption'));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
   (async () => {
     try {
       const { createBrain3D, BEST_VIEW, GHOST_CEREBELLUM } = await import('../lib/brain3d.js');
-      stage.hidden = false; svgEl.style.display = 'none';
       const view3d = await createBrain3D(stage, {
         glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
         reducedMotion, labels: 'active', active: n.id, view: BEST_VIEW[n.id], ghostCerebellum: GHOST_CEREBELLUM.has(n.id),
         onSelect: () => view3d?.highlight(n.id), // העצב של העמוד נשאר מודגש
+        ariaLabel: `מודל תלת-ממדי של גזע המוח, ועליו ${n.name} (${n.roman}) מודגש. אפשר לסובב אותו בגרירה.`,
       });
+      stage.classList.remove('b3d-loading'); locator.classList.remove('is-loading-3d'); note.remove();
+      svgEl.style.display = 'none';
       const bar = document.createElement('div');
       bar.className = 'b3d-mini-bar';
       // כפתור אחד שמתחלף בין המודל לאיור; ושלושה מצבים למוח הגדול
@@ -106,7 +119,7 @@ if (n && locator && webglOk()) {
       cap.insertAdjacentHTML('beforeend', ' <span class="muted b3d-cap">גררו כדי לסובב.</span>');
     } catch (err) {
       console.warn('3D view unavailable, keeping the 2D illustration', err);
-      stage.remove(); svgEl.style.display = '';
+      stage.remove(); note.remove(); locator.classList.remove('is-loading-3d'); svgEl.style.display = '';
     }
   })();
 }

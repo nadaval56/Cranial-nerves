@@ -14,9 +14,9 @@ fig.innerHTML = brainstemSvg({ interactive: true });
 const svg = fig.querySelector('svg');
 
 picker.innerHTML = NERVES.map((n) => `<button type="button" class="pick t-${n.type}" data-id="${n.id}" aria-pressed="false">`
-  + `<span class="pick-roman">${n.roman}</span><span class="pick-name">${esc(n.name)}</span></button>`).join('')
+  + `<span class="pick-roman">${n.roman}</span><span class="visually-hidden">, </span><span class="pick-name">${esc(n.name)}</span></button>`).join('')
   // עצב 0 — לא חלק מ-12 הזוגות, אבל מקבל כפתור משלו בסוף
-  + `<button type="button" class="pick pick-zero" data-id="terminal" aria-pressed="false"><span class="pick-roman">0</span><span class="pick-name">העצב הטרמינלי</span></button>`;
+  + `<button type="button" class="pick pick-zero" data-id="terminal" aria-pressed="false"><span class="pick-roman">0</span><span class="visually-hidden">, </span><span class="pick-name">העצב הטרמינלי</span></button>`;
 
 const intro = `<div class="panel-intro"><p class="panel-kicker">בחרו עצב</p>`
   + `<p>לחצו על עצב במפה או על אחד הכפתורים. הצבעים: <span class="type-tag type-sensory">תחושתי</span> <span class="type-tag type-motor">תנועתי</span> <span class="type-tag type-mixed">מעורב</span></p>`
@@ -72,9 +72,18 @@ svg.addEventListener('pointerover', (e) => {
   highlight(g ? g.dataset.id : selected);
 });
 svg.addEventListener('pointerleave', () => highlight(selected));
+// בטלפון הלוח עם ההסבר נמצא מעל הכפתורים; אחרי בחירה מוודאים שהוא נראה במסך
 picker.addEventListener('click', (e) => {
   const b = e.target.closest('.pick');
-  if (b) select(b.dataset.id);
+  if (!b) return;
+  select(b.dataset.id);
+  if (selected && matchMedia('(max-width: 959px)').matches) {
+    const r = panel.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > innerHeight) {
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+      panel.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
+    }
+  }
 });
 
 render(null);
@@ -126,22 +135,29 @@ async function start3d() {
   fig.append(hint);
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
+  const loadNote = document.createElement('p');
+  loadNote.className = 'b3d-loading-note muted';
+  loadNote.textContent = 'טוען מודל תלת-ממדי…';
   try {
     const { createBrain3D } = await import('../lib/brain3d.js');
-    box.hidden = false; // צריך מידות לפני היצירה
-    svgWrap.hidden = true;
+    // למודל צריך מידות לפני היצירה: הוא נבנה בשכבה בלתי נראית, והאיור הדו-ממדי נשאר גלוי עד שהמודל מוכן
+    box.classList.add('b3d-loading'); fig.classList.add('is-loading-3d');
+    box.hidden = false;
+    fig.append(loadNote);
     view3d = await createBrain3D(stage, {
       glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
       reducedMotion,
       extra: true,
       onSelect: (id) => { if (id) { if (id !== selected) select(id); } else if (selected) select(selected); },
     });
-    status.remove();
+    status.remove(); loadNote.remove();
+    box.classList.remove('b3d-loading'); fig.classList.remove('is-loading-3d');
+    svgWrap.hidden = true;
     view3d.highlight(selected);
     mode = '3d';
   } catch (err) {
     console.warn('3D map unavailable, keeping the 2D illustration', err);
-    box.remove(); svgWrap.hidden = false;
+    box.remove(); loadNote.remove(); fig.classList.remove('is-loading-3d'); svgWrap.hidden = false;
     return;
   }
 
