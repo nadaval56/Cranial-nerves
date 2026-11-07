@@ -101,3 +101,10 @@
 - הסיבה לא ידועה, חשד להרפס: [סקירה ב-PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC3275144/), [patient.info](https://patient.info/health/bells-palsy).
 - סטרואידים בתוך 72 שעות מקטינים החלמה חלקית: [NIHR](https://evidence.nihr.ac.uk/alert/corticosteroids-improve-recovery-rates-after-bells-palsy).
 - רוב המטופלים מחלימים בתוך שבועות עד חודשים: patient.info; גם content/nerves.js (עצב הפנים).
+
+### סיפורים נוספים (נבדקו בנובמבר 2026)
+- מיכל אנסקי: [סרוגים 2019](https://www.srugim.co.il/329198-רפואה-שלמה-מיכל-אנסקי), [ice 2023](https://www.ice.co.il/tv/news/article/936448), [וואלה 2022](https://finance.walla.co.il/item/3541969), [ynet 2025](https://www.ynet.co.il/wellness/article/yokra14410195). סינקינזיס: [Wikipedia](https://en.wikipedia.org/wiki/Synkinesis).
+- מיכל מרקס ו-BlinkER: [ynet לאשה](https://www.ynet.co.il/laisha/article/rj5kinqsze) (בעמוד אין תאריך; ינואר 2026 לפי נתיב התמונות), [NCT06069128](https://clinicaltrials.gov/study/NCT06069128). VII ו-VIII בתעלת השמע הפנימית: [Wikipedia](https://en.wikipedia.org/wiki/Internal_auditory_meatus).
+- טיפול גנטי CLIC5: [אוניברסיטת תל אביב](https://english.tau.ac.il/research/gene-therapy-preserves-hearing), [Jerusalem Post](https://www.jpost.com/health-and-wellness/article-867493), המאמר [PMID 40859056](https://pubmed.ncbi.nlm.nih.gov/40859056/).
+- דמעות ותוקפנות: [ice](https://www.ice.co.il/research/news/article/1001174), המאמר [PMID 38127837](https://pubmed.ncbi.nlm.nih.gov/38127837/).
+- פגיעות שמיעה בלוחמים: [מעריב](https://www.maariv.co.il/news/military/Article-1064500).

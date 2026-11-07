@@ -105,7 +105,7 @@ export function nerveBody(n) {
   const report = `<p class="report-error muted">מצאתם טעות בעמוד? נשמח לשמוע: <a href="mailto:nadaval56@gmail.com?subject=${encodeURIComponent(`טעות בעמוד ${n.name}`)}">nadaval56@gmail.com</a></p>`;
 
   const press = PRESS.filter((x) => x.nerve === n.id);
-  const inNews = press.length ? `<aside class="in-news"><p class="in-news-kicker">בתקשורת</p>${press.map((x) => `<p><a href="${pressUrl(x.id)}">${esc(x.title)}</a> <span class="muted">· ${heDate(x.date)}</span></p>`).join('')}</aside>` : '';
+  const inNews = press.length ? `<aside class="in-news"><p class="in-news-kicker">בתקשורת</p>${press.map((x) => `<p><a href="${pressUrl(x.id)}">${esc(x.title)}</a> <span class="muted">· ${pressDate(x)}</span></p>`).join('')}</aside>` : '';
 
   const related = `<section class="related" aria-labelledby="related-h"><h2 id="related-h">עצבים קשורים</h2><div class="grid grid-3">${n.related.map((id) => nerveCard(byId[id])).join('')}</div></section>`;
 
@@ -189,12 +189,13 @@ export function examList(nerves) {
 
 // "בתקשורת": רשימת הסיפורים (press.html) ועמוד לכל סיפור (press-<id>.html)
 export const pressUrl = (id) => `./press-${id}.html`;
+const pressDate = (x) => x.dateLabel ?? heDate(x.date);
 const pressNerve = (x) => `<a href="${nerveUrl(x.nerve)}">${esc(byId[x.nerve].name)} (${byId[x.nerve].roman})</a>`;
 const extLinks = (arr) => arr.map((l) => `<a href="${esc(l.url)}" rel="noopener" target="_blank">${esc(l.label)}</a>`).join(' · ');
 
 export function pressCards(items) {
-  return `<ol class="press-cards">${items.map((x) => `<li class="press-card t-${byId[x.nerve].type}">`
-    + `<p class="press-date">${heDate(x.date)} · <span class="press-nerve">${esc(byId[x.nerve].name)} (${byId[x.nerve].roman})</span></p>`
+  return `<ol class="press-cards">${[...items].sort((a, b) => b.date.localeCompare(a.date)).map((x) => `<li class="press-card t-${byId[x.nerve].type}">`
+    + `<p class="press-date">${pressDate(x)} · <span class="press-nerve">${esc(byId[x.nerve].name)} (${byId[x.nerve].roman})</span></p>`
     + `<h2><a class="card-link" href="${pressUrl(x.id)}">${esc(x.title)}</a></h2>`
     + `<p>${esc(x.teaser)}</p><p class="press-more" aria-hidden="true">לסיפור המלא ←</p></li>`).join('')}</ol>`;
 }
@@ -202,7 +203,7 @@ export function pressCards(items) {
 export function pressStory(x) {
   return `<nav class="breadcrumb" aria-label="נתיב"><a href="./press.html">בתקשורת</a> / ${esc(x.title)}</nav>`
     + `<article class="press-item" aria-labelledby="story-h">`
-    + `<p class="press-date">${heDate(x.date)} · ${pressNerve(x)}</p>`
+    + `<p class="press-date">${pressDate(x)} · ${pressNerve(x)}</p>`
     + `<h1 id="story-h">${esc(x.title)}</h1>`
     + x.summary.map((t) => `<p>${esc(t)}</p>`).join('')
     + (x.quote ? `<blockquote class="press-quote"><p>"${esc(x.quote)}"</p></blockquote>` : '')
