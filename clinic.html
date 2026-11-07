@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <!-- @head -->
+    <title>קליניקה · {{SITE_NAME}}</title>
+    <meta name="description" content="מקרים קליניים קצרים: סיפור, ממצאים שנחשפים אחד אחרי השני, ושתי שאלות. איזה עצב נפגע, ואיפה הבעיה: בעצב, בגזע המוח, בפתח בגולגולת או במוח שמעל." />
+  </head>
+  <body>
+    <!-- @header -->
+    <main id="main">
+      <div class="container">
+        <header class="page-head" id="clinic-head">
+          <span class="eyebrow">קליניקה</span>
+          <h1>איפה הבעיה?</h1>
+          <p class="lead">מקרים קצרים, כמו בבדיקה אמיתית. קודם שומעים את הסיפור ורואים את הממצאים, אחד אחרי השני, ורק אז עונים: איזה עצב נפגע, ואיפה בדרך הבעיה נמצאת.</p>
+        </header>
+
+        <section class="clinic-how" aria-labelledby="how-h">
+          <h2 id="how-h" class="visually-hidden">איך זה עובד</h2>
+          <ol class="clinic-steps">
+            <li><strong>הסיפור.</strong> מי המטופל ומה קרה.</li>
+            <li><strong>הממצאים.</strong> לוחצים "בדיקה הבאה" ומגלים עוד ממצא בכל פעם.</li>
+            <li><strong>שתי שאלות.</strong> אילו עצבים מעורבים, ואיפה הפגיעה.</li>
+            <li><strong>ההסבר.</strong> למה זו התשובה, ומה מבדיל אותה מהאפשרויות הקרובות.</li>
+          </ol>
+        </section>
+
+        <div id="clinic-root"><div id="case-list"></div></div>
+
+        <p class="muted clinic-note">המקרים בדויים ומפושטים, ונועדו ללימוד בלבד. האתר אינו כלי אבחון: מי שיש לו תסמינים כאלה צריך לפנות לרופא. שום תשובה לא נשמרת.</p>
+      </div>
+    </main>
+    <!-- @footer -->
+    <script type="module" src="./src/pages/clinic.js"></script>
+  </body>
+</html>

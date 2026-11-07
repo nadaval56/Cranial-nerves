@@ -112,3 +112,18 @@
 - חלי ממן: [mako](https://www.mako.co.il/health-news/Article-9f73ae640e02e91027.htm), [וואלה](https://www.walla.co.il/healthy/health-news/3837756) (13 במאי 2026).
 
 - משפט הזיכרון Standing Room Only לפתחי V1-V3: [Wikipedia: Trigeminal nerve](https://en.wikipedia.org/wiki/Trigeminal_nerve) (הפתחים); המשפט עצמו מקובל בהוראת אנטומיה.
+
+## קליניקה (content/cases.js)
+
+המקרים בדויים, ונבנו לפי התמונות הקליניות המקובלות. המקורות לכל מקרה (נבדק שהעמודים קיימים, נובמבר 2026):
+
+- שיתוק בל, וחיסכון במצח בפגיעה מוחית: [Wikipedia: Bell's palsy](https://en.wikipedia.org/wiki/Bell%27s_palsy), [Wikipedia: Facial nerve paralysis](https://en.wikipedia.org/wiki/Facial_nerve_paralysis), [Wikipedia: Stroke](https://en.wikipedia.org/wiki/Stroke). ראו גם "חיסכון במצח" למעלה.
+- עצב III: לחץ (מפרצת בעורק המקשר האחורי, אישון רחב) מול פגיעה באספקת הדם (סוכרת, אישון נשמר, "medical third" / "surgical third"): [Wikipedia: Oculomotor nerve palsy](https://en.wikipedia.org/wiki/Oculomotor_nerve_palsy), [Wikipedia: Posterior communicating artery](https://en.wikipedia.org/wiki/Posterior_communicating_artery).
+- עצב VI ולחץ תוך-גולגולתי (סימן ממקם כוזב, בצקת בדיסקה): [Wikipedia: Sixth nerve palsy](https://en.wikipedia.org/wiki/Sixth_nerve_palsy), [Wikipedia: Idiopathic intracranial hypertension](https://en.wikipedia.org/wiki/Idiopathic_intracranial_hypertension).
+- שוואנומה וסטיבולרית (ירידה בשמיעה באוזן אחת, טינטון; כשהגידול גדל, לחץ על העצב התלת-ראשי ועל עצב הפנים): [Wikipedia: Vestibular schwannoma](https://en.wikipedia.org/wiki/Vestibular_schwannoma).
+- המיאנופסיה ביטמפורלית ובלוטת יותרת המוח: [Wikipedia: Bitemporal hemianopsia](https://en.wikipedia.org/wiki/Bitemporal_hemianopsia), [Wikipedia: Pituitary adenoma](https://en.wikipedia.org/wiki/Pituitary_adenoma), [Wikipedia: Optic chiasm](https://en.wikipedia.org/wiki/Optic_chiasm).
+- הסינוס המערתי (III, IV, V1, V2, VI; V3 יוצא בחור הסגלגל): [Wikipedia: Cavernous sinus syndrome](https://en.wikipedia.org/wiki/Cavernous_sinus_syndrome), [Wikipedia: Cavernous sinus](https://en.wikipedia.org/wiki/Cavernous_sinus).
+- החור הצווארי (IX, X, XI; הענבל לצד הבריא): [Wikipedia: Vernet's syndrome](https://en.wikipedia.org/wiki/Vernet%27s_syndrome), [Wikipedia: Jugular foramen](https://en.wikipedia.org/wiki/Jugular_foramen).
+- עצב XII (הלשון לצד הפגוע, דילדול ורטטים בפגיעת נוירון תחתון): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve).
+- תסמונת ובר (III באותו צד, חולשה בגוף בצד הנגדי): [Wikipedia: Weber's syndrome](https://en.wikipedia.org/wiki/Weber%27s_syndrome).
+- תסמונת המוח המוארך הצדדית (וולנברג): [Wikipedia: Lateral medullary syndrome](https://en.wikipedia.org/wiki/Lateral_medullary_syndrome), [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).

@@ -4,6 +4,8 @@ import { NERVES, TYPES, BRAIN, COMPONENTS, byId } from '../content/nerves.js';
 import { FORAMINA } from '../content/foramina.js';
 import { EVENTS } from '../content/timeline.js';
 import { DIAGRAMS } from '../src/lib/diagrams.js';
+import { CASES, LEVELS } from '../content/cases.js';
+import { existsSync } from 'node:fs';
 
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -33,8 +35,35 @@ NERVES.forEach((n, i) => {
 FORAMINA.forEach((f) => f.nerves.forEach((id) => { if (!byId[id]) err(`פתח ${f.id}`, `עצב לא קיים: ${id}`); }));
 EVENTS.forEach((e) => { if (!e.source?.url || !e.title || !e.text) err(`ציר זמן ${e.id}`, 'חסר מקור, כותרת או טקסט'); });
 
+// מקרי הקליניקה
+const caseIds = new Set();
+const pageExists = (href) => {
+  const [file, hash] = href.split('#');
+  const m = file.match(/^nerve-([\w-]+)\.html$/);
+  const ok = m ? (m[1] === 'zero' || !!byId[m[1]]) : /^press-[\w-]+\.html$/.test(file) || existsSync(new URL(`../${file}`, import.meta.url));
+  if (ok && hash && file === 'lab-skull.html' && !foramina.has(hash)) return false;
+  return ok;
+};
+CASES.forEach((c, i) => {
+  const w = `מקרה ${c.id ?? i}`;
+  for (const k of ['id', 'title', 'teaser', 'story', 'findings', 'nerves', 'where', 'explain', 'links', 'sources']) {
+    if (c[k] == null || (Array.isArray(c[k]) && !c[k].length)) err(w, `חסר שדה ${k}`);
+  }
+  if (caseIds.has(c.id)) err(w, 'מזהה כפול'); caseIds.add(c.id);
+  if (!LEVELS[c.level]) err(w, `רמה לא מוכרת: ${c.level}`);
+  [...(c.nerves ?? []), ...(c.alsoOk ?? [])].forEach((id) => { if (!byId[id]) err(w, `עצב לא קיים: ${id}`); });
+  const opts = c.where?.options ?? [];
+  if (opts.length < 3 || opts.length > 4) err(w, 'צריכות להיות 3 או 4 אפשרויות מקום');
+  if (!opts.some((o) => o.id === c.where?.answer)) err(w, 'התשובה הנכונה לשאלת המקום לא נמצאת באפשרויות');
+  c.links?.forEach((l) => { if (!pageExists(l.href)) err(w, `קישור שבור: ${l.href}`); });
+  c.sources?.forEach((s) => { if (!/^https:\/\//.test(s.url ?? '') || !s.label) err(w, 'מקור לא תקין'); });
+  const txt = JSON.stringify(c);
+  if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
+  if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');
+});
+
 if (errors.length) {
   console.error(`✗ ${errors.length} שגיאות:\n  ${errors.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים — הכול תקין`);
+console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים, ${CASES.length} מקרים: הכול תקין`);

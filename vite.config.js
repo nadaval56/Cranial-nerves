@@ -6,9 +6,11 @@ import { EVENTS } from './content/timeline.js';
 import { nerveBody, nervesList, timeline, examList, pressCards, pressStory, figure, creditsList } from './src/lib/render.js';
 import { IMAGES, CREDITS } from './content/images.js';
 import { PRESS } from './content/press.js';
+import { CASES } from './content/cases.js';
+import { caseCards } from './src/lib/clinic.js';
 
 const PAGES = [
-  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'history', 'press', 'press-story', 'about',
+  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'clinic', 'history', 'press', 'press-story', 'about',
   'lab', ...LAB.map((t) => t.page), 'privacy', 'accessibility', '404',
 ];
 
@@ -26,7 +28,7 @@ const pageUrl = (page) => `${SITE.url}${page === 'index' ? '' : `${page}.html`}`
 // ולעמודי העצבים תמונה משלהם (public/og/nerve-<id>.png, נוצרת ב-scripts/make-images.cjs).
 const CRUMB = {
   nerves: ['העצבים'], 'nerve-zero': ['העצבים', 'עצב 0'], basics: ['היסודות'], exam: ['הבדיקה'],
-  history: ['היסטוריה'], press: ['בתקשורת'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
+  history: ['היסטוריה'], clinic: ['קליניקה'], press: ['בתקשורת'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
   ...Object.fromEntries(PRESS.map((x) => [`press-${x.id}`, ['בתקשורת', x.title]])),
@@ -54,12 +56,12 @@ function jsonLd({ page, title, description, nerve }) {
       ? { '@type': 'AnatomicalStructure', name: nerve.en, alternateName: [nerve.latin, nerve.name] }
       : page === 'nerve-zero' ? { '@type': 'AnatomicalStructure', name: 'Terminal nerve', alternateName: ['Nervus terminalis', 'Cranial nerve zero', 'העצב הטרמינלי'] }
       : null;
-    const isLesson = !!about || page === 'basics' || page === 'exam' || page === 'history' || LAB.some((t) => t.page === page);
+    const isLesson = !!about || page === 'basics' || page === 'exam' || page === 'history' || page === 'clinic' || LAB.some((t) => t.page === page);
     graph.push({
       '@type': isLesson ? ['WebPage', 'LearningResource'] : 'WebPage',
       '@id': url, url, name, description, inLanguage: 'he',
       isPartOf: { '@id': WEBSITE['@id'] }, breadcrumb: { '@id': `${url}#breadcrumb` },
-      ...(isLesson ? { learningResourceType: LAB.some((t) => t.page === page) ? 'simulation' : 'lesson', educationalLevel: EDU_LEVEL, isAccessibleForFree: true } : {}),
+      ...(isLesson ? { learningResourceType: LAB.some((t) => t.page === page) ? 'simulation' : page === 'clinic' ? 'case study' : 'lesson', educationalLevel: EDU_LEVEL, isAccessibleForFree: true } : {}),
       ...(about ? { about } : {}),
     });
     graph.push(WEBSITE);
@@ -178,6 +180,7 @@ function staticPages() {
     generateBundle(_, bundle) {
       const page = (name, fn) => { bundle[name].source = fn(String(bundle[name].source)); };
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
+      page('clinic.html', (html) => fill(html, '<div id="case-list">', caseCards(CASES)));
       page('press.html', (html) => fill(html, '<div id="press-root">', pressCards(PRESS)));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
