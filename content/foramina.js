@@ -22,7 +22,7 @@ export const FORAMINA = [
   {
     id: `rotundum`, name: `החור העגול`, en: `Foramen rotundum`, bone: `עצם הטריז (הכנף הגדולה)`, fossa: `middle`,
     nerves: [`trigeminal`], other: [],
-    text: `פתח עגול קטן שמוביל קדימה אל הגומה הכנפית-חכית (pterygopalatine fossa), מאחורי ומתחת לארובת העין.`,
+    text: `פתח עגול קטן שמוביל קדימה אל הגומה הכנפית-חכית (pterygopalatine fossa), מאחורי ארובת העין ומתחתיה.`,
     note: `עובר כאן הענף של הלסת העליונה (V2).`,
   },
   {

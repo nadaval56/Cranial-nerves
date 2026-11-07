@@ -1,4 +1,4 @@
-// פקדי "הנתונים שלך" בדף מדיניות הפרטיות: עיון, מחיקה וויתור על שמירה מקומית.
+// פקדי "הנתונים שלכם" בדף מדיניות הפרטיות: עיון, מחיקה וויתור על שמירה מקומית.
 // נשען על PRIVACY הגלובלי מ-public/a11y/privacy.js (נטען ב-head לפני הקובץ הזה).
 
 const P = window.PRIVACY;
@@ -15,7 +15,7 @@ function refresh() {
   status.textContent = (rows.length
     ? `שמורים במכשיר הזה ${rows.length === 1 ? 'מפתח אחד' : `${rows.length} מפתחות`} של האתר.`
     : 'לא שמור במכשיר הזה שום דבר של האתר.')
-    + (allowed ? '' : ' בחרת בלי שמירה מקומית, ולכן העדפות הנגישות לא יישמרו.');
+    + (allowed ? '' : ' בחרתם בלי שמירה מקומית, ולכן העדפות הנגישות לא יישמרו.');
   toggleBtn.textContent = allowed ? 'בלי שמירה מקומית' : 'לאפשר שמירה מקומית';
   toggleBtn.setAttribute('aria-pressed', String(!allowed));
   if (!dump.hidden) show();

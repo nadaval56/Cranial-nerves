@@ -28,7 +28,9 @@ const GEN = [
   },
   (n) => {
     const keys = Object.keys(BRAIN);
-    const wrong = shuffle(keys.filter((k) => k !== n.brain)).slice(0, 3);
+    // אזורים סמוכים לא מוצעים כמסיח, כי ספרים שונים מחלקים אותם אחרת (גשר / גבול הגשר, מוח מוארך / חוט השדרה העליון)
+    const NEAR = { pons: ['pmj'], pmj: ['pons', 'medulla'], medulla: ['pmj', 'cord'], cord: ['medulla'] };
+    const wrong = shuffle(keys.filter((k) => k !== n.brain && !(NEAR[n.brain] ?? []).includes(k))).slice(0, 3);
     const opts = shuffle([n.brain, ...wrong]);
     return { q: `היכן ${n.name} (${n.roman}) מתחבר למוח?`, options: opts.map((k) => BRAIN[k]), answer: opts.indexOf(n.brain), explain: `${n.attach}.`, nerve: n };
   },

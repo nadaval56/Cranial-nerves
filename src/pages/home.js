@@ -30,7 +30,7 @@ function render(id) {
     panel.innerHTML = `<article class="panel-card panel-zero"><div class="panel-head"><span class="roman roman-lg roman-zero" aria-hidden="true">0</span><div>`
       + `<p class="panel-kicker">לא נכלל ב-12 הזוגות · <span class="type-tag type-zero">תפקיד לא ידוע</span></p>`
       + `<h3>העצב הטרמינלי</h3><p class="nerve-latin" dir="ltr" lang="en">Terminal nerve · CN 0</p></div></div>`
-      + `<p>רשת דקיקה של סיבים מתחת לאונה המצחית, ליד עצב הריח. התגלה ב-1878, ועד היום לא ברור מה הוא עושה.</p>`
+      + `<p>רשת דקיקה של סיבים מתחת לאונה המצחית, ליד עצב הריח. היא התגלתה ב-1878, ועד היום לא ברור מה היא עושה.</p>`
       + `<a class="btn btn-primary" href="./nerve-zero.html">לעמוד של עצב 0</a></article>`;
     return;
   }
