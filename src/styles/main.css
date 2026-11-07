@@ -1710,3 +1710,30 @@ html.a11y-still .sister-clone { display: none; }
 .roman-eq { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
 .roman-eq span { padding: 0.15rem 0.6rem; border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-family: Georgia, serif; }
 .memo-card .memo-big { font-size: 1.6rem; color: var(--accent); font-family: Georgia, serif; font-weight: 700; }
+
+/* פס העצבים בראש עמוד עצב: בטלפון שתי שורות של 6, בלי גלילה */
+.nerve-strip { overflow: visible; }
+.nerve-strip ol { flex-wrap: wrap; }
+@media (max-width: 560px) {
+  .nerve-strip ol { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .nerve-strip a { min-width: 0; }
+}
+
+/* טבלת העצבים: בטלפון כל שורה הופכת לכרטיס, בלי גלילה הצידה */
+@media (max-width: 720px) {
+  .nerve-table thead { display: none; }
+  .nerve-table, .nerve-table tbody, .nerve-table tr, .nerve-table td, .nerve-table th { display: block; width: 100%; }
+  .nerve-table tr { display: grid; grid-template-columns: auto 1fr; column-gap: 0.75rem; padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
+  .nerve-table tr:last-child { border-bottom: 0; }
+  .nerve-table td, .nerve-table th { padding: 0.15rem 0; border: 0; }
+  .nerve-table td:first-child { grid-row: span 2; align-self: start; }
+  .nerve-table th[scope='row'] { background: none; }
+  .nerve-table td[data-label] { grid-column: 1 / -1; display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; font-size: 0.9rem; }
+  .nerve-table td[data-label]::before { content: attr(data-label) ":"; color: var(--text-muted); font-size: 0.8rem; flex: none; }
+  .nerve-table .table-wrap, .table-wrap:has(.nerve-table) { overflow: visible; }
+}
+.floor-group { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.5rem; margin: 0.4rem 0; }
+.floor-group .floors { margin: 0; }
+.floor-group-label { margin: 0; writing-mode: vertical-rl; text-align: center; align-self: stretch; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; border-radius: var(--radius-sm); }
+.floor-group-brain .floor-group-label { color: #b5a8dc; background: rgba(107, 95, 142, 0.22); }
+.floor-group-stem .floor-group-label { color: var(--accent); background: rgba(240, 196, 107, 0.1); }

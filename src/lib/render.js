@@ -131,8 +131,8 @@ export function nerveCard(n) {
 export function nervesList(nerves) {
   const rows = nerves.map((n) => `<tr data-type="${n.type}"><td>${romanBadge(n)}</td>`
     + `<th scope="row"><a href="${nerveUrl(n.id)}">${esc(n.name)}</a><span class="muted" lang="en" dir="ltr">${esc(n.en)}</span></th>`
-    + `<td>${typeTag(n.type)}</td><td>${esc(BRAIN[n.brain])}</td><td>${(n.foramina ?? [n.foramen]).map((id) => esc(foramenById[id].name)).join(', ')}</td>`
-    + `<td>${n.components.map((c) => `<span class="comp comp-${c.kind}" title="${esc(c.text)}">${COMPONENTS[c.kind]}</span>`).join(' ')}</td></tr>`).join('');
+    + `<td data-label="סוג">${typeTag(n.type)}</td><td data-label="מתחבר ל">${esc(BRAIN[n.brain])}</td><td data-label="פתח">${(n.foramina ?? [n.foramen]).map((id) => esc(foramenById[id].name)).join(', ')}</td>`
+    + `<td data-label="מרכיבים">${[...new Set(n.components.map((c) => c.kind))].map((k) => `<span class="comp comp-${k}">${COMPONENTS[k]}</span>`).join(' ')}</td></tr>`).join('');
   return `<p class="result-count" role="status">${nerves.length} עצבים</p>`
     + `<div class="grid grid-3 nerve-grid">${nerves.map(nerveCard).join('')}</div>`
     + `<h2 class="table-title">כל העצבים בטבלה אחת</h2>`
