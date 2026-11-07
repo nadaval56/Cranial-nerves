@@ -23,7 +23,7 @@ export const NAV = [
   { href: 'nerves.html', label: 'העצבים', pages: ['nerves', 'nerve', 'nerve-zero'], icon: ICONS.nerves },
   { href: 'basics.html', label: 'היסודות', pages: ['basics'], icon: ICONS.basics },
   { href: 'exam.html', label: 'הבדיקה', pages: ['exam'], icon: ICONS.exam },
-  { href: 'lab.html', label: 'המעבדה', pages: ['lab', 'lab-eyes', 'lab-pupils', 'lab-face', 'lab-visual', 'lab-skull', 'lab-quiz'], icon: ICONS.lab },
+  { href: 'lab.html', label: 'המעבדה', pages: ['lab', 'lab-eyes', 'lab-pupils', 'lab-face', 'lab-visual', 'lab-skull', 'lab-mouth', 'lab-reflex', 'lab-quiz'], icon: ICONS.lab },
   { href: 'clinic.html', label: 'קליניקה', pages: ['clinic'], icon: ICONS.clinic },
   { href: 'history.html', label: 'היסטוריה', pages: ['history'], icon: ICONS.history },
   { href: 'press.html', label: 'בתקשורת', pages: ['press', 'press-story'], icon: ICONS.press },
@@ -37,6 +37,8 @@ export const LAB = [
   { page: 'lab-visual', label: 'מסלול הראייה', nerves: 'II', text: 'בוחרים נקודה במסלול מהעין למוח, ורואים איזה חלק של העולם נעלם.' },
   { page: 'lab-face', label: 'עצב הפנים', nerves: 'VII', text: 'פנים שמבצעות הבעות. בעיה בעצב עצמו או בעיה במוח? התשובה כתובה על המצח.' },
   { page: 'lab-skull', label: 'בסיס הגולגולת', nerves: 'I–XII', text: 'מפה של רצפת הגולגולת: איזה עצב יוצא מאיזה פתח, ומה עוד עובר שם.' },
+  { page: 'lab-mouth', label: 'הפה והצוואר', nerves: 'IX · X · XI · XII', text: 'אומרים "אההה", מוציאים לשון, מרימים כתפיים ומסובבים ראש. "פוגעים" בעצב אחד ורואים לאן נמשך הענבל, לאן סוטה הלשון ואיזה צד נחלש.' },
+  { page: 'lab-reflex', label: 'מעגלי רפלקס', nerves: 'V · VII · VIII · IX · X', text: 'מגרים צד אחד ואז את השני: הקרנית, הלוע, האוזן והסנטר. פוגעים בעצב הקולט או בעצב המבצע, ומגלים איפה הבעיה לפי מי שלא מגיב.' },
   { page: 'lab-quiz', label: 'מבחן עצמי', nerves: 'I–XII', text: 'שאלות מתחלפות על כל 12 העצבים: מספרים, פתחים, תפקידים ובדיקות.' },
 ];
 

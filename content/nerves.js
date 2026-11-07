@@ -303,6 +303,7 @@ export const NERVES = [
 
   {
     id: `trigeminal`,
+    lab: { href: `lab-reflex.html`, label: `רפלקס הקרנית והלסת במעבדה` },
     diagrams: [{ id: `face-zones` }],
     num: 5,
     roman: `V`,
@@ -512,6 +513,7 @@ export const NERVES = [
 
   {
     id: `vestibulocochlear`,
+    lab: { href: `lab-reflex.html`, label: `רפלקס שריר הארכובה במעבדה` },
     num: 8,
     roman: `VIII`,
     name: `עצב השמיעה ושיווי המשקל`,
@@ -578,6 +580,7 @@ export const NERVES = [
 
   {
     id: `glossopharyngeal`,
+    lab: { href: `lab-mouth.html`, label: `רפלקס ההקאה במעבדה` },
     diagrams: [{ id: `tongue`, mode: `taste` }],
     num: 9,
     roman: `IX`,
@@ -646,6 +649,7 @@ export const NERVES = [
 
   {
     id: `vagus`,
+    lab: { href: `lab-mouth.html`, label: `הענבל והחך במעבדה` },
     num: 10,
     roman: `X`,
     name: `העצב התועה`,
@@ -716,6 +720,7 @@ export const NERVES = [
 
   {
     id: `accessory`,
+    lab: { href: `lab-mouth.html`, label: `כתפיים וסיבוב ראש במעבדה` },
     num: 11,
     roman: `XI`,
     name: `העצב הנלווה`,
@@ -780,6 +785,7 @@ export const NERVES = [
 
   {
     id: `hypoglossal`,
+    lab: { href: `lab-mouth.html`, label: `הלשון במעבדה` },
     diagrams: [{ id: `tongue`, mode: `move` }],
     num: 12,
     roman: `XII`,

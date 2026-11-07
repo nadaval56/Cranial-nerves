@@ -152,3 +152,10 @@
 - רפלקס שריר הארכובה (acoustic reflex): VIII קולט, VII מבצע, התכווצות בשתי האוזניים גם כשהצליל באוזן אחת; בפגיעה ב-VII רגישות לרעשים חזקים: [Wikipedia: Acoustic reflex](https://en.wikipedia.org/wiki/Acoustic_reflex).
 - רפלקס הלסת: V3 קולט ומבצע; אצל בריאים לרוב חלש או לא נראה; רפלקס ער מרמז על פגיעה בנוירון המוטורי העליון בשני הצדדים, מעל הגשר: [Wikipedia: Jaw jerk reflex](https://en.wikipedia.org/wiki/Jaw_jerk_reflex).
 - המודל בסימולטור מפושט: הוא מציג קולט, מרכז בגזע המוח ומבצע לשני הצדדים, בלי הגרעינים הספציפיים.
+
+## מעבדת הפה והצוואר (lab-mouth.html)
+
+- פגיעה בעצב התועה (X) בצד אחד: החך הרך לא עולה בצד הפגוע, והענבל נמשך לצד הבריא: [Wikipedia: Vagus nerve, Clinical significance](https://en.wikipedia.org/wiki/Vagus_nerve#Clinical_significance), [Wikipedia: Palatine uvula](https://en.wikipedia.org/wiki/Palatine_uvula). ראו גם content/nerves.js (העצב התועה).
+- פגיעה בעצב התת-לשוני (XII): הלשון סוטה לצד הפגוע בהוצאה, ועם הזמן מופיעות התנוונות ופסיקולציות באותו צד: [Wikipedia: Hypoglossal nerve, Clinical significance](https://en.wikipedia.org/wiki/Hypoglossal_nerve#Clinical_significance).
+- העצב הנלווה (XI): השריר הטרפזי מרים את הכתף באותו צד; שריר ה-SCM מסובב את הסנטר לצד הנגדי, ולכן פגיעה בצד אחד מחלישה את הסיבוב לצד השני; בפגיעה הכתף שמוטה: [Wikipedia: Accessory nerve](https://en.wikipedia.org/wiki/Accessory_nerve), [Wikipedia: Sternocleidomastoid muscle](https://en.wikipedia.org/wiki/Sternocleidomastoid_muscle).
+- רפלקס ההקאה: הצד הקולט הוא העצב הלשוני-לועי (IX), הצד המבצע הוא העצב התועה (X): [Wikipedia: Pharyngeal reflex](https://en.wikipedia.org/wiki/Pharyngeal_reflex).

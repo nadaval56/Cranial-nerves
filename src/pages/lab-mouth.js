@@ -53,11 +53,11 @@ function target() {
   if (xii) t[xii === 'R' ? 'atrR' : 'atrL'] = 1;
   if (xi) t[xi === 'R' ? 'droopR' : 'droopL'] = 1;
   // במנוחה החך בצד של עצב X פגוע מעט נמוך יותר
-  if (x) t[x === 'R' ? 'palR' : 'palL'] = -0.25;
+  if (x) t[x === 'R' ? 'palR' : 'palL'] = -0.35;
 
   const lift = () => {
     t.palR = palStrength('R'); t.palL = palStrength('L');
-    if (x) t[x === 'R' ? 'palR' : 'palL'] = -0.25;
+    if (x) t[x === 'R' ? 'palR' : 'palL'] = -0.35;
     t.uv = palStrength('L') - palStrength('R');
   };
   if (action.id === 'aah') lift();
@@ -72,8 +72,8 @@ function target() {
     if (ix !== touched) lift();
   }
   if (action.id === 'shrug') {
-    t.shR = xi === 'R' ? 0.25 : 1;
-    t.shL = xi === 'L' ? 0.25 : 1;
+    t.shR = xi === 'R' ? 0.15 : 1;
+    t.shL = xi === 'L' ? 0.15 : 1;
   }
   if (action.id.startsWith('turn-')) {
     const dir = action.id.slice(5);
@@ -91,7 +91,7 @@ function target() {
 const STYLE = (p) => `
 .mouth-svg { width: 100%; height: auto; display: block; }
 .mouth-svg .mx-label { font: 600 13px Heebo, system-ui, sans-serif; fill: #f3eee8; paint-order: stroke; stroke: #1a1013; stroke-width: 3.5px; stroke-linejoin: round; }
-.mouth-svg .mx-side { font: 500 12px Heebo, system-ui, sans-serif; fill: #8a95a3; }
+.mouth-svg .mx-side { font: 500 12px Heebo, system-ui, sans-serif; fill: #e8ecf1; paint-order: stroke; stroke: #11151c; stroke-width: 3px; stroke-linejoin: round; }
 .${p}svg .mx-skin { fill: url(#${p}skin); }
 .${p}svg .mx-shade { fill: url(#${p}shade); }
 .${p}svg .mx-lip { fill: url(#${p}lip); stroke: #7e3c38; stroke-width: 1.2; }
@@ -147,6 +147,7 @@ mouthSvg.append(defs('mxm-'));
 mouthSvg.querySelector('defs').append(
   s('clipPath', { id: 'mxm-cav' }, s('ellipse', { cx: OX, cy: OY, rx: ORX, ry: ORY })),
   s('clipPath', { id: 'mxm-out' }, s('rect', { x: 0, y: OY + 40, width: 400, height: 200 })),
+  s('clipPath', { id: 'mxm-tg' }, s('path', { id: 'mxm-tg-path' })),
 );
 mouthSvg.append(s('rect', { x: 0, y: 0, width: 400, height: 380, rx: 18, fill: '#11151c' }));
 mouthSvg.append(s('rect', { class: 'mx-skin', x: 0, y: 0, width: 400, height: 380, rx: 18 }));
@@ -166,7 +167,7 @@ const uvula = s('path', { class: 'mx-uvula' });
 const lowTeeth = s('g', {});
 const tongueIn = s('path', { class: 'mx-tongue' });
 const grooveIn = s('path', { class: 'mx-groove' });
-const atrophyIn = s('g', {});
+const atrophyIn = s('g', { 'clip-path': 'url(#mxm-tg)' });
 const upTeeth = s('g', {});
 for (let i = 0; i < 10; i++) {
   const a = Math.PI * (0.16 + 0.68 * (i / 9));
@@ -186,7 +187,7 @@ mouthSvg.append(
 );
 const tongueOut = s('path', { class: 'mx-tongue', 'clip-path': 'url(#mxm-out)' });
 const grooveOut = s('path', { class: 'mx-groove', 'clip-path': 'url(#mxm-out)' });
-const atrophyOut = s('g', { 'clip-path': 'url(#mxm-out)' });
+const atrophyOut = s('g', { 'clip-path': 'url(#mxm-tg)' });
 const swab = s('g', {}, s('line', { class: 'mx-swab' }), s('ellipse', { class: 'mx-swab-tip', rx: 7, ry: 5 }));
 const uvLabel = txt({ class: 'mx-label', 'text-anchor': 'start' }, 'ענבל');
 const palLabel = txt({ class: 'mx-label', 'text-anchor': 'middle' }, 'החך הרך');
@@ -236,7 +237,7 @@ function draw(st) {
   const tipX = apexX + st.uv * 14, tipY = apexY + 42;
   uvula.setAttribute('d', `M${f(apexX - 8)} ${f(apexY - 2)} C${f(apexX - 9)} ${f(apexY + 20)} ${f(tipX - 10)} ${f(tipY - 7)} ${f(tipX)} ${f(tipY)} C${f(tipX + 10)} ${f(tipY - 7)} ${f(apexX + 9)} ${f(apexY + 20)} ${f(apexX + 8)} ${f(apexY - 2)} Z`);
   uvLabel.setAttribute('x', f(tipX + 14)); uvLabel.setAttribute('y', f(tipY - 2));
-  palLabel.setAttribute('x', OX); palLabel.setAttribute('y', f(Math.min(lA[1], rA[1]) - 52));
+  palLabel.setAttribute('x', OX - 52); palLabel.setAttribute('y', f(Math.min(lA[1], rA[1]) - 44));
 
   // הלשון: בפנים, ובהוצאה ממשיכה החוצה מעל השפה התחתונה. חצי מתנוון צר מעט וחיוור יותר
   const wR = 84 * (1 - 0.2 * st.atrR), wL = 84 * (1 - 0.2 * st.atrL);
@@ -247,6 +248,7 @@ function draw(st) {
     + `C${f(OX + wL * 0.8)} ${f(tipTY - 12)} ${f(tipTX + 38)} ${f(tipTY + 6)} ${f(tipTX)} ${f(tipTY + 6)} `
     + `C${f(tipTX - 38)} ${f(tipTY + 6)} ${f(OX - wR * 0.8)} ${f(tipTY - 12)} ${f(OX - wR)} 300 Z`;
   tongueIn.setAttribute('d', d);
+  mouthSvg.querySelector('#mxm-tg-path').setAttribute('d', d);
   const show = out > 0.02;
   tongueOut.setAttribute('d', show ? d : 'M0 0');
   const groove = `M${OX} ${f(top + 16)} Q${f(OX + tx * 0.4)} ${f((top + tipTY) / 2)} ${f(tipTX)} ${f(tipTY - 8)}`;

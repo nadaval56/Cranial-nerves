@@ -32,7 +32,7 @@
 | `public/models/brain-cn.glb` | מודל המוח (גזע, מוחון, אונות). נגזר מ-Brain for Blender (CC BY-SA 3.0) דרך אתר המוח; נוצר ב-`scripts/make-model.py`. הקרדיט ב-`about.html#illustrations` |
 | `src/lib/diagrams.js` | מפות אינטראקטיביות בעמודי העצבים (אזורי הפנים, הלשון, ענפי עצב הפנים). עצב מקבל מפה דרך השדה `diagrams` ב-`content/nerves.js` |
 | `nerve-zero.html` | עצב 0 (העצב הטרמינלי) — עמוד נפרד, לא חלק מ-12 העצבים ב-`content/nerves.js`. במודל התלת-ממדי הוא מוצג באפשרות `extra` (בעמוד הבית ובעמוד שלו) |
-| `src/pages/lab-*.js` | ששת כלי המעבדה |
+| `src/pages/lab-*.js` | כלי המעבדה (עיניים, אישונים, פנים, מסלול הראייה, בסיס הגולגולת, הפה והצוואר, מעגלי רפלקס, מבחן) |
 | `vite.config.js` | partials, עמוד סטטי `nerve-<id>.html` לכל עצב, prerender, sitemap |
 | `scripts/validate.mjs` | בדיקת תוכן; רץ לפני כל build ונכשל על שדה חסר או קישור שבור |
 
