@@ -47,7 +47,7 @@ export const FORAMINA = [
     text: `פתח גדול ולא סדיר. שלושה עצבים עוברים בו יחד, ולכן בעיה במקום הזה פוגעת בדרך כלל בשלושתם.`,
   },
   {
-    id: `hypoglossal`, name: `תעלת העצב תת-הלשוני`, en: `Hypoglossal canal`, bone: `עצם העורף`, fossa: `posterior`,
+    id: `hypoglossal`, name: `תעלת העצב התת-לשוני`, en: `Hypoglossal canal`, bone: `עצם העורף`, fossa: `posterior`,
     nerves: [`hypoglossal`], other: [],
     text: `תעלה קצרה מעל הפרקים שבהם הגולגולת נשענת על החוליה הראשונה.`,
   },

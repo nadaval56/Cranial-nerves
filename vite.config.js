@@ -21,8 +21,53 @@ function fill(html, open, inner) {
 const attr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const pageUrl = (page) => `${SITE.url}${page === 'index' ? '' : `${page}.html`}`;
 
-// תגיות שיתוף ו-canonical לעמוד. תמונת השיתוף אחת לכל האתר (public/og.png).
-function metaTags({ page, title, description }) {
+// תגיות שיתוף, canonical ונתונים מובנים (JSON-LD) לעמוד. תמונת השיתוף: public/og.png,
+// ולעמודי העצבים תמונה משלהם (public/og/nerve-<id>.png, נוצרת ב-scripts/make-images.cjs).
+const CRUMB = {
+  nerves: ['העצבים'], 'nerve-zero': ['העצבים', 'עצב 0'], basics: ['היסודות'], exam: ['הבדיקה'],
+  history: ['היסטוריה'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
+  ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
+  ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
+};
+const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab' };
+const WEBSITE = { '@type': 'WebSite', '@id': `${SITE.url}#website`, name: SITE.name, url: SITE.url, inLanguage: 'he' };
+const EDU_LEVEL = 'תיכון, סטודנטים למקצועות הבריאות';
+
+function jsonLd({ page, title, description, nerve }) {
+  if (page === '404') return '';
+  const url = pageUrl(page);
+  const name = title.split(' · ').slice(0, -1).join(' · ') || title;
+  const graph = [];
+  if (page === 'index') {
+    graph.push({ ...WEBSITE, description });
+  } else {
+    const labels = CRUMB[page] ?? [name];
+    graph.push({
+      '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`,
+      itemListElement: [{ name: SITE.name, url: SITE.url }, ...labels.map((l, i) => ({
+        name: l, url: i === labels.length - 1 ? url : pageUrl(CRUMB_PAGE[l] ?? page),
+      }))].map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: it.url })),
+    });
+    const about = nerve
+      ? { '@type': 'AnatomicalStructure', name: nerve.en, alternateName: [nerve.latin, nerve.name] }
+      : page === 'nerve-zero' ? { '@type': 'AnatomicalStructure', name: 'Terminal nerve', alternateName: ['Nervus terminalis', 'Cranial nerve zero', 'העצב הטרמינלי'] }
+      : null;
+    const isLesson = !!about || page === 'basics' || page === 'exam' || page === 'history' || LAB.some((t) => t.page === page);
+    graph.push({
+      '@type': isLesson ? ['WebPage', 'LearningResource'] : 'WebPage',
+      '@id': url, url, name, description, inLanguage: 'he',
+      isPartOf: { '@id': WEBSITE['@id'] }, breadcrumb: { '@id': `${url}#breadcrumb` },
+      ...(isLesson ? { learningResourceType: LAB.some((t) => t.page === page) ? 'simulation' : 'lesson', educationalLevel: EDU_LEVEL, isAccessibleForFree: true } : {}),
+      ...(about ? { about } : {}),
+    });
+    graph.push(WEBSITE);
+  }
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">${json}</script>`;
+}
+
+function metaTags({ page, title, description, nerve }) {
+  const image = nerve ? `og/nerve-${nerve.id}.png` : page === 'nerve-zero' ? 'og/nerve-zero.png' : 'og.png';
   return [
     '<!--og-->',
     page === '404' ? '' : `<link rel="canonical" href="${pageUrl(page)}" />`,
@@ -32,10 +77,11 @@ function metaTags({ page, title, description }) {
     `<meta property="og:title" content="${attr(title)}" />`,
     `<meta property="og:description" content="${attr(description)}" />`,
     `<meta property="og:url" content="${pageUrl(page)}" />`,
-    `<meta property="og:image" content="${SITE.url}og.png" />`,
+    `<meta property="og:image" content="${SITE.url}${image}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
+    jsonLd({ page, title, description, nerve }),
     '<!--/og-->',
   ].filter(Boolean).join('\n    ');
 }
@@ -131,6 +177,9 @@ function staticPages() {
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
       page('about.html', (html) => fill(html, '<div id="credits-root">', creditsList(CREDITS)));
+      page('lab.html', (html) => fill(html, '<div class="grid grid-3 lab-grid" id="lab-grid">', LAB.map((t) => `<article class="card lab-card"><div class="card-body">`
+        + `<p class="lab-card-nerves" dir="ltr">${t.nerves}</p>`
+        + `<h2><a class="card-link" href="./${t.page}.html">${t.label}</a></h2><p>${t.text}</p></div></article>`).join('')));
       page('exam.html', (html) => fill(html, '<div id="exam-root" class="exam-list">', examList(NERVES)));
 
       // עמוד סטטי לכל עצב: עותק של nerve.html עם כותרת, תיאור ותוכן משלו
@@ -138,7 +187,7 @@ function staticPages() {
       for (const n of NERVES) {
         const title = `${n.name} (${n.roman}) · ${SITE.name}`;
         const description = `העצב הקרניאלי ה-${n.num}: ${n.tagline} ${n.intro[0]}`.slice(0, 158);
-        const og = metaTags({ page: `nerve-${n.id}`, title, description });
+        const og = metaTags({ page: `nerve-${n.id}`, title, description, nerve: n });
         let html = base
           .replace('<html lang="he" dir="rtl">', `<html lang="he" dir="rtl" data-nerve-id="${attr(n.id)}">`)
           .replace(/<title>.*?<\/title>/, `<title>${attr(title)}</title>`)

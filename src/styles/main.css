@@ -1646,3 +1646,5 @@ html.a11y-still .sister-clone { display: none; }
 .paper-kind { display: inline-block; padding: 0.05rem 0.5rem; margin-inline-end: 0.35rem; border-radius: 999px; background: rgba(240, 196, 107, 0.12); color: var(--accent); font-size: 0.75rem; }
 .paper-note { margin-top: 0.75rem; font-size: 0.8rem; }
 .report-error { margin: 1.5rem 0 0; font-size: 0.875rem; text-align: center; }
+.quiz-nerve-list { columns: 2; }
+@media (max-width: 560px) { .quiz-nerve-list { columns: 1; } }

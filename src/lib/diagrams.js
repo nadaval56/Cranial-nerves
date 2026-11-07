@@ -101,7 +101,7 @@ const TONGUE_NERVES = {
   VII: { roman: 'VII', name: 'עצב הפנים (דרך עצב מיתר התוף)', c: '#c3a6f0' },
   IX: { roman: 'IX', name: 'העצב הלשוני-לועי', c: '#7fcf9b' },
   X: { roman: 'X', name: 'העצב התועה', c: '#ef9a8f' },
-  XII: { roman: 'XII', name: 'העצב תת-הלשוני', c: '#f0c46b' },
+  XII: { roman: 'XII', name: 'העצב התת-לשוני', c: '#f0c46b' },
 };
 // מי אחראי על כל אזור בכל מצב: front — שני השלישים הקדמיים, back — השליש האחורי, root — בסיס הלשון והמכסה של הגרון
 const TONGUE_MODES = {
