@@ -127,3 +127,9 @@
 - עצב XII (הלשון לצד הפגוע, דילדול ורטטים בפגיעת נוירון תחתון): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve).
 - תסמונת ובר (III באותו צד, חולשה בגוף בצד הנגדי): [Wikipedia: Weber's syndrome](https://en.wikipedia.org/wiki/Weber%27s_syndrome).
 - תסמונת המוח המוארך הצדדית (וולנברג): [Wikipedia: Lateral medullary syndrome](https://en.wikipedia.org/wiki/Lateral_medullary_syndrome), [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).
+
+## נושאים קליניים שנוספו (בצקת דיסקה, הורנר, מיאסתניה, INO)
+- בצקת דיסקה (papilledema): [Wikipedia: Papilledema](https://en.wikipedia.org/wiki/Papilledema).
+- תסמונת הורנר: עפעף צונח מעט ואישון קטן: [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).
+- מיאסתניה גרביס: חולשה שמחמירה במאמץ, אישונים תקינים: [Wikipedia: Myasthenia gravis](https://en.wikipedia.org/wiki/Myasthenia_gravis).
+- INO: [Wikipedia: Internuclear ophthalmoplegia](https://en.wikipedia.org/wiki/Internuclear_ophthalmoplegia).
