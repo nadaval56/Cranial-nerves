@@ -14,7 +14,9 @@ fig.innerHTML = brainstemSvg({ interactive: true });
 const svg = fig.querySelector('svg');
 
 picker.innerHTML = NERVES.map((n) => `<button type="button" class="pick t-${n.type}" data-id="${n.id}" aria-pressed="false">`
-  + `<span class="pick-roman">${n.roman}</span><span class="pick-name">${esc(n.name)}</span></button>`).join('');
+  + `<span class="pick-roman">${n.roman}</span><span class="pick-name">${esc(n.name)}</span></button>`).join('')
+  // עצב 0 — לא חלק מ-12 הזוגות, אבל מקבל כפתור משלו בסוף
+  + `<button type="button" class="pick pick-zero" data-id="terminal" aria-pressed="false"><span class="pick-roman">0</span><span class="pick-name">העצב הטרמינלי</span></button>`;
 
 const intro = `<div class="panel-intro"><p class="panel-kicker">בחרו עצב</p>`
   + `<p>לחצו על עצב במפה או על אחד הכפתורים. הצבעים: <span class="type-tag type-sensory">תחושתי</span> <span class="type-tag type-motor">תנועתי</span> <span class="type-tag type-mixed">מעורב</span></p>`
@@ -24,6 +26,14 @@ let selected = null;
 
 function render(id) {
   if (!id) { panel.innerHTML = intro; return; }
+  if (id === 'terminal') {
+    panel.innerHTML = `<article class="panel-card panel-zero"><div class="panel-head"><span class="roman roman-lg roman-zero" aria-hidden="true">0</span><div>`
+      + `<p class="panel-kicker">לא נכלל ב-12 הזוגות · <span class="type-tag type-zero">תפקיד לא ידוע</span></p>`
+      + `<h3>העצב הטרמינלי</h3><p class="nerve-latin" dir="ltr" lang="en">Terminal nerve · CN 0</p></div></div>`
+      + `<p>רשת דקיקה של סיבים מתחת לאונה המצחית, ליד עצב הריח. התגלה ב-1878, ועד היום לא ברור מה הוא עושה.</p>`
+      + `<a class="btn btn-primary" href="./nerve-zero.html">לעמוד של עצב 0</a></article>`;
+    return;
+  }
   const n = byId[id];
   panel.innerHTML = `<article class="panel-card t-${n.type}">`
     + `<div class="panel-head">${romanBadge(n, 'roman-lg')}<div><p class="panel-kicker">עצב ${n.num} · ${typeTag(n.type)}</p>`
@@ -123,6 +133,7 @@ async function start3d() {
     view3d = await createBrain3D(stage, {
       glbUrl: `${import.meta.env.BASE_URL}models/brain-cn.glb`,
       reducedMotion,
+      extra: true,
       onSelect: (id) => { if (id) { if (id !== selected) select(id); } else if (selected) select(selected); },
     });
     status.remove();

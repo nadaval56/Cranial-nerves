@@ -1634,3 +1634,5 @@ html.a11y-still .sister-clone { display: none; }
 .zero-sources { margin-top: 1.5rem; font-size: 0.82rem; }
 #zero-root .lessons { display: grid; gap: 1.25rem; }
 .credits p.muted a, .pic-credit a { white-space: nowrap; }
+.pick-zero { --rc: #9aa4b2; grid-column: 1 / -1; border-style: dashed; }
+.panel-zero { --rc: #9aa4b2; }
