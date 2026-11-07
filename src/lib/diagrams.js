@@ -50,6 +50,47 @@ function wire(el, intro, render) {
   return api;
 }
 
+// ---------- כלי ציור משותפים (סגנון מעבדת הפנים) ----------
+// מזהים ייחודיים לכל איור, כי בעמוד אחד יכולות להיות שתי מפות (למשל עצב הפנים: ענפים + לשון)
+let uidN = 0;
+const uid = (p) => `${p}${++uidN}`;
+const grad = (id, kind, attrs, stops) => `<${kind} id="${id}"${Object.entries(attrs).map(([k, v]) => ` ${k}="${v}"`).join('')}>`
+  + stops.map(([o, c, op = 1]) => `<stop offset="${o}" stop-color="${c}" stop-opacity="${op}"/>`).join('') + `</${kind}>`;
+const SKIN = [['0', '#e2b597'], ['0.55', '#cf9c7e'], ['1', '#a8705a']];
+const IRIS = [['0', '#2f5865'], ['0.55', '#4f8696'], ['1', '#2e5562']];
+const SCLERA = [['0', '#fbf8f4'], ['1', '#d9cfc6']];
+const LIPS = [['0', '#b8615a'], ['0.5', '#a4524b'], ['1', '#c4736a']];
+const HAIR = [['0', '#3e2a1f'], ['0.6', '#2a1c14'], ['1', '#20150f']];
+// עין מלפנים: לובן, קשתית, אישון, ברק, קו עפעף, ריסים וקמט מעל
+function frontEye(u, n, cx, cy, w, mirror) {
+  const x0 = cx - w / 2, x1 = cx + w / 2, h = w * 0.24;
+  const almond = `M${x0} ${cy} C${x0 + w * 0.28} ${cy - h * 1.35} ${x1 - w * 0.28} ${cy - h * 1.35} ${x1} ${cy} C${x1 - w * 0.28} ${cy + h * 1.05} ${x0 + w * 0.28} ${cy + h * 1.05} ${x0} ${cy} Z`;
+  const lid = `M${x0} ${cy} C${x0 + w * 0.28} ${cy - h * 1.35} ${x1 - w * 0.28} ${cy - h * 1.35} ${x1} ${cy}`;
+  const lashes = [0.2, 0.35, 0.5, 0.65, 0.8].map((t) => {
+    const x = x0 + w * t, y = cy - h * 1.35 * (1 - (2 * t - 1) ** 2) * 0.75 - 0.3;
+    const dx = (t - 0.5) * 3 * (mirror ? -1 : 1) + (mirror ? -0.8 : 0.8);
+    return `M${x.toFixed(1)} ${y.toFixed(1)} l${dx.toFixed(1)} -2.6`;
+  }).join(' ');
+  return `<clipPath id="${u}-eye${n}"><path d="${almond}"/></clipPath>`
+    + `<path d="${almond}" fill="url(#${u}-sclera)" stroke="#a87a64" stroke-width="0.6"/>`
+    + `<g clip-path="url(#${u}-eye${n})"><circle cx="${cx}" cy="${cy}" r="${w * 0.19}" fill="url(#${u}-iris)" stroke="#2c4a55" stroke-width="0.9"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="${w * 0.085}" fill="#0b0d10"/><circle cx="${cx + w * 0.06}" cy="${cy - w * 0.06}" r="${w * 0.035}" fill="#fff" opacity="0.85"/>`
+    + `<path d="${lid}" fill="none" stroke="#7a4a38" stroke-width="2.4" opacity="0.35"/></g>`
+    + `<path d="${lid}" fill="none" stroke="#2a1a14" stroke-width="1.7" stroke-linecap="round"/>`
+    + `<path d="${lashes}" stroke="#2a1a14" stroke-width="0.9" stroke-linecap="round"/>`
+    + `<path d="M${x0 + 2} ${cy - h * 1.15} C${x0 + w * 0.3} ${cy - h * 2.3} ${x1 - w * 0.3} ${cy - h * 2.3} ${x1 - 2} ${cy - h * 1.15}" fill="none" stroke="#8a5843" stroke-width="1.1" stroke-linecap="round" opacity="0.7"/>`
+    + `<path d="M${x0 + 4} ${cy + h * 0.75} C${x0 + w * 0.35} ${cy + h * 1.25} ${x1 - w * 0.35} ${cy + h * 1.25} ${x1 - 4} ${cy + h * 0.75}" fill="none" stroke="#a06c56" stroke-width="0.9" opacity="0.6"/>`;
+}
+// סגנון לאזורים צבועים מעל איור "אמיתי": צבע שקוף-למחצה עם קו מתאר, כדי שהעור או הלשון ייראו מתחת
+const zoneStyle = (id, base, on) => `<style>
+.dgm[data-dgm="${id}"] .dgm-zone { fill: var(--dc); fill-opacity: ${base}; stroke: var(--dc); stroke-opacity: 0.9; stroke-width: 1.4; transition: fill-opacity 0.2s, opacity 0.2s; }
+.dgm[data-dgm="${id}"] .dgm-zone:hover, .dgm[data-dgm="${id}"] .dgm-zone.is-on { fill-opacity: ${on}; stroke-width: 2.2; }
+.dgm[data-dgm="${id}"] .dgm-zone.is-off { opacity: 0.25; }
+.dgm[data-dgm="${id}"] .dgm-tags text { fill: #24140e; paint-order: stroke; stroke: rgba(255, 244, 236, 0.85); stroke-width: 3.5px; stroke-linejoin: round; }
+@media (prefers-reduced-motion: reduce) { .dgm[data-dgm="${id}"] .dgm-zone { transition: none; } }
+html.a11y-still .dgm[data-dgm="${id}"] .dgm-zone { transition: none; }
+</style>`;
+
 // ---------- 1. אזורי העצב החמישי בפנים ----------
 
 const FACE_ZONES = {
@@ -68,25 +109,57 @@ const FACE_ZONES = {
 };
 
 function faceZonesSvg() {
+  const u = uid('fz');
   const face = 'M150 28 C214 28 252 74 254 140 C256 176 250 206 242 232 C232 268 214 306 186 328 C172 338 160 342 150 342 C140 342 128 338 114 328 C86 306 68 268 58 232 C50 206 44 176 46 140 C48 74 86 28 150 28 Z';
+  const brow = (m) => { const X = (x) => (m ? 300 - x : x); return `M${X(90)} 136 C${X(100)} 125 ${X(118)} 121 ${X(136)} 127 C${X(135)} 131 ${X(133)} 133 ${X(130)} 133 C${X(116)} 128 ${X(102)} 130 ${X(92)} 138 Z`; };
+  const ear = (m) => { const X = (x) => (m ? 300 - x : x); return `<path d="M${X(48)} 150 C${X(30)} 146 ${X(24)} 168 ${X(28)} 186 C${X(31)} 202 ${X(38)} 214 ${X(46)} 216 Z" fill="url(#${u}-ear)" stroke="#8e5d48" stroke-width="1.2"/>`
+    + `<path d="M${X(44)} 160 C${X(34)} 160 ${X(32)} 176 ${X(35)} 188 C${X(37)} 198 ${X(41)} 204 ${X(45)} 206" fill="none" stroke="#9a634d" stroke-width="1.4" stroke-linecap="round" opacity="0.8"/>`; };
   return `<svg class="dgm-svg" viewBox="0 0 300 370" role="img" aria-label="פנים מלפנים, מחולקות לשלושת אזורי התחושה של העצב החמישי" direction="ltr">
-  <defs><clipPath id="fz-clip"><path d="${face}"/></clipPath></defs>
-  <path d="M48 150 C30 150 26 196 44 214 Z M252 150 C270 150 274 196 256 214 Z" class="dgm-ear"/>
-  <g clip-path="url(#fz-clip)">
+  ${zoneStyle('face-zones', 0.32, 0.58)}
+  <defs>
+    ${grad(`${u}-skin`, 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, SKIN)}
+    ${grad(`${u}-ear`, 'radialGradient', { cx: '50%', cy: '45%', r: '60%' }, [['0', '#d29f81'], ['1', '#a06a53']])}
+    ${grad(`${u}-neck`, 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, [['0', '#8e5d48'], ['0.4', '#b8846a'], ['1', '#b8846a', 0]])}
+    ${grad(`${u}-hair`, 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, HAIR)}
+    ${grad(`${u}-shade`, 'radialGradient', { cx: '50%', cy: '40%', r: '55%' }, [['0.6', '#5a3426', 0], ['1', '#5a3426', 0.45]])}
+    ${grad(`${u}-blush`, 'radialGradient', {}, [['0', '#d77f6e', 0.32], ['1', '#d77f6e', 0]])}
+    ${grad(`${u}-sclera`, 'radialGradient', { cx: '50%', cy: '45%', r: '60%' }, SCLERA)}
+    ${grad(`${u}-iris`, 'radialGradient', {}, IRIS)}
+    ${grad(`${u}-lips`, 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, LIPS)}
+    <clipPath id="${u}-clip"><path d="${face}"/></clipPath>
+  </defs>
+  <g pointer-events="none">
+    <path d="M114 300 L186 300 L192 370 L108 370 Z" fill="url(#${u}-neck)"/>
+    ${ear(false)}${ear(true)}
+    <path d="${face}" fill="url(#${u}-skin)"/>
+    <g clip-path="url(#${u}-clip)">
+      <path d="M30 10 H270 V128 C262 104 244 86 216 80 C196 76 176 82 150 82 C124 82 104 76 84 80 C56 86 38 104 30 128 Z" fill="url(#${u}-hair)"/>
+      <path d="M84 80 C104 76 124 82 150 82 C176 82 196 76 216 80" fill="none" stroke="#1a110c" stroke-width="2" opacity="0.6"/>
+      <path d="M110 40 C130 52 140 64 146 80 M170 38 C178 52 182 66 184 80 M80 60 C96 64 108 72 118 82" fill="none" stroke="#5a3d2c" stroke-width="1.4" opacity="0.6"/>
+      <circle cx="96" cy="216" r="30" fill="url(#${u}-blush)"/><circle cx="204" cy="216" r="30" fill="url(#${u}-blush)"/>
+      <path d="${face}" fill="url(#${u}-shade)"/>
+    </g>
+  </g>
+  <g clip-path="url(#${u}-clip)">
     <path data-k="v1" class="dgm-zone" style="--dc:${FACE_ZONES.v1.c}" d="M0 0 H300 V146 L184 146 C176 158 172 176 170 196 L164 236 H136 L130 196 C128 176 124 158 116 146 L0 146 Z"/>
     <path data-k="v2" class="dgm-zone" style="--dc:${FACE_ZONES.v2.c}" d="M58 146 H116 C124 158 128 176 130 196 L136 236 H164 L170 196 C172 176 176 158 184 146 H242 C242 190 232 232 222 262 C198 272 174 274 150 274 C126 274 102 272 78 262 C68 232 58 190 58 146 Z"/>
     <path data-k="v3" class="dgm-zone" style="--dc:${FACE_ZONES.v3.c}" d="M0 120 H58 C58 190 68 232 78 262 C102 272 126 274 150 274 C174 274 198 272 222 262 C232 232 242 190 242 120 H300 V370 H0 Z"/>
     <path data-k="c2" class="dgm-zone" style="--dc:${FACE_ZONES.c2.c}" d="M0 232 L52 236 C60 270 74 302 96 334 L60 370 L0 370 Z M300 232 L248 236 C240 270 226 302 204 334 L240 370 L300 370 Z"/>
   </g>
-  <path d="${face}" class="dgm-outline"/>
-  <g class="dgm-features">
-    <path d="M92 132 C106 124 122 124 134 130 M166 130 C178 124 194 124 208 132"/>
-    <path d="M96 158 C106 150 124 150 132 158 C124 164 106 164 96 158 Z M168 158 C176 150 194 150 204 158 C194 164 176 164 168 158 Z"/>
-    <path d="M150 164 C148 196 140 216 134 230 C142 238 158 238 166 230 C160 216 152 196 150 164"/>
-    <path d="M118 270 C134 262 166 262 182 270 C166 282 134 282 118 270 Z"/>
+  <g pointer-events="none">
+    <path d="${face}" fill="none" stroke="#8e5d48" stroke-width="1.6"/>
+    <path d="${brow(false)}" fill="#4a3022" stroke="#3a251a" stroke-width="0.8"/><path d="${brow(true)}" fill="#4a3022" stroke="#3a251a" stroke-width="0.8"/>
+    ${frontEye(u, 1, 114, 158, 38, false)}${frontEye(u, 2, 186, 158, 38, true)}
+    <path d="M143 166 C141 194 137 212 133 226 M157 166 C159 194 163 212 167 226" fill="none" stroke="#9a634d" stroke-width="1.2" opacity="0.45"/>
+    <path d="M150 170 C151 196 152 212 151 222" fill="none" stroke="#f3d2bc" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+    <path d="M131 226 C128 234 136 240 143 236 C146 240 154 240 157 236 C164 240 172 234 169 226" fill="none" stroke="#8a5843" stroke-width="1.5" stroke-linecap="round"/>
+    <ellipse cx="141" cy="233" rx="3.6" ry="2" fill="#6e3f30" opacity="0.7"/><ellipse cx="159" cy="233" rx="3.6" ry="2" fill="#6e3f30" opacity="0.7"/>
+    <path d="M118 270 C128 265 140 262 146 265 C148 263 152 263 154 265 C160 262 172 265 182 270 C168 273 160 274 150 274 C140 274 132 273 118 270 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.9"/>
+    <path d="M120 271 C132 286 168 286 180 271 C166 275 134 275 120 271 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.9"/>
+    <path d="M119 270.5 C134 274 166 274 181 270.5" fill="none" stroke="#4a1f1b" stroke-width="1.4"/>
   </g>
   <g class="dgm-tags" text-anchor="middle">
-    <text x="150" y="92">V1</text><text x="100" y="214">V2</text><text x="200" y="214">V2</text><text x="150" y="316">V3</text>
+    <text x="150" y="104">V1</text><text x="96" y="214">V2</text><text x="204" y="214">V2</text><text x="150" y="316">V3</text>
   </g>
 </svg>`;
 }
@@ -116,16 +189,51 @@ const TONGUE_PART = { front: 'שני השלישים הקדמיים', back: 'הש
 
 function tongueSvg(mode) {
   const m = TONGUE_MODES[mode];
+  const u = uid('tg');
   const fill = (part) => `style="--dc:${TONGUE_NERVES[m[part]].c}"`;
-  const papillae = [[104, 132], [122, 142], [140, 150], [160, 150], [178, 142], [196, 132], [150, 122]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6"/>`).join('');
+  const body = 'M64 92 C70 72 96 64 150 64 C204 64 230 72 236 92 C248 170 240 262 216 312 C198 350 176 364 150 364 C124 364 102 350 84 312 C60 262 52 170 64 92 Z';
+  const root = 'M112 30 C120 14 180 14 188 30 C196 46 176 62 150 62 C124 62 104 46 112 30 Z';
+  // מרקם של פטמות קטנות (fungiform): נקודות קבועות, לא אקראיות, כדי שה-build והדפדפן יציירו אותו דבר
+  let seed = 7;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+  const dots = Array.from({ length: 320 }, () => {
+    const x = 56 + rnd() * 188, y = 68 + rnd() * 296;
+    return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.7 + rnd() * 1.1).toFixed(2)}"/>`;
+  }).join('');
+  const papillae = [[104, 132], [122, 142], [140, 150], [160, 150], [178, 142], [196, 132], [150, 122]].map(([x, y]) =>
+    `<circle cx="${x}" cy="${y}" r="6.2" fill="#e8a39d" stroke="#8e3f3f" stroke-width="1.1"/><circle cx="${x}" cy="${y}" r="3.4" fill="none" stroke="#a65450" stroke-width="0.8" opacity="0.8"/><circle cx="${x - 1.6}" cy="${y - 1.8}" r="1.3" fill="#fff" opacity="0.45"/>`).join('');
   return `<svg class="dgm-svg" viewBox="0 0 300 380" role="img" aria-label="הלשון מלמעלה, מחולקת לחלק קדמי, אחורי ובסיס" direction="ltr">
-  <path data-k="root" class="dgm-zone" ${fill('root')} d="M112 30 C120 14 180 14 188 30 C196 46 176 62 150 62 C124 62 104 46 112 30 Z"/>
+  ${zoneStyle('tongue', 0.5, 0.78)}
+  <defs>
+    ${grad(`${u}-body`, 'radialGradient', { cx: '50%', cy: '58%', r: '62%' }, [['0', '#eba39c'], ['0.6', '#d98a84'], ['1', '#b25a57']])}
+    ${grad(`${u}-root`, 'radialGradient', { cx: '50%', cy: '45%', r: '65%' }, [['0', '#d07a75'], ['1', '#97464a']])}
+    ${grad(`${u}-edge`, 'radialGradient', { cx: '50%', cy: '55%', r: '58%' }, [['0.7', '#5a1f22', 0], ['1', '#5a1f22', 0.55]])}
+    ${grad(`${u}-gloss`, 'radialGradient', { cx: '42%', cy: '62%', r: '30%' }, [['0', '#fff', 0.28], ['1', '#fff', 0]])}
+    ${grad(`${u}-shadow`, 'radialGradient', {}, [['0', '#000', 0.55], ['1', '#000', 0]])}
+    <clipPath id="${u}-clip"><path d="${body}"/></clipPath>
+  </defs>
+  <g pointer-events="none">
+    <ellipse cx="150" cy="220" rx="118" ry="160" fill="url(#${u}-shadow)"/>
+    <path d="${root}" fill="url(#${u}-root)"/>
+    <path d="${body}" fill="url(#${u}-body)"/>
+  </g>
+  <path data-k="root" class="dgm-zone" ${fill('root')} d="${root}"/>
   <path data-k="back" class="dgm-zone" ${fill('back')} d="M64 92 C70 72 96 64 150 64 C204 64 230 72 236 92 L242 128 L150 168 L58 128 Z"/>
   <path data-k="front" class="dgm-zone" ${fill('front')} d="M58 128 L150 168 L242 128 C248 190 238 262 216 312 C198 350 176 364 150 364 C124 364 102 350 84 312 C62 262 52 190 58 128 Z"/>
-  <path class="dgm-outline" d="M64 92 C70 72 96 64 150 64 C204 64 230 72 236 92 C248 170 240 262 216 312 C198 350 176 364 150 364 C124 364 102 350 84 312 C60 262 52 170 64 92 Z"/>
-  <path class="dgm-sulcus" d="M58 128 L150 168 L242 128"/>
-  <path class="dgm-midline" d="M150 176 L150 340"/>
-  <g class="dgm-papillae">${papillae}</g>
+  <g pointer-events="none">
+    <g clip-path="url(#${u}-clip)">
+      <g fill="#7a2c2e" opacity="0.28">${dots}</g>
+      <path d="${body}" fill="url(#${u}-edge)"/>
+      <ellipse cx="128" cy="250" rx="52" ry="70" fill="url(#${u}-gloss)"/>
+    </g>
+    <path d="${root}" fill="none" stroke="#6e2a2c" stroke-width="1.6"/>
+    <path d="M128 40 C140 46 160 46 172 40" fill="none" stroke="#6e2a2c" stroke-width="1.2" opacity="0.6"/>
+    <path d="${body}" fill="none" stroke="#6e2a2c" stroke-width="1.8"/>
+    <path d="M58 128 L150 168 L242 128" fill="none" stroke="#5a1f22" stroke-width="2" stroke-dasharray="5 4" opacity="0.8"/>
+    <path d="M150 176 C149 230 151 290 150 340" fill="none" stroke="#7a2c2e" stroke-width="3.2" stroke-linecap="round" opacity="0.4"/>
+    <path d="M152.5 178 C151.5 230 153.5 290 152.5 336" fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+    ${papillae}
+  </g>
   <g class="dgm-tags" text-anchor="middle">
     <text x="150" y="42">${TONGUE_NERVES[m.root].roman}</text>
     <text x="150" y="104">${TONGUE_NERVES[m.back].roman}</text>
@@ -155,15 +263,60 @@ const BRANCHES = {
 };
 
 function branchesSvg() {
-  const paths = Object.entries(BRANCHES).map(([k, b]) => `<g data-k="${k}" class="dgm-branch" style="--dc:${b.c}"><path class="dgm-hit" d="${b.d}"/><path d="${b.d}"/></g>`).join('');
+  const u = uid('fb');
+  const head = 'M248 336 L250 292 C276 286 296 260 300 226 C306 186 304 140 290 104 C270 52 222 22 166 22 C110 22 72 54 58 96 C52 114 52 128 48 138 L30 172 C26 178 30 184 38 184 L46 186 L44 200 L52 206 L48 216 C46 228 54 236 66 236 L74 238 C80 256 94 266 116 268 L140 270 C150 296 160 318 172 336 Z';
+  const paths = Object.entries(BRANCHES).map(([k, b]) => `<g data-k="${k}" class="dgm-branch" style="--dc:${b.c}"><path class="dgm-hit" d="${b.d}"/><path class="dgx-case" d="${b.d}"/><path d="${b.d}"/></g>`).join('');
   return `<svg class="dgm-svg" viewBox="0 0 320 350" role="img" aria-label="ראש בפרופיל, ועליו חמשת הענפים של עצב הפנים שיוצאים מבלוטת הפרוטיד" direction="ltr">
-  <path class="dgm-head" d="M248 336 L250 292 C276 286 296 260 300 226 C306 186 304 140 290 104 C270 52 222 22 166 22 C110 22 72 54 58 96 C52 114 52 128 48 138 L30 172 C26 178 30 184 38 184 L46 186 L44 200 L52 206 L48 216 C46 228 54 236 66 236 L74 238 C80 256 94 266 116 268 L140 270 C150 296 160 318 172 336 Z"/>
-  <path class="dgm-ear" d="M236 170 C232 146 252 134 266 146 C280 158 280 196 268 214 C260 226 244 222 240 208 Z"/>
-  <path class="dgm-parotid" d="M222 176 C236 178 244 196 242 216 C240 238 232 252 220 252 C206 250 200 230 202 210 C204 192 210 176 222 176 Z"/>
-  <path class="dgm-features" d="M96 150 C106 144 120 144 128 150 M92 132 C104 124 122 124 134 130 M82 228 C94 232 108 232 118 228"/>
+  <style>
+  .dgm[data-dgm="facial-branches"] .dgm-branch .dgx-case { fill: none; stroke: #2a1610; stroke-width: 7; stroke-linecap: round; opacity: 0.45; filter: none; }
+  .dgm[data-dgm="facial-branches"] .dgm-small text { fill: #2a1610; font-weight: 600; paint-order: stroke; stroke: rgba(255, 244, 236, 0.8); stroke-width: 3px; stroke-linejoin: round; }
+  </style>
+  <defs>
+    ${grad(`${u}-skin`, 'radialGradient', { cx: '40%', cy: '45%', r: '65%' }, SKIN)}
+    ${grad(`${u}-hair`, 'linearGradient', { x1: '0', y1: '0', x2: '1', y2: '1' }, HAIR)}
+    ${grad(`${u}-ear`, 'radialGradient', { cx: '45%', cy: '45%', r: '60%' }, [['0', '#d29f81'], ['1', '#a06a53']])}
+    ${grad(`${u}-shade`, 'radialGradient', { cx: '38%', cy: '42%', r: '62%' }, [['0.6', '#5a3426', 0], ['1', '#5a3426', 0.45]])}
+    ${grad(`${u}-jaw`, 'radialGradient', {}, [['0', '#5a3426', 0.35], ['1', '#5a3426', 0]])}
+    ${grad(`${u}-blush`, 'radialGradient', {}, [['0', '#d77f6e', 0.32], ['1', '#d77f6e', 0]])}
+    ${grad(`${u}-gland`, 'radialGradient', { cx: '45%', cy: '40%', r: '60%' }, [['0', '#e7c7a0', 0.85], ['1', '#b98e6a', 0.75]])}
+    ${grad(`${u}-sclera`, 'radialGradient', {}, SCLERA)}
+    ${grad(`${u}-iris`, 'radialGradient', {}, IRIS)}
+    ${grad(`${u}-lips`, 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, LIPS)}
+    <clipPath id="${u}-clip"><path d="${head}"/></clipPath>
+    <clipPath id="${u}-eye"><path d="M98 150 C104 143 118 142 128 148 C120 154 106 155 98 150 Z"/></clipPath>
+  </defs>
+  <g pointer-events="none">
+    <path d="${head}" fill="url(#${u}-skin)"/>
+    <g clip-path="url(#${u}-clip)">
+      <path d="M40 0 H320 V262 C300 252 288 236 282 214 C276 182 268 150 248 132 C226 112 196 98 160 90 C126 82 96 82 70 96 C66 74 60 60 40 60 Z" fill="url(#${u}-hair)"/>
+      <path d="M70 96 C96 82 126 82 160 90 C196 98 226 112 248 132" fill="none" stroke="#1a110c" stroke-width="2" opacity="0.5"/>
+      <path d="M120 40 C150 50 180 64 200 86 M180 34 C210 48 236 70 252 98 M240 60 C262 84 276 112 284 140" fill="none" stroke="#5a3d2c" stroke-width="1.4" opacity="0.6"/>
+      <circle cx="132" cy="206" r="34" fill="url(#${u}-blush)"/>
+      <ellipse cx="200" cy="270" rx="70" ry="34" fill="url(#${u}-jaw)"/>
+      <path d="M74 238 C80 256 94 266 116 268 L140 270 C176 266 206 250 224 232" fill="none" stroke="#8e5d48" stroke-width="1.4" opacity="0.6"/>
+      <path d="${head}" fill="url(#${u}-shade)"/>
+    </g>
+    <path d="${head}" fill="none" stroke="#8e5d48" stroke-width="1.6"/>
+    <path d="M236 170 C232 146 252 134 266 146 C280 158 280 196 268 214 C260 226 244 222 240 208 Z" fill="url(#${u}-ear)" stroke="#8e5d48" stroke-width="1.3"/>
+    <path d="M246 172 C246 156 260 150 266 160 C272 172 270 194 262 204 C256 210 250 206 250 198" fill="none" stroke="#9a634d" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="248" cy="190" rx="3.5" ry="5" fill="#7a4a38" opacity="0.6"/>
+    <path d="M222 176 C236 178 244 196 242 216 C240 238 232 252 220 252 C206 250 200 230 202 210 C204 192 210 176 222 176 Z" fill="url(#${u}-gland)" stroke="#8e6a4e" stroke-width="1.2"/>
+    <path d="M208 196 C214 200 222 198 228 192 M206 214 C214 218 226 216 236 210 M208 232 C216 236 226 234 234 228" fill="none" stroke="#a07c5c" stroke-width="1" opacity="0.7"/>
+    <path d="M86 135 C98 125 118 122 136 128 C134 131 132 132 129 132 C116 128 102 129 90 138 Z" fill="#4a3022" stroke="#3a251a" stroke-width="0.8"/>
+    <path d="M98 150 C104 143 118 142 128 148 C120 154 106 155 98 150 Z" fill="url(#${u}-sclera)" stroke="#a87a64" stroke-width="0.6"/>
+    <g clip-path="url(#${u}-eye)"><ellipse cx="104" cy="149" rx="3.6" ry="5.6" fill="url(#${u}-iris)" stroke="#2c4a55" stroke-width="0.8"/><ellipse cx="102.8" cy="149" rx="1.6" ry="2.6" fill="#0b0d10"/></g>
+    <path d="M98 150 C104 143 118 142 128 148" fill="none" stroke="#2a1a14" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M100 147.5 l-2.6 -1.6 M103 145.5 l-2.2 -2 M106.5 144.3 l-1.6 -2.3 M110 143.8 l-1 -2.4" stroke="#2a1a14" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M100 141 C108 136 120 136 128 141" fill="none" stroke="#8a5843" stroke-width="1.1" opacity="0.7"/>
+    <path d="M50 168 C44 174 44 182 50 186" fill="none" stroke="#8a5843" stroke-width="1.4" stroke-linecap="round"/>
+    <ellipse cx="42" cy="182" rx="3.2" ry="1.8" fill="#6e3f30" opacity="0.7"/>
+    <path d="M46 188 L44 200 L52 206 L62 205 C58 198 52 192 46 188 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.8"/>
+    <path d="M52 206 L48 216 C48 220 51 222 55 221 C61 216 64 210 62 205 Z" fill="url(#${u}-lips)" stroke="#7e3c35" stroke-width="0.8"/>
+    <path d="M52 206 C58 207 64 206 70 204" fill="none" stroke="#4a1f1b" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
   ${paths}
   <circle class="dgm-origin" cx="226" cy="200" r="5"/>
-  <g class="dgm-small"><text x="248" y="268">בלוטת הפרוטיד</text></g>
+  <g class="dgm-small"><text x="226" y="270" text-anchor="middle">בלוטת הפרוטיד</text></g>
 </svg>`;
 }
 const branchesInfo = (k) => { const b = BRANCHES[k]; return `<p class="dgm-title" style="--dc:${b.c}">${b.title} <span class="muted" dir="ltr" lang="en">(${b.en})</span></p><p><b>שרירים:</b> ${b.muscles}</p><p><b>תנועה:</b> ${b.action}</p>`; };
