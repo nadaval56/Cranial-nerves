@@ -1291,9 +1291,9 @@ html.a11y-still .sister-clone { display: none; }
 .floor-nerves { font-family: Georgia, serif; font-weight: 700; color: var(--nerve); direction: ltr; text-align: right; }
 .floor-note { color: var(--text-2); font-size: 0.925rem; }
 .floor-fore { border-inline-start: 4px solid #6b5f8e; }
-.floor-mid { border-inline-start: 4px solid #7a6a55; margin-inline: 0.5rem; }
-.floor-pons { border-inline-start: 4px solid #8b7a5c; margin-inline: 0; }
-.floor-med { border-inline-start: 4px solid #9a8760; margin-inline: 1rem; }
+.floor-mid { border-inline-start: 4px solid #7a6a55; }
+.floor-pons { border-inline-start: 4px solid #8b7a5c; }
+.floor-med { border-inline-start: 4px solid #9a8760; }
 
 .type-cards { margin: 1rem 0 1.25rem; }
 .type-card { padding: 1rem 1.1rem; border-radius: var(--radius); border: 1px solid color-mix(in srgb, var(--rc) 35%, var(--border)); background: color-mix(in srgb, var(--rc) 6%, var(--surface)); }
@@ -1680,3 +1680,33 @@ html.a11y-still .sister-clone { display: none; }
 .mnemo-row li .mnemo-word { margin: 0; font-size: 1.05rem; color: var(--text); line-height: 1.35; white-space: nowrap; }
 .mnemo-row li .mnemo-word b { font-size: 1.15rem; }
 .mnemo-sentence { margin: 0.4rem 0 0.25rem; padding: 0.6rem 0.9rem; border-radius: var(--radius-sm); background: var(--surface); font-size: 1.05rem; font-weight: 600; color: var(--accent); text-align: left; }
+
+.floors-wrap { margin: 1rem 0 1.25rem; }
+.floors-wrap .floors { margin: 0.35rem 0; }
+.floors-edge { margin: 0; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
+.floor-fore { border-style: dashed; border-inline-start-style: solid; opacity: 0.9; }
+.floor-tag { display: inline-block; margin-inline-start: 0.4rem; padding: 0.05rem 0.5rem; border-radius: 999px; background: rgba(154, 164, 178, 0.12); color: #9aa4b2; font-size: 0.75rem; font-weight: 400; }
+
+/* מילון ספרות רומיות */
+.roman-dict { margin: 1rem 0; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.roman-dict-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+.roman-dict-title { margin: 0; font-weight: 600; }
+.roman-help-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; color: var(--accent); font: inherit; font-weight: 700; cursor: pointer; }
+.roman-help-btn:hover, .roman-help-btn:focus-visible { background: rgba(240, 196, 107, 0.15); }
+.roman-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.35rem; }
+.roman-grid li { display: flex; flex-direction: column; align-items: center; padding: 0.3rem 0; border-radius: var(--radius-sm); background: var(--bg-elev); }
+.roman-grid b { font-family: Georgia, serif; color: var(--nerve); font-size: 1.05rem; }
+.roman-grid span { font-size: 0.8rem; color: var(--text-2); }
+.roman-help { max-width: min(92vw, 30rem); margin: auto; padding: 1.25rem 1.4rem; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--bg-elev); color: var(--text); text-align: start; direction: rtl; }
+.roman-help::backdrop { background: rgba(0, 0, 0, 0.55); }
+.roman-help h3 { margin: 0 0 0.6rem; font-size: 1.15rem; }
+.roman-help p { margin: 0 0 0.6rem; color: var(--text-2); }
+.roman-help b { color: var(--nerve); font-family: Georgia, serif; }
+.lead-sm { color: var(--text-2); margin: -0.25rem 0 1rem; }
+.memo-card h3 { margin: 0.25rem 0 0.1rem; font-size: 1.1rem; }
+.memo-card p { margin: 0; }
+.memo-card .memo-list { margin: 0; padding-inline-start: 1.1rem; font-size: 0.925rem; }
+.memo-card .memo-list b { color: var(--accent); }
+.roman-eq { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+.roman-eq span { padding: 0.15rem 0.6rem; border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-family: Georgia, serif; }
+.memo-card .memo-big { font-size: 1.6rem; color: var(--accent); font-family: Georgia, serif; font-weight: 700; }
