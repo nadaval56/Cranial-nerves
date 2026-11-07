@@ -114,9 +114,10 @@ const defs = s('defs', {},
   grad('ex-iris', 'radialGradient', {}, [['0', '#6fa4b2'], ['0.45', '#4f8696'], ['0.85', '#2e5562'], ['1', '#1d3a44']]),
   grad('ex-lid', 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, [['0', '#d8a98b'], ['0.85', '#c48f72'], ['1', '#a06c56']]),
   // העור דוהה בשוליים אל הרקע
-  s('filter', { id: 'ex-soft', x: '-30%', y: '-30%', width: '160%', height: '160%' }, s('feGaussianBlur', { stdDeviation: 16 })),
+  // (בלי פילטר טשטוש: הוא מחושב מחדש בכל תזוזה של העיניים, ובטלפון זה גרם לעיכוב. מעבר שקיפות רדיאלי זול בהרבה)
+  grad('ex-fade', 'radialGradient', { cx: '50%', cy: '48%', r: '50%' }, [['0', '#fff'], ['0.6', '#fff'], ['1', '#fff', 0]]),
   s('mask', { id: 'ex-face', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H },
-    s('path', { d: 'M84 246 C58 160 100 52 320 40 C540 52 582 160 556 246 C530 276 420 286 372 300 C356 318 284 318 268 300 C220 286 110 276 84 246 Z', fill: '#fff', filter: 'url(#ex-soft)' })),
+    s('rect', { x: 40, y: 10, width: 560, height: 330, fill: 'url(#ex-fade)' })),
 );
 svg.append(defs);
 
@@ -306,13 +307,15 @@ function update() {
 
 // ---------- אינטראקציה ----------
 
+// עדכון אחד לכל פריים, גם כשהאצבע שולחת הרבה אירועי תנועה
+let rafPending = 0;
 function setFromPointer(e) {
   const pt = svg.createSVGPoint();
   pt.x = e.clientX; pt.y = e.clientY;
   const p = pt.matrixTransform(svg.getScreenCTM().inverse());
   gx = Math.max(-1, Math.min(1, (p.x - W / 2) / 290));
   gy = Math.max(-1, Math.min(1, (p.y - H / 2) / 150));
-  update();
+  if (!rafPending) rafPending = requestAnimationFrame(() => { rafPending = 0; update(); });
 }
 let dragging = false;
 svg.addEventListener('pointerdown', (e) => { stopAnim(); dragging = true; svg.setPointerCapture(e.pointerId); setFromPointer(e); });
