@@ -42,7 +42,7 @@ if (tryEl) {
       } else {
         b.classList.add('is-wrong');
         b.disabled = true;
-        feedback.textContent = 'לא בדיוק. נסו שוב — או פתחו את התשובה.';
+        feedback.textContent = 'לא נכון. נסו שוב, או פתחו את התשובה.';
         feedback.className = 'try-feedback is-wrong';
         details.hidden = false;
       }

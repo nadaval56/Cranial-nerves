@@ -150,8 +150,8 @@ export async function createBrain3D(container, { onSelect, glbUrl, reducedMotion
   const mo = new MutationObserver(() => { if (html.classList.contains('a11y-still')) setPaused(true); });
   mo.observe(html, { attributes: true, attributeFilter: ['class'] });
   const legendHtml = (type) => [
-    type !== 'motor' && '<span><i class="lg-in"></i>תחושה — אל המוח</span>',
-    type !== 'sensory' && '<span><i class="lg-out"></i>פקודה — מהמוח</span>',
+    type !== 'motor' && '<span><i class="lg-in"></i>תחושה: אל המוח</span>',
+    type !== 'sensory' && '<span><i class="lg-out"></i>פקודה: מהמוח</span>',
   ].filter(Boolean).join('');
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });

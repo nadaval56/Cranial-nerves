@@ -100,7 +100,7 @@ export function nerveBody(n) {
 
   return NERVE_ICONS + strip + `<div class="nerve-top">${head}${locator}</div>` + facts
     + `<section class="lesson try-section" aria-labelledby="try-h"><header class="lesson-title"><span class="lesson-ico" aria-hidden="true">${icon('q')}</span><h2 id="try-h">נסו קודם</h2></header>`
-    + `<p class="muted">לפני שקוראים — מה דעתכם?</p>${tryFirst(n)}</section>`
+    + `<p class="muted">לפני שקוראים: מה דעתכם?</p>${tryFirst(n)}</section>`
     + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}</div>` + related + pager;
 }
 

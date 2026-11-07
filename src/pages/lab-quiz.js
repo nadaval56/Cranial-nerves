@@ -95,7 +95,7 @@ function onAnswer(e) {
 }
 
 function end() {
-  const msg = score === ROUND ? 'מושלם! כל השאלות נכונות.' : score >= 8 ? 'מצוין — כמעט הכול.' : score >= 5 ? 'יפה. כדאי לחזור על כמה עצבים.' : 'התחלה טובה. עמודי העצבים יעזרו.';
+  const msg = score === ROUND ? 'מושלם! כל השאלות נכונות.' : score >= 8 ? 'מצוין, כמעט הכול.' : score >= 5 ? 'יפה. כדאי לחזור על כמה עצבים.' : 'התחלה טובה. עמודי העצבים יעזרו.';
   const uniq = [...new Map(missed.map((n) => [n.id, n])).values()];
   root.innerHTML = `<div class="quiz quiz-lab quiz-end">
     <p class="score-big">${score}<span>/${ROUND}</span></p>

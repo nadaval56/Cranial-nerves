@@ -115,13 +115,13 @@ function showNerve(id) {
   controls.querySelectorAll('[data-foramen]').forEach((c) => c.setAttribute('aria-pressed', 'false'));
   panel.innerHTML = `<p class="panel-kicker">עצב ${n.roman}</p><h2 class="skull-title">${n.name}</h2>`
     + `<p>${n.exit}.</p>`
-    + `<ul class="plain-list">${list.map((f) => `<li><button type="button" class="link-btn" data-goto="${f.id}">${f.name}</button>${f.note ? ` <span class="muted">— ${f.note}</span>` : ''}</li>`).join('')}</ul>`
+    + `<ul class="plain-list">${list.map((f) => `<li><button type="button" class="link-btn" data-goto="${f.id}">${f.name}</button>${f.note ? ` <span class="muted">(${f.note})</span>` : ''}</li>`).join('')}</ul>`
     + `<p><a href="${nerveUrl(id)}">לעמוד של ${n.name} ←</a></p>`;
 }
 
 function intro() {
-  panel.innerHTML = '<p class="panel-kicker">בסיס הגולגולת</p><p>לחצו על פתח בתרשים או ברשימה. הפתחים מסומנים בשני הצדדים — כל עצב קיים בזוג.</p>'
-    + '<p class="muted">הגומה הקדמית — האונות המצחיות. האמצעית — האונות הרקתיות. האחורית — גזע המוח והמוחון.</p>';
+  panel.innerHTML = '<p class="panel-kicker">בסיס הגולגולת</p><p>לחצו על פתח בתרשים או ברשימה. הפתחים מסומנים בשני הצדדים, כי כל עצב קיים בזוג.</p>'
+    + '<p class="muted">בגומה הקדמית יושבות האונות המצחיות, באמצעית האונות הרקתיות, ובאחורית גזע המוח והמוחון.</p>';
 }
 
 svg.addEventListener('click', (e) => { const g = e.target.closest('.sk-hole'); if (g) showForamen(g.dataset.id); });

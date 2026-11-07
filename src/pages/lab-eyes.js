@@ -30,7 +30,7 @@ const MUSCLES = {
 const EXPLAIN = {
   none: 'כל השרירים עובדים. שתי העיניים זזות יחד ומכוונות לאותה נקודה, ולכן המוח מקבל שתי תמונות שמתלכדות לאחת.',
   VI: 'השריר הישר הצדדי לא עובד, ולכן העין לא מצליחה לפנות לכיוון הרקה. גם במנוחה היא נמשכת מעט לכיוון האף, כי אין מי שיתנגד לשריר הישר הפנימי. הראייה הכפולה אופקית, והיא גדלה כשמסתכלים לצד הפגוע.',
-  IV: 'השריר האלכסוני העליון לא עובד. העין הפגועה גבוהה מעט מהשנייה, והפער גדל כשהיא פונה לכיוון האף ומסתכלת למטה — שם האלכסוני העליון הוא השריר העיקרי שמוריד אותה. הראייה הכפולה אנכית.',
+  IV: 'השריר האלכסוני העליון לא עובד. העין הפגועה גבוהה מעט מהשנייה, והפער גדל כשהיא פונה לכיוון האף ומסתכלת למטה, כי בכיוון הזה האלכסוני העליון הוא השריר העיקרי שמוריד אותה. הראייה הכפולה אנכית.',
   III: 'ארבעה שרירים לא עובדים, וגם השריר שמרים את העפעף. נשארים רק הישר הצדדי (VI) והאלכסוני העליון (IV), ולכן העין "למטה ולחוץ". האישון רחב, כי גם הסיבים שמכווצים אותו עוברים בעצב השלישי.',
 };
 
@@ -189,9 +189,9 @@ function update() {
     list.innerHTML = mus.length
       ? mus.map((m) => {
         const bad = lside === side && MUSCLES[m].nerve === nerve;
-        return `<li class="${bad ? 'is-bad' : ''}">${MUSCLES[m].name} <span class="nerve-num">(${MUSCLES[m].nerve})</span>${bad ? ' — לא עובד' : ''}</li>`;
+        return `<li class="${bad ? 'is-bad' : ''}">${MUSCLES[m].name} <span class="nerve-num">(${MUSCLES[m].nerve})</span>${bad ? ': לא עובד' : ''}</li>`;
       }).join('')
-      : '<li class="muted">מבט ישר — כל השרירים במתח מאוזן</li>';
+      : '<li class="muted">מבט ישר: כל השרירים במתח מאוזן</li>';
   }
 
   // ראייה כפולה: כמה כל עין סוטה מהמקום שהייתה אמורה להיות בו
@@ -210,7 +210,7 @@ function update() {
   document.getElementById('img-R').style.opacity = ptoClosed && lside === 'R' ? 0 : 1;
   document.getElementById('img-L').style.opacity = ptoClosed && lside === 'L' ? 0 : 1;
   const text = document.getElementById('diplo-text');
-  if (ptoClosed) text.textContent = 'העפעף הצנוח מכסה את העין — ולכן אין ראייה כפולה. הרימו אותו כדי לראות.';
+  if (ptoClosed) text.textContent = 'העפעף הצנוח מכסה את העין, ולכן אין ראייה כפולה. הרימו אותו כדי לראות.';
   else if (sep < 0.05) text.textContent = 'תמונה אחת: העיניים מכוונות יחד.';
   else {
     const dir = Math.abs(dx) > Math.abs(dy) * 1.6 ? 'זו ליד זו (אופקית)' : Math.abs(dy) > Math.abs(dx) * 1.6 ? 'זו מעל זו (אנכית)' : 'באלכסון';

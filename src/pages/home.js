@@ -20,7 +20,7 @@ picker.innerHTML = NERVES.map((n) => `<button type="button" class="pick t-${n.ty
 
 const intro = `<div class="panel-intro"><p class="panel-kicker">בחרו עצב</p>`
   + `<p>לחצו על עצב במפה או על אחד הכפתורים. הצבעים: <span class="type-tag type-sensory">תחושתי</span> <span class="type-tag type-motor">תנועתי</span> <span class="type-tag type-mixed">מעורב</span></p>`
-  + `<p class="muted">המספרים מופיעים רק בצד אחד של האיור, אבל כל עצב קיים בזוג — אחד לכל צד.</p></div>`;
+  + `<p class="muted">המספרים מופיעים רק בצד אחד של האיור, אבל כל עצב קיים בזוג, אחד בכל צד.</p></div>`;
 
 let selected = null;
 
@@ -171,7 +171,7 @@ const CARDS = [
   ['basics', './basics.html', 'היסודות', 'גזע המוח, סוגי העצבים, ולמה מיקום הפגיעה משנה את מה שרואים.'],
   ['exam', './exam.html', 'הבדיקה', 'איך בודקים את כל העצבים בעשר דקות, ואילו רפלקסים מחברים ביניהם.'],
   ['lab', './lab.html', 'המעבדה', 'סימולטורים: עיניים, אישונים, מסלול הראייה, הפנים ובסיס הגולגולת.'],
-  ['history', './history.html', 'היסטוריה', 'משבעה זוגות אצל גלנוס ועד שנים-עשר — ומה עוד גילו בדרך.'],
+  ['history', './history.html', 'היסטוריה', 'משבעה זוגות אצל גלנוס ועד שנים-עשר, ומה עוד גילו בדרך.'],
 ];
 document.getElementById('home-cards').innerHTML = CARDS.map(([ico, href, title, text]) => `<article class="card"><div class="card-body">`
   + `<svg class="card-icon" viewBox="0 0 36 36" aria-hidden="true">${ICONS[ico]}</svg>`
