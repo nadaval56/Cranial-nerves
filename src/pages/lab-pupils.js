@@ -2,6 +2,8 @@
 // המודל: האור "נכנס" למוח רק דרך עצב II תקין של העין המוארת. המרכז ברפלקס (באזור הפרה-טקטלי)
 // שולח פקודה לשני גרעיני אדינגר-וסטפאל, ומשם — דרך עצב III של כל צד — לאישון של אותו צד.
 // הגדלים במ"מ משוערים, להמחשה: חדר מואר למחצה 5, תגובה לאור 2.5, עצב III פגוע 7.
+// תסמונת הורנר: המסלול הסימפתטי (שמרחיב את האישון) פגוע, ולכן האישון בצד הזה קטן יותר, ההבדל בולט יותר בחושך,
+// והרפלקס לאור תקין (עצבים II ו-III לא נפגעו). צניחת עפעף קלה בלבד.
 
 import { s } from '../lib/dom.js';
 
@@ -12,6 +14,11 @@ const LESIONS = [
   { id: 'none', label: 'בלי פגיעה' },
   { id: 'II-R', label: 'II ימין' }, { id: 'II-L', label: 'II שמאל' },
   { id: 'III-R', label: 'III ימין' }, { id: 'III-L', label: 'III שמאל' },
+  { id: 'H-R', label: 'הורנר ימין' }, { id: 'H-L', label: 'הורנר שמאל' },
+];
+const AMBIENT = [
+  { id: 'normal', label: 'מואר למחצה' },
+  { id: 'dim', label: 'עמום' },
 ];
 const LIGHTS = [
   { id: 'off', label: 'כבוי' },
@@ -20,8 +27,12 @@ const LIGHTS = [
   { id: 'swing', label: 'פנס מתנדנד' },
 ];
 const SIZE = { rest: 5, lit: 2.5, blown: 7 };
+// בחדר עמום אישון רגיל מתרחב; אישון עם הורנר כמעט לא
+const DIM_REST = 6.5;
+const HORNER = { rest: 3.5, dimRest: 4, lit: 2 };
 
 let lesion = 'none';
+let ambient = 'normal';
 let lightMode = 'off';
 let light = 'off'; // איפה הפנס עכשיו (במצב מתנדנד מתחלף)
 let swingTimer = null;
@@ -195,8 +206,11 @@ controls.innerHTML = `
   <fieldset class="chip-set"><legend>הפנס</legend>
     ${LIGHTS.map((l) => `<button type="button" class="chip" data-light="${l.id}" aria-pressed="${l.id === lightMode}">${l.label}</button>`).join('')}
   </fieldset>
-  <fieldset class="chip-set"><legend>פגיעה בעצב <span class="muted">(ימין ושמאל של האדם)</span></legend>
+  <fieldset class="chip-set"><legend>פגיעה <span class="muted">(ימין ושמאל של האדם)</span></legend>
     ${LESIONS.map((l) => `<button type="button" class="chip" data-lesion="${l.id}" aria-pressed="${l.id === lesion}">${l.label}</button>`).join('')}
+  </fieldset>
+  <fieldset class="chip-set"><legend>התאורה בחדר</legend>
+    ${AMBIENT.map((a) => `<button type="button" class="chip" data-ambient="${a.id}" aria-pressed="${a.id === ambient}">${a.label}</button>`).join('')}
   </fieldset>`;
 
 const readout = document.createElement('div');
@@ -221,19 +235,39 @@ function state() {
   const [nerve, side] = lesion.split('-');
   const ii = { R: !(nerve === 'II' && side === 'R'), L: !(nerve === 'II' && side === 'L') };
   const iii = { R: !(nerve === 'III' && side === 'R'), L: !(nerve === 'III' && side === 'L') };
+  const horner = { R: nerve === 'H' && side === 'R', L: nerve === 'H' && side === 'L' };
   const input = light !== 'off' && ii[light];
+  const dim = ambient === 'dim';
   const size = {};
-  for (const e of ['R', 'L']) size[e] = !iii[e] ? SIZE.blown : input ? SIZE.lit : SIZE.rest;
-  return { nerve, side, ii, iii, input, size };
+  for (const e of ['R', 'L']) {
+    if (!iii[e]) size[e] = SIZE.blown;
+    else if (horner[e]) size[e] = input ? HORNER.lit : dim ? HORNER.dimRest : HORNER.rest;
+    else size[e] = input ? SIZE.lit : dim ? DIM_REST : SIZE.rest;
+  }
+  return { nerve, side, ii, iii, horner, input, dim, size };
 }
 
 const sideName = { R: 'הימנית', L: 'השמאלית' };
 
+function explainHorner(st) {
+  const sd = st.side === 'R' ? 'הימני' : 'השמאלי';
+  const path = 'בתסמונת הורנר נפגע המסלול הסימפתטי, שמרחיב את האישון ומרים מעט את העפעף. זו שרשרת של שלושה נוירונים: מההיפותלמוס במוח, דרך חוט השדרה (בגובה החוליה החזה הראשונה, T1), אל הגנגליון הצווארי העליון, ומשם לאורך עורק התרדמה עד העין.';
+  const contrast = 'זה ההפך מפגיעה בעצב III: שם האישון רחב, העפעף צנוח מאוד והעין פונה למטה והחוצה. בהורנר האישון קטן, הצניחה קלה והעין זזה כרגיל. לפעמים גם העור באותו צד של הפנים מזיע פחות.';
+  if (light === 'off') {
+    return st.dim
+      ? `בחדר עמום ההבדל בולט: האישון השני מתרחב, והאישון ${sd} כמעט לא, כי המסלול שמרחיב אותו פגוע. ${path} ${contrast}`
+      : `האישון ${sd} קטן מהשני, והעפעף מעליו צנוח מעט. נסו לעמעם את התאורה בחדר. ${path} ${contrast}`;
+  }
+  if (lightMode === 'swing') return `בפנס המתנדנד שני האישונים מגיבים כרגיל, כי עצבי הרפלקס (II ו-III) תקינים. האישון ${sd} פשוט קטן יותר כל הזמן. ${contrast}`;
+  return `שני האישונים מתכווצים לאור, כי עצבי הרפלקס (II ו-III) תקינים. גם עכשיו האישון ${sd} קטן במעט מהשני. ההבדל בולט יותר כשהאור כבוי והחדר עמום. ${contrast}`;
+}
+
 function explain(st) {
+  if (st.nerve === 'H') return explainHorner(st);
   if (light === 'off') {
     if (st.nerve === 'III') return `גם בלי פנס רואים את הפגיעה: האישון ${st.side === 'R' ? 'הימני' : 'השמאלי'} רחב והעפעף צנוח. הדליקו את הפנס.`;
     if (st.nerve === 'II') return 'בלי אור, אי אפשר לראות פגיעה בעצב II: האישונים נראים רגילים ושווים. הדליקו את הפנס על כל עין.';
-    return 'בחדר מואר למחצה שני האישונים בגודל בינוני ושווה. הדליקו את הפנס.';
+    return st.dim ? 'בחדר עמום שני האישונים מתרחבים באותה מידה. הדליקו את הפנס.' : 'בחדר מואר למחצה שני האישונים בגודל בינוני ושווה. הדליקו את הפנס.';
   }
   // בפנס המתנדנד ההסבר כללי ולא תלוי באיזו עין מוארת ברגע זה (הוא לא מתעדכן בכל נדנוד)
   if (lightMode === 'swing') {
@@ -266,13 +300,16 @@ function update(tick = false) {
   for (const e of ['R', 'L']) {
     const { pupil, lid, lashes, beam, mm } = parts[e];
     pupil.style.transform = `scale(${st.size[e] / SIZE.rest})`;
-    // עפעף צנוח בפגיעה בעצב III: קו העפעף יורד עד אמצע האישון
-    const drop = `translate(0px, ${!st.iii[e] ? 31 : 0}px)`;
+    // עפעף צנוח בפגיעה בעצב III: קו העפעף יורד עד אמצע האישון. בהורנר: צניחה קלה בלבד
+    const drop = `translate(0px, ${!st.iii[e] ? 31 : st.horner[e] ? 8 : 0}px)`;
     lid.style.transform = drop;
     lashes.style.transform = drop;
     beam.classList.toggle('is-on', light === e);
     mm.textContent = `${st.size[e]} מ"מ`;
-    const word = !st.iii[e] ? 'רחב, לא מגיב' : st.size[e] === SIZE.lit ? (light === e ? 'מתכווץ (ישיר)' : 'מתכווץ (עקיף)') : 'בגודל בינוני';
+    const lit = st.input && st.iii[e];
+    const word = !st.iii[e] ? 'רחב, לא מגיב'
+      : lit ? (light === e ? 'מתכווץ (ישיר)' : 'מתכווץ (עקיף)')
+      : st.horner[e] ? 'קטן (הורנר)' : st.dim ? 'מורחב (חדר עמום)' : 'בגודל בינוני';
     document.getElementById(`read-${e}`).textContent = `${st.size[e]} מ"מ · ${word}`;
   }
   // תרשים המסלול
@@ -304,6 +341,12 @@ function setLightMode(mode) {
 controls.addEventListener('click', (e) => {
   const l = e.target.closest('[data-light]');
   if (l) setLightMode(l.dataset.light);
+  const amb = e.target.closest('[data-ambient]');
+  if (amb) {
+    ambient = amb.dataset.ambient;
+    controls.querySelectorAll('[data-ambient]').forEach((c) => c.setAttribute('aria-pressed', String(c === amb)));
+    update();
+  }
   const les = e.target.closest('[data-lesion]');
   if (les) {
     lesion = les.dataset.lesion;

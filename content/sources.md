@@ -133,3 +133,8 @@
 - תסמונת הורנר: עפעף צונח מעט ואישון קטן: [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).
 - מיאסתניה גרביס: חולשה שמחמירה במאמץ, אישונים תקינים: [Wikipedia: Myasthenia gravis](https://en.wikipedia.org/wiki/Myasthenia_gravis).
 - INO: [Wikipedia: Internuclear ophthalmoplegia](https://en.wikipedia.org/wiki/Internuclear_ophthalmoplegia).
+
+## INO (מעבדת תנועות העיניים)
+
+- [Wikipedia: Internuclear ophthalmoplegia](https://en.wikipedia.org/wiki/Internuclear_ophthalmoplegia): העין בצד הפגיעה לא מצליחה להתקרב לאף במבט לצד הנגדי, ניסטגמוס בעין המתרחקת, התכנסות לרוב שמורה, השם לפי צד הפגיעה, טרשת נפוצה אצל צעירים (לעיתים דו-צדדית) ושבץ אצל מבוגרים.
+- [Wikipedia: Medial longitudinal fasciculus](https://en.wikipedia.org/wiki/Medial_longitudinal_fasciculus): המסילה שמחברת את גרעין VI לגרעין III הנגדי (תת-הגרעין של הישר הפנימי) למבט צדדי משותף.
