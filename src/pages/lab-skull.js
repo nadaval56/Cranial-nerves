@@ -39,6 +39,8 @@ const HALF = `
   <g class="skb-juga">
     <path d="M250 112 C262 128 270 150 276 178"/><path d="M272 106 C288 124 300 148 306 172"/><path d="M296 108 C314 124 328 146 334 168"/><path d="M320 118 C336 134 348 152 354 168"/>
   </g>
+  <path class="skb-shadow" d="M242 230 C250 210 290 192 382 184"/>
+  <path class="skb-shadow" d="M234 292 C272 306 330 334 386 356"/>
   <path class="skb-wing" d="M236 222 C236 206 244 196 262 190 C300 176 346 164 384 172 C385 176 384 179 381 179 C346 172 302 182 266 196 C252 202 244 210 242 224 C240 228 236 227 236 222 Z"/>
   <path class="skb-clinoid" d="M236 222 C240 228 244 236 240 242 C236 244 232 236 232 228 Z"/>
   <path class="skb-temporal" d="M262 232 C292 220 340 214 372 228 C384 262 384 300 378 334 C340 316 300 296 270 280 C256 272 250 250 262 232 Z"/>
@@ -54,19 +56,19 @@ const HALF = `
 const ART = `
   <defs>
     <radialGradient id="skb-bone" cx="50%" cy="38%" r="70%">
-      <stop offset="0" stop-color="#d8cbb2"/><stop offset="0.6" stop-color="#b8a98e"/><stop offset="1" stop-color="#8a7c66"/>
+      <stop offset="0" stop-color="#bcae94"/><stop offset="0.6" stop-color="#9d8f76"/><stop offset="1" stop-color="#736652"/>
     </radialGradient>
     <linearGradient id="skb-rim" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e6dcc6"/><stop offset="1" stop-color="#b5a68a"/>
+      <stop offset="0" stop-color="#d9ceb6"/><stop offset="1" stop-color="#a3957a"/>
     </linearGradient>
     <radialGradient id="skb-antg" cx="50%" cy="60%" r="70%">
-      <stop offset="0" stop-color="#bfb196"/><stop offset="1" stop-color="#9e8f75"/>
+      <stop offset="0" stop-color="#b3a58a"/><stop offset="1" stop-color="#8c7e66"/>
     </radialGradient>
     <radialGradient id="skb-midg" cx="62%" cy="55%" r="60%">
-      <stop offset="0" stop-color="#7e715c"/><stop offset="0.7" stop-color="#94866d"/><stop offset="1" stop-color="#a99a7f"/>
+      <stop offset="0" stop-color="#5e5345"/><stop offset="0.6" stop-color="#7a6d58"/><stop offset="1" stop-color="#998a70"/>
     </radialGradient>
     <radialGradient id="skb-postg" cx="40%" cy="45%" r="75%">
-      <stop offset="0" stop-color="#6c604e"/><stop offset="0.65" stop-color="#83765f"/><stop offset="1" stop-color="#a09177"/>
+      <stop offset="0" stop-color="#55493b"/><stop offset="0.65" stop-color="#6e6250"/><stop offset="1" stop-color="#8f8168"/>
     </radialGradient>
     <linearGradient id="skb-petg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ddd1b8"/><stop offset="1" stop-color="#b4a589"/>
@@ -85,7 +87,8 @@ const ART = `
       <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.3  0 0 0 0 0.24  0 0 0 0.55 0" result="g"/>
       <feComposite in="g" in2="SourceGraphic" operator="in"/>
     </filter>
-    <filter id="skb-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="skb-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.5"/></filter>
+    <filter id="skb-soft2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.2"/></filter>
     <filter id="skb-drop" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.55"/></filter>
     <clipPath id="skb-inner"><path d="M210 44 C318 44 384 118 390 250 C396 382 330 504 210 518 C90 504 24 382 30 250 C36 118 102 44 210 44 Z"/></clipPath>
   </defs>
@@ -100,18 +103,18 @@ const ART = `
     .skb-ant { fill: url(#skb-antg); }
     .skb-mid { fill: url(#skb-midg); }
     .skb-post { fill: url(#skb-postg); }
-    .skb-orbit { fill: #c4b69b; opacity: 0.45; }
-    .skb-juga path { fill: none; stroke: #7d705b; stroke-width: 2.2; stroke-linecap: round; opacity: 0.45; }
+    .skb-orbit { fill: #c8ba9e; opacity: 0.3; filter: url(#skb-soft); }
+    .skb-juga path { fill: none; stroke: #6d6150; stroke-width: 2.4; stroke-linecap: round; opacity: 0.35; filter: url(#skb-soft2); }
     .skb-wing { fill: #e2d7bf; stroke: #6f6350; stroke-width: 0.8; }
     .skb-clinoid { fill: #ddd1b8; stroke: #6f6350; stroke-width: 0.8; }
-    .skb-temporal { fill: #6e624f; opacity: 0.55; filter: url(#skb-soft); }
+    .skb-temporal { fill: #4a4033; opacity: 0.7; filter: url(#skb-soft); }
     .skb-petrous { fill: url(#skb-petg); stroke: #6f6350; stroke-width: 0.8; }
     .skb-ridge { fill: none; stroke: #f1e9d6; stroke-width: 1.6; stroke-linecap: round; opacity: 0.85; }
     .skb-groove { fill: none; stroke: #4c4234; stroke-width: 7; stroke-linecap: round; opacity: 0.6; }
     .skb-groove-hi { fill: none; stroke: #cbbd9f; stroke-width: 1.2; opacity: 0.5; }
-    .skb-cerebellar { fill: #5f5444; opacity: 0.45; filter: url(#skb-soft); }
+    .skb-cerebellar { fill: #42392d; opacity: 0.7; filter: url(#skb-soft); }
     .skb-carotid { fill: none; stroke: #5b5040; stroke-width: 3; stroke-linecap: round; opacity: 0.7; }
-    .skb-lacerum { fill: #2a2219; opacity: 0.8; }
+    .skb-lacerum { fill: #3a3024; opacity: 0.45; }
     .skb-clivus { fill: url(#skb-clivg); stroke: #6f6350; stroke-width: 0.8; }
     .skb-sella { fill: url(#skb-sellag); stroke: #6f6350; stroke-width: 0.8; }
     .skb-dorsum { fill: #e0d5bd; stroke: #6f6350; stroke-width: 0.8; }
@@ -119,7 +122,8 @@ const ART = `
     .skb-crest { fill: none; stroke: #d9cdb3; stroke-width: 3; stroke-linecap: round; }
     .skb-ioc { fill: #d5c8ad; stroke: #6f6350; stroke-width: 0.8; }
     .skb-cut { fill: none; stroke: #f3ecdc; stroke-width: 1.2; opacity: 0.6; }
-    .skb-grain { filter: url(#skb-grain); opacity: 0.55; pointer-events: none; }
+    .skb-grain { filter: url(#skb-grain); opacity: 0.6; pointer-events: none; mix-blend-mode: multiply; }
+    .skb-shadow { fill: none; stroke: #241d15; stroke-width: 9; stroke-linecap: round; opacity: 0.55; filter: url(#skb-soft); }
     .skb-pores circle { fill: #2d251c; }
     .skb-label { fill: #e9dfc9; font-size: 12px; font-weight: 600; font-family: var(--font, sans-serif); paint-order: stroke; stroke: rgba(20, 16, 12, 0.85); stroke-width: 3px; stroke-linejoin: round; }
     .skb-dir { fill: var(--text-muted, #8a95a3); font-size: 12px; font-family: var(--font, sans-serif); }

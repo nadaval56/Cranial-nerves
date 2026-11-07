@@ -111,13 +111,13 @@ export function brainstemSvg({ active = null, interactive = false, labels = true
     return `<g class="${cls}" data-nerve="${id}"${attrs}>`
       + `<g>${nervePaths(id, 'r')}${interactive ? hitPath(id) : ''}</g>`
       + `<g transform="${MIRROR}">${nervePaths(id, 'l')}${interactive ? hitPath(id) : ''}</g>`
-      + `<g class="bs-label"><circle cx="${lx}" cy="${ly}" r="13.5"/><text x="${lx}" y="${ly + 4.6}" style="font-size:12.5px">${ROMAN[i]}</text></g>`
+      + `<g class="bs-label"><circle cx="${lx}" cy="${ly}" r="14"/><text x="${lx}" y="${ly + 4.8}" style="font-size:13.5px">${ROMAN[i]}</text></g>`
       + '</g>';
   }).join('');
 
   const structs = labels ? `<g class="bs-structs">${STRUCTURES.map(({ text, at, to }) =>
     `<path d="M${at[0]} ${at[1]} L${to[0] + 4} ${to[1]}"/><circle cx="${at[0]}" cy="${at[1]}" r="2"/>`
-    + `<text x="${to[0]}" y="${to[1] - 5}" style="font-size:13px;paint-order:stroke;stroke:#0b0e12;stroke-width:3px;stroke-linejoin:round">${text}</text>`).join('')}</g>` : '';
+    + `<text x="${to[0]}" y="${to[1] - 5}" style="font-size:14px;paint-order:stroke;stroke:#0b0e12;stroke-width:3px;stroke-linejoin:round">${text}</text>`).join('')}</g>` : '';
 
   return `<svg class="brainstem${active ? ' has-active' : ''}" viewBox="0 0 400 520" role="img" aria-label="${title}" direction="ltr">`
     + defs(u)
