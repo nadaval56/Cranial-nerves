@@ -144,3 +144,11 @@
 - המסלול הסימפתטי של שלושה נוירונים (היפותלמוס, חוט השדרה בגובה T1, הגנגליון הצווארי העליון ולאורך עורק התרדמה), אישון קטן, צניחת עפעף קלה, חוסר הזעה לפעמים, הבדל בין האישונים שגדל בחושך ורפלקס לאור תקין: [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).
 - ההשוואה לפגיעה בעצב III (אישון רחב, צניחה גדולה, עין למטה והחוצה): ראו content/nerves.js (העצב המניע את העין).
 - גדלי האישונים בסימולטור משוערים, להמחשה.
+
+## מעבדת מעגלי הרפלקס (lab-reflex.html)
+
+- רפלקס הקרנית: V1 קולט, VII מבצע, תגובה ישירה ועקיפה: [Wikipedia: Corneal reflex](https://en.wikipedia.org/wiki/Corneal_reflex).
+- רפלקס ההקאה: IX קולט, X מבצע; בפגיעה ב-X החך לא עולה בצד הפגוע והענבל נמשך לצד הבריא (כמו ב-content/nerves.js): [Wikipedia: Pharyngeal reflex](https://en.wikipedia.org/wiki/Pharyngeal_reflex), [Wikipedia: Vagus nerve](https://en.wikipedia.org/wiki/Vagus_nerve).
+- רפלקס שריר הארכובה (acoustic reflex): VIII קולט, VII מבצע, התכווצות בשתי האוזניים גם כשהצליל באוזן אחת; בפגיעה ב-VII רגישות לרעשים חזקים: [Wikipedia: Acoustic reflex](https://en.wikipedia.org/wiki/Acoustic_reflex).
+- רפלקס הלסת: V3 קולט ומבצע; אצל בריאים לרוב חלש או לא נראה; רפלקס ער מרמז על פגיעה בנוירון המוטורי העליון בשני הצדדים, מעל הגשר: [Wikipedia: Jaw jerk reflex](https://en.wikipedia.org/wiki/Jaw_jerk_reflex).
+- המודל בסימולטור מפושט: הוא מציג קולט, מרכז בגזע המוח ומבצע לשני הצדדים, בלי הגרעינים הספציפיים.
