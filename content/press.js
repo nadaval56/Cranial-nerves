@@ -39,6 +39,36 @@ export const PRESS = [
     ],
   },
   {
+    id: `maman-bell`,
+    date: `2026-05-13`,
+    nerve: `facial`,
+    title: `חלי ממן: "לא זיהיתי את עצמי"`,
+    teaser: `דמעות שלא מפסיקות, מים שנשפכים מהפה ותחושה מוזרה בלעיסה. למה הרופאים בדקו קודם שזה לא שבץ?`,
+    summary: [
+      `חלי ממן, המוכרת מתחום התזונה והדיאטה, סיפרה שחלתה בשיתוק בל. הסימנים הראשונים היו דמעות שלא הפסיקו לזלוג מהעין, תחושה מוזרה בלעיסה, ומים שנשפכו לה מהפה כששתתה.`,
+      `היא עברה קודם בדיקת CT, כדי לשלול שבץ, ורק אחר כך אובחן שיתוק בל. היא סיפרה שפנתה למיכל אנסקי, שעברה שיתוק דומה.`,
+    ],
+    quote: `לא זיהיתי את עצמי.`,
+    known: [
+      `כל הסימנים שתיארה קשורים לשרירים של עצב הפנים: השריר הטבעתי של העין לא סוגר את העפעף ולא "מנקז" את הדמעות, השריר הטבעתי של הפה לא אוטם את השפתיים, והלחי לא מחזיקה את האוכל בזמן הלעיסה.`,
+      `שבץ יכול להתחיל בחולשה פתאומית בפנים, ולכן שוללים אותו קודם. סימן עוזר: בשבץ המצח בדרך כלל ממשיך לזוז, ובשיתוק בל גם המצח משותק.`,
+      `טיפול בסטרואידים שמתחיל בתוך 72 שעות משפר את הסיכוי להחלמה מלאה.`,
+    ],
+    links: [
+      { href: `nerve-facial.html`, label: `עצב הפנים` },
+      { href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
+      { href: `press-anski-synkinesis.html`, label: `מיכל אנסקי: כשההחלמה חלקית` },
+    ],
+    sources: [
+      { label: `mako`, url: `https://www.mako.co.il/health-news/Article-9f73ae640e02e91027.htm` },
+      { label: `וואלה`, url: `https://www.walla.co.il/healthy/health-news/3837756` },
+    ],
+    knownSources: [
+      { label: `NIHR: סטרואידים בתוך 72 שעות`, url: `https://evidence.nihr.ac.uk/alert/corticosteroids-improve-recovery-rates-after-bells-palsy` },
+      { label: `patient.info: Bell's palsy`, url: `https://patient.info/health/bells-palsy` },
+    ],
+  },
+  {
     id: `marks-blinker`,
     date: `2026-01-18`,
     dateLabel: `ינואר 2026`,

@@ -108,3 +108,4 @@
 - טיפול גנטי CLIC5: [אוניברסיטת תל אביב](https://english.tau.ac.il/research/gene-therapy-preserves-hearing), [Jerusalem Post](https://www.jpost.com/health-and-wellness/article-867493), המאמר [PMID 40859056](https://pubmed.ncbi.nlm.nih.gov/40859056/).
 - דמעות ותוקפנות: [ice](https://www.ice.co.il/research/news/article/1001174), המאמר [PMID 38127837](https://pubmed.ncbi.nlm.nih.gov/38127837/).
 - פגיעות שמיעה בלוחמים: [מעריב](https://www.maariv.co.il/news/military/Article-1064500).
+- חלי ממן: [mako](https://www.mako.co.il/health-news/Article-9f73ae640e02e91027.htm), [וואלה](https://www.walla.co.il/healthy/health-news/3837756) (13 במאי 2026).
