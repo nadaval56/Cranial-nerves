@@ -109,3 +109,5 @@
 - דמעות ותוקפנות: [ice](https://www.ice.co.il/research/news/article/1001174), המאמר [PMID 38127837](https://pubmed.ncbi.nlm.nih.gov/38127837/).
 - פגיעות שמיעה בלוחמים: [מעריב](https://www.maariv.co.il/news/military/Article-1064500).
 - חלי ממן: [mako](https://www.mako.co.il/health-news/Article-9f73ae640e02e91027.htm), [וואלה](https://www.walla.co.il/healthy/health-news/3837756) (13 במאי 2026).
+
+- משפט הזיכרון Standing Room Only לפתחי V1-V3: [Wikipedia: Trigeminal nerve](https://en.wikipedia.org/wiki/Trigeminal_nerve) (הפתחים); המשפט עצמו מקובל בהוראת אנטומיה.
