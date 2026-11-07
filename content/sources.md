@@ -138,3 +138,9 @@
 
 - [Wikipedia: Internuclear ophthalmoplegia](https://en.wikipedia.org/wiki/Internuclear_ophthalmoplegia): העין בצד הפגיעה לא מצליחה להתקרב לאף במבט לצד הנגדי, ניסטגמוס בעין המתרחקת, התכנסות לרוב שמורה, השם לפי צד הפגיעה, טרשת נפוצה אצל צעירים (לעיתים דו-צדדית) ושבץ אצל מבוגרים.
 - [Wikipedia: Medial longitudinal fasciculus](https://en.wikipedia.org/wiki/Medial_longitudinal_fasciculus): המסילה שמחברת את גרעין VI לגרעין III הנגדי (תת-הגרעין של הישר הפנימי) למבט צדדי משותף.
+
+## תסמונת הורנר (מעבדת האישונים)
+
+- המסלול הסימפתטי של שלושה נוירונים (היפותלמוס, חוט השדרה בגובה T1, הגנגליון הצווארי העליון ולאורך עורק התרדמה), אישון קטן, צניחת עפעף קלה, חוסר הזעה לפעמים, הבדל בין האישונים שגדל בחושך ורפלקס לאור תקין: [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome), [TeachMeAnatomy: Horner's Syndrome](https://teachmeanatomy.info/neuroanatomy/pathology/horners-syndrome/).
+- ההשוואה לפגיעה בעצב III (אישון רחב, צניחה גדולה, עין למטה והחוצה): ראו content/nerves.js (העצב המניע את העין).
+- גדלי האישונים בסימולטור משוערים, להמחשה.
