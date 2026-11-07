@@ -193,7 +193,7 @@ a:hover { color: var(--accent-strong); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(11, 14, 18, 0.88);
+  background: rgba(11, 14, 18, 0.96);
   backdrop-filter: saturate(140%) blur(10px);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
   border-bottom: 1px solid var(--border);
@@ -1737,3 +1737,23 @@ html.a11y-still .sister-clone { display: none; }
 .floor-group-label { margin: 0; writing-mode: vertical-rl; text-align: center; align-self: stretch; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; border-radius: var(--radius-sm); }
 .floor-group-brain .floor-group-label { color: #b5a8dc; background: rgba(107, 95, 142, 0.22); }
 .floor-group-stem .floor-group-label { color: var(--accent); background: rgba(240, 196, 107, 0.1); }
+
+/* ---------- סבב ביקורת: אסתטיקה ונגישות ---------- */
+/* אורך שורה נוח לקריאה גם במחשב */
+.lesson > p, .lesson > ul:not([class*='grid']), .lesson > ol:not(.floors), .lesson .callout, .lesson .fact-list, .lesson .sign-list, .lesson .route, .lesson .comp-list,
+.page-head .lead, .lab-about p, .lab-about ul, .lab-about ol, .press-item > p, .press-known, .exam-body > ol, .exam-body > p { max-width: var(--measure); }
+/* כפתורי תשובה ברוחב אחיד */
+.quiz-options > li { display: flex; }
+.quiz-options .quiz-option { width: 100%; }
+.quiz-lab { margin-inline: auto; }
+/* מונחים באנגלית בתוך שורה בעברית: לא נשברים לא נכון בסוף שורה */
+[lang='en'], [lang='la'], bdi { unicode-bidi: isolate; }
+/* מקום לכפתור הנגישות הצף בתחתית העמוד בטלפון */
+@media (max-width: 600px) { main { padding-bottom: 4.5rem; } }
+/* פירורי לחם בעמוד סיפור */
+#story-root { padding-top: 1.5rem; }
+/* טבלת הרפלקסים: כותרות השורות בולטות */
+.reflex-table th[scope='row'] { color: var(--text); font-weight: 600; }
+/* תמונות היסטוריות: רקע כהה במקום שמנת בוהק */
+.pic img { background: #1b1a17; }
+.tl-figure.pic img { background: #14130f; }
