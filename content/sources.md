@@ -89,3 +89,7 @@
 טענות בכיתובים:
 - בעצב התת-לשוני "נוסעים" סיבים מעצב הצוואר הראשון (C1), וחלקם יוצאים ממנו ב"ענף היורד" (descending hypoglossal / ansa cervicalis): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve), [Wikipedia: Ansa cervicalis](https://en.wikipedia.org/wiki/Ansa_cervicalis).
 - העצבים IX, X ו-XI יוצאים יחד דרך הפתח הצווארי (Gray793, Gray791) — ראו foramina.js.
+
+## מהמחקר החדש (content/research.js)
+
+המאמרים נבחרים מ-PubMed (ספריית הרפואה הלאומית של ארה"ב) דרך E-utilities: https://www.ncbi.nlm.nih.gov/books/NBK25501/ . הכותרות בעברית הן תרגום שלנו לכותרת המקורית בלבד; לא סיכמנו ולא שפטנו את התוכן. הקישורים מובילים לעמוד המאמר ב-PubMed.

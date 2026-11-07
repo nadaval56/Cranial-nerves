@@ -1636,3 +1636,13 @@ html.a11y-still .sister-clone { display: none; }
 .credits p.muted a, .pic-credit a { white-space: nowrap; }
 .pick-zero { --rc: #9aa4b2; grid-column: 1 / -1; border-style: dashed; }
 .panel-zero { --rc: #9aa4b2; }
+
+/* ---------- מהמחקר החדש ---------- */
+.papers { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; gap: 0.6rem; }
+.papers li { padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.paper-title { font-weight: 600; line-height: 1.45; }
+.paper-en { margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted); text-align: left; line-height: 1.45; overflow-wrap: anywhere; }
+.paper-meta { margin: 0.4rem 0 0; font-size: 0.8rem; color: var(--text-2); }
+.paper-kind { display: inline-block; padding: 0.05rem 0.5rem; margin-inline-end: 0.35rem; border-radius: 999px; background: rgba(240, 196, 107, 0.12); color: var(--accent); font-size: 0.75rem; }
+.paper-note { margin-top: 0.75rem; font-size: 0.8rem; }
+.report-error { margin: 1.5rem 0 0; font-size: 0.875rem; text-align: center; }

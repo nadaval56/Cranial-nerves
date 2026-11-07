@@ -6,6 +6,7 @@ import { NERVES, TYPES, COMPONENTS, BRAIN, byId, nerveUrl } from '../../content/
 import { FORAMINA } from '../../content/foramina.js';
 import { brainstemSvg } from './brainstem.js';
 import { DIAGRAMS } from './diagrams.js';
+import { RESEARCH, RESEARCH_UPDATED } from '../../content/research.js';
 
 export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -23,6 +24,7 @@ export const NERVE_ICONS = `<svg class="icon-sprite" aria-hidden="true" focusabl
   <symbol id="i-path" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 0 8h-4a4 4 0 0 0 0 8h6"/></symbol>
   <symbol id="i-test" viewBox="0 0 24 24"><path d="M9 4h6v3H9z"/><path d="M15 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="m9 13 2 2 4-4"/></symbol>
   <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-lab" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
 </svg>`;
@@ -91,6 +93,17 @@ export function nerveBody(n) {
     `<ul class="fact-list">${n.facts.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
     + (n.lab ? `<p><a class="lab-link" href="./${n.lab.href}">${esc(n.lab.label)} ←</a></p>` : ''));
 
+  const heDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ב${['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'][m - 1]} ${y}`; };
+  const papers = RESEARCH[n.id] ?? [];
+  const research = papers.length ? section('research', 'lab', 'מהמחקר החדש',
+    `<p class="muted">מאמרים מהשנה האחרונה על ${esc(n.name)}, מתוך PubMed, מאגר המאמרים הרפואיים של ספריית הרפואה האמריקאית. הכותרות תורגמו לעברית; המאמרים עצמם באנגלית.</p>`
+    + `<ul class="papers">${papers.map((a) => `<li><a class="paper-title" href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" rel="noopener" target="_blank">${esc(a.he)}</a>`
+      + `<p class="paper-en" lang="en" dir="ltr">${esc(a.en)}</p>`
+      + `<p class="paper-meta"><span class="paper-kind">${esc(a.kind)}</span> <span lang="en" dir="ltr">${esc(a.journal)}</span> · ${esc(a.date)}</p></li>`).join('')}</ul>`
+    + `<p class="paper-note muted">עודכן ב-${heDate(RESEARCH_UPDATED)}. הרשימה מתעדכנת מדי שבוע. המאמרים מוצגים לעיון ולא כהמלצה רפואית.</p>`) : '';
+
+  const report = `<p class="report-error muted">מצאתם טעות בעמוד? נשמח לשמוע: <a href="mailto:nadaval56@gmail.com?subject=${encodeURIComponent(`טעות בעמוד ${n.name}`)}">nadaval56@gmail.com</a></p>`;
+
   const related = `<section class="related" aria-labelledby="related-h"><h2 id="related-h">עצבים קשורים</h2><div class="grid grid-3">${n.related.map((id) => nerveCard(byId[id])).join('')}</div></section>`;
 
   const pager = `<nav class="pager" aria-label="מעבר בין העצבים">`
@@ -101,7 +114,7 @@ export function nerveBody(n) {
   return NERVE_ICONS + strip + `<div class="nerve-top">${head}${locator}</div>` + facts
     + `<section class="lesson try-section" aria-labelledby="try-h"><header class="lesson-title"><span class="lesson-ico" aria-hidden="true">${icon('q')}</span><h2 id="try-h">נסו קודם</h2></header>`
     + `<p class="muted">לפני שקוראים: מה דעתכם?</p>${tryFirst(n)}</section>`
-    + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}</div>` + related + pager;
+    + `<div class="lessons">${does}${maps}${path}${test}${lesion}${facts2}${research}</div>` + report + related + pager;
 }
 
 export function nerveCard(n) {

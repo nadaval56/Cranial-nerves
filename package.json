@@ -7,7 +7,8 @@
     "dev": "vite",
     "validate": "node scripts/validate.mjs",
     "build": "npm run validate && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "research": "node scripts/research-candidates.mjs"
   },
   "devDependencies": {
     "vite": "^8.3.4"
