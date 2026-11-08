@@ -178,3 +178,28 @@
 - הגדרות (אנוסמיה, היפוסמיה, פרוסמיה, פנטוסמיה), שכיחות (כחמישית עם ירידה, כ-5% אובדן מלא), גורמים, בדיקות מתוקפות, אימון ריח כהמלצה עיקרית אחרי זיהום נגיפי ופגיעת ראש, ומיעוט הראיות לתרופות: [Hummel et al. 2017](https://pubmed.ncbi.nlm.nih.gov/29528615/), [Whitcroft et al. 2023](https://pubmed.ncbi.nlm.nih.gov/37454287/).
 - קורונה ותאים תומכים: [Brann et al. 2020](https://www.science.org/doi/10.1126/sciadv.abc5801).
 - סקירה כללית, מחלות ניווניות, בטיחות: [Wikipedia: Anosmia](https://en.wikipedia.org/wiki/Anosmia), [Wikipedia: Olfactory training](https://en.wikipedia.org/wiki/Olfactory_training).
+
+## מצבים: דלקת של עצב הראייה
+- [Beck et al., NEJM 1992 (Optic Neuritis Treatment Trial)](https://pubmed.ncbi.nlm.nih.gov/1734247/): סטרואידים בעירוי זירזו את ההחלמה בלי לשנות את התוצאה הסופית; סטרואידים בבליעה לבדם נקשרו ליותר התקפים חוזרים.
+- [Toosy et al., Lancet Neurology 2014](https://pubmed.ncbi.nlm.nih.gov/24331795/): גילאים, שכיחות בנשים, כאב בתנועת העין, הקשר לטרשת נפוצה, NMOSD ו-MOG, אבחנה מבדלת.
+- [Wikipedia: Optic neuritis](https://en.wikipedia.org/wiki/Optic_neuritis).
+
+## מצבים: שיתוק העצב השלישי
+- [Fang et al., JAMA Ophthalmology 2017](https://pubmed.ncbi.nlm.nih.gov/27893002/): כ-4 מקרים ל-100,000 בשנה; פגיעה מיקרו-וסקולרית כסיבה השכיחה; מפרצת פחות שכיחה.
+- [סקירה על שיתוק III ממפרצת של העורק המקשר האחורי (Revista de Neurologia)](https://pubmed.ncbi.nlm.nih.gov/41351389/).
+- [Wikipedia: Oculomotor nerve palsy](https://en.wikipedia.org/wiki/Oculomotor_nerve_palsy), [Intracranial aneurysm](https://en.wikipedia.org/wiki/Intracranial_aneurysm): מעורבות האישון בלחץ מבחוץ, החלמה בתוך כ-3 חודשים בפגיעה מכלי דם קטנים, הרניאציה, הסינוס המערתי.
+
+## מצבים: ירידת שמיעה פתאומית
+- [Chandrasekhar et al., AAO-HNS 2019](https://pubmed.ncbi.nlm.nih.gov/31369359/) ו[סיכום בשפה פשוטה](https://pubmed.ncbi.nlm.nih.gov/31369348/): ההגדרה (30 דציבל, 3 תדרים, 72 שעות), 5 עד 27 ל-100,000, סיבה מזוהה רק בכ-10%, בלי בדיקות דם ו-CT שגרתיים, הערכה ל-MRI, סטרואידים בתוך שבועיים, הזרקה לאוזן התיכונה כטיפול נוסף בשבועות 2 עד 6, תא לחץ כאפשרות, החלמה ספונטנית ב-32% עד 65%.
+- [Wikipedia: Sudden sensorineural hearing loss](https://en.wikipedia.org/wiki/Sudden_sensorineural_hearing_loss).
+
+## מצבים: דלקת של עצב שיווי המשקל
+- [Strupp et al., J Vestib Res 2022 (Bárány Society)](https://pubmed.ncbi.nlm.nih.gov/35723133/): ההגדרה והקריטריונים.
+- [Kattah et al., Stroke 2009](https://pubmed.ncbi.nlm.nih.gov/19762709/): בדיקת HINTS רגישה יותר לשבץ מ-MRI מוקדם.
+- [Fishman et al., Cochrane 2011](https://pubmed.ncbi.nlm.nih.gov/21563170/): אין מספיק ראיות לתועלת קלינית של סטרואידים.
+- [Wikipedia: Vestibular neuritis](https://en.wikipedia.org/wiki/Vestibular_neuritis), [Labyrinthitis](https://en.wikipedia.org/wiki/Labyrinthitis).
+
+## מצבים: שוואנומה וסטיבולרית
+- [Goldbrunner et al., EANO guideline, Neuro-Oncology 2020](https://pubmed.ncbi.nlm.nih.gov/31504802/): מעקב, קרינה ממוקדת וניתוח; MRI עם גדוליניום.
+- [NHS: Acoustic neuroma](https://www.nhs.uk/conditions/acoustic-neuroma/).
+- [Wikipedia: Vestibular schwannoma](https://en.wikipedia.org/wiki/Vestibular_schwannoma), [Neurofibromatosis type II](https://en.wikipedia.org/wiki/Neurofibromatosis_type_II).

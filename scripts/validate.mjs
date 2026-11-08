@@ -5,7 +5,7 @@ import { FORAMINA } from '../content/foramina.js';
 import { EVENTS } from '../content/timeline.js';
 import { DIAGRAMS } from '../src/lib/diagrams.js';
 import { CASES, LEVELS } from '../content/cases.js';
-import { ACTIONS, actionById, REQUIRED } from '../content/clinic-actions.js';
+import { ACTIONS, actionById, REQUIRED, REGIONS, DEVICES } from '../content/clinic-actions.js';
 import { existsSync } from 'node:fs';
 import { CONDITIONS, SECTION_TITLES } from '../content/conditions.js';
 
@@ -46,12 +46,15 @@ const pageExists = (href) => {
   if (ok && hash && file === 'lab-skull.html' && !foramina.has(hash)) return false;
   return ok;
 };
+DEVICES.forEach((d) => d.acts.forEach((id) => { if (!actionById[id]) err('מכשירי המדידה', `פעולה לא קיימת: ${id}`); }));
 const actionIds = new Set();
 ACTIONS.forEach((a) => {
   if (actionIds.has(a.id)) err('קטלוג הבדיקות', `מזהה כפול: ${a.id}`); actionIds.add(a.id);
   if (!a.label || !a.normal) err('קטלוג הבדיקות', `חסר טקסט: ${a.id}`);
   if (/[„“”]/.test(a.label + a.normal)) err('קטלוג הבדיקות', `מירכאות לא ישרות: ${a.id}`);
   if (/—/.test(a.label + a.normal)) err('קטלוג הבדיקות', `מקף ארוך: ${a.id}`);
+  if (/\((?:[IVX]+(?:,\s*[IVX]+)*)\)/.test(a.label)) err('קטלוג הבדיקות', `על הכפתור לא כותבים את העצב (זה רומז על התשובה): ${a.id}`);
+  if ((a.group === 'cranial' || a.group === 'general') && !REGIONS.some((r) => r.id === a.region)) err('קטלוג הבדיקות', `לבדיקה אין אזור בגוף: ${a.id}`);
 });
 CASES.forEach((c, i) => {
   const w = `מקרה ${c.id ?? i}`;
@@ -70,6 +73,7 @@ CASES.forEach((c, i) => {
   REQUIRED.forEach((id) => { if (!c.exam?.[id]) err(w, `חסרה תשובה מותאמת ל-${id}`); });
   (c.key ?? []).forEach((id) => { if (!actionById[id]) err(w, `ממצא מפתח לא קיים: ${id}`); else if (!c.exam?.[id]) err(w, `לממצא המפתח ${id} אין תשובה מותאמת`); });
   (c.redFlags ?? []).forEach((id) => { if (!actionById[id]) err(w, `סימן אזהרה לא קיים: ${id}`); });
+  if (c.ecg != null && (!['sinus', 'af'].includes(c.ecg.rhythm) || !(c.ecg.rate >= 30 && c.ecg.rate <= 180))) err(w, `ecg צריך להיות { rhythm: 'sinus' | 'af', rate: 30-180 }`);
   const txt = JSON.stringify(c);
   if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
   if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');

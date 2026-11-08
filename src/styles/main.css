@@ -1831,28 +1831,10 @@ html.a11y-still .case-findings li { animation: none; }
 .case-fig svg { width: 100%; height: auto; }
 .case-end { margin-top: 1.25rem; }
 
-/* ---------- קליניקה: בדיקה חופשית ---------- */
-.case-work { display: grid; gap: 1.25rem; margin-top: 1.25rem; }
-@media (min-width: 860px) { .case-work { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: start; } .case-log { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; } }
-.case-actions h2, .case-log h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
-.case-actions > .muted { margin: 0 0 0.75rem; font-size: 0.9rem; }
-.act-group { border-top: 1px solid var(--border); padding: 0.4rem 0; }
-.act-group > summary { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: 44px; cursor: pointer; font-weight: 600; color: var(--text); list-style: none; }
-.act-group > summary::-webkit-details-marker { display: none; }
-.act-group > summary::after { content: '▾'; color: var(--text-muted); transition: transform 0.15s; }
-.act-group:not([open]) > summary::after { transform: rotate(90deg); }
-.act-group-count { margin-inline-start: auto; font-size: 0.8rem; font-weight: 400; color: var(--text-muted); }
-.act-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.25rem 0 0.5rem; }
-.act { min-height: 40px; font-size: 0.875rem; }
-.act.is-done { border-color: var(--border-strong); background: var(--surface-2); color: var(--text-muted); }
-.act.is-done::before { content: '✓'; margin-inline-end: 0.35rem; color: var(--text-muted); }
+/* ---------- קליניקה: ביקור בארבע לשוניות ---------- */
 .act-out { margin: 0.25rem 0 0.6rem; padding: 0.65rem 0.85rem; border-radius: var(--radius); background: var(--surface); border-inline-start: 3px solid var(--accent); color: var(--text); font-size: 0.925rem; line-height: 1.55; }
 .act-out strong { display: block; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.1rem; }
 .case-log-count { margin: 0 0 0.6rem; font-size: 0.875rem; color: var(--text-muted); }
-.case-log-list { margin: 0 0 1rem; padding-inline-start: 1.3rem; display: grid; gap: 0.55rem; font-size: 0.9rem; }
-.case-log-list li { color: var(--text-2); line-height: 1.5; }
-.case-log-list strong { display: block; color: var(--text); font-weight: 600; font-size: 0.85rem; }
-.case-ready { width: 100%; }
 .case-sub { font-size: 1.05rem; margin: 1.1rem 0 0.5rem; }
 .case-debrief-lead { color: var(--text); }
 .debrief { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
@@ -1863,7 +1845,98 @@ html.a11y-still .case-findings li { animation: none; }
 .debrief-found .debrief-mark { color: var(--success); }
 .debrief-missed .debrief-mark { color: var(--warning, #f0a372); }
 .debrief-flags .debrief-mark { color: #ef9a8f; }
-@media (min-width: 860px) { .case-ready { position: sticky; bottom: 0; box-shadow: 0 -10px 16px var(--bg-elev); } }
+.debrief-nerves { color: var(--text-muted); font-weight: 400; font-family: Georgia, serif; }
+.case-ready { width: 100%; margin-top: 1rem; }
+
+/* פס הלשוניות: דביק מתחת לכותרת האתר */
+.case-bar { position: sticky; top: 60px; z-index: 20; display: flex; align-items: center; gap: 0.5rem; margin: 1.25rem -0.25rem 0; padding: 0.5rem 0.25rem; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); }
+.case-tabs { display: flex; gap: 0.25rem; flex: 1; min-width: 0; }
+.case-tab { position: relative; flex: 1; min-height: 44px; padding: 0.35rem 0.5rem; border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text-2); font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.case-tab:hover { color: var(--text); background: var(--surface); }
+.case-tab[aria-selected='true'] { color: var(--text); background: var(--surface); border-color: var(--border-strong); box-shadow: inset 0 -2px 0 var(--accent); }
+.case-tab-n { display: inline-block; min-width: 1.3em; margin-inline-start: 0.35rem; padding: 0 0.3rem; border-radius: 999px; background: rgba(240, 196, 107, 0.16); color: var(--accent); font-size: 0.72rem; line-height: 1.4; vertical-align: middle; }
+.case-tab-n:empty { display: none; }
+.case-ready-mini { flex: none; min-height: 40px; padding-inline: 0.85rem; font-size: 0.875rem; }
+.case-panel { padding: 1.1rem 0 0.5rem; scroll-margin-top: 130px; }
+.case-panel[hidden] { display: none; }
+
+/* שיחה */
+.chat { display: flex; flex-direction: column; gap: 0.6rem; max-height: min(52vh, 420px); min-height: 160px; overflow-y: auto; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); overscroll-behavior: contain; }
+.chat-hint { margin: auto; color: var(--text-muted); font-size: 0.925rem; text-align: center; }
+.chat-pair { display: flex; flex-direction: column; gap: 0.35rem; }
+.bubble { max-width: 85%; margin: 0; padding: 0.55rem 0.85rem; border-radius: 16px; line-height: 1.5; font-size: 0.95rem; }
+.bubble-doc { align-self: flex-start; background: rgba(240, 196, 107, 0.14); color: var(--text); border-start-start-radius: 4px; }
+.bubble-pt { align-self: flex-end; background: var(--surface-2, #232a33); color: var(--text); border-start-end-radius: 4px; }
+.chat-pair.is-flash .bubble { animation: chat-flash 0.9s ease-out; }
+@keyframes chat-flash { 0% { box-shadow: 0 0 0 2px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.chat-pair { animation: act-in 0.2s ease-out; }
+.chat-qs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.85rem; }
+.chat-q { min-height: 40px; font-size: 0.875rem; }
+.chat-q.is-done, .mon-dev.is-done, .exam-test.is-done { color: var(--text-muted); border-color: var(--border); background: transparent; }
+.chat-q.is-done::before, .mon-dev.is-done::before, .exam-test.is-done::before { content: '✓'; margin-inline-end: 0.35rem; color: var(--text-muted); font-size: 0.8em; }
+
+/* מדדים: מוניטור ליד המיטה */
+.monitor { padding: 1rem; border: 1px solid #22303a; border-radius: var(--radius-lg); background: linear-gradient(180deg, #05090c, #0a1115); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 6px 24px rgba(0, 0, 0, 0.35); }
+.mon-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+@media (min-width: 640px) { .mon-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.mon-cell { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.55rem 0.7rem; border-radius: 10px; background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(255, 255, 255, 0.05); --mc: #7f8a96; }
+.mon-cell.is-on { border-color: color-mix(in srgb, var(--mc) 35%, transparent); }
+.mon-hr { --mc: #5be08a; } .mon-bp { --mc: #e8edf2; } .mon-sat { --mc: #5ad1f0; } .mon-temp { --mc: #f0c46b; } .mon-glu { --mc: #e59ff0; }
+.mon-k { font-size: 0.75rem; color: #8a96a3; margin: 0; }
+.mon-v { font-family: var(--font-mono); font-size: 1.7rem; font-weight: 700; line-height: 1.15; color: #3a444e; direction: ltr; text-align: right; }
+.mon-cell.is-on .mon-v { color: var(--mc); text-shadow: 0 0 12px color-mix(in srgb, var(--mc) 35%, transparent); }
+.mon-u { font-size: 0.72rem; color: #6c7783; }
+.mon-ecg { margin-top: 0.75rem; padding: 0.5rem; border-radius: 10px; background: #04080a; border: 1px solid rgba(91, 224, 138, 0.15); }
+.mon-ecg svg { display: block; width: 100%; height: auto; }
+.ecg-g { stroke: rgba(91, 224, 138, 0.07); stroke-width: 0.6; }
+.ecg-g2 { stroke: rgba(91, 224, 138, 0.16); }
+.ecg-line { fill: none; stroke: #5be08a; stroke-width: 1.6; stroke-linejoin: round; }
+.ecg-lead { fill: #5be08a; font: 600 12px ui-monospace, monospace; }
+.mon-ecg.is-draw .ecg-line { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: ecg-draw 1.6s linear forwards; }
+@keyframes ecg-draw { to { stroke-dashoffset: 0; } }
+.mon-note { margin: 0.75rem 0 0; color: #b8c3cd; font-size: 0.9rem; line-height: 1.5; }
+.mon-devices { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.85rem; }
+.mon-dev { min-height: 44px; }
+
+/* בדיקה: איור המטופל ואזורים */
+.exam-layout { display: grid; gap: 1rem; }
+@media (min-width: 860px) { .exam-layout { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; } .exam-panel { position: sticky; top: 140px; } }
+.body-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); background: radial-gradient(ellipse at 50% 35%, #1a1f27, #0b0e12 75%); padding: 0.5rem; }
+.body-svg { display: block; width: 100%; height: auto; max-height: 70vh; touch-action: manipulation; }
+.spot { cursor: pointer; outline: none; }
+.spot-area { fill: transparent; stroke: transparent; stroke-width: 2; transition: fill 0.15s, stroke 0.15s; }
+.spot-lead { stroke: rgba(240, 196, 107, 0.35); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.spot-pill { fill: rgba(17, 21, 27, 0.92); stroke: rgba(240, 196, 107, 0.45); stroke-width: 1.2; transition: fill 0.15s, stroke 0.15s; }
+.spot-text { fill: #e8ecf1; font: 600 13px var(--font); pointer-events: none; }
+.spot:hover .spot-area, .spot:focus-visible .spot-area, .spot.is-current .spot-area { fill: rgba(240, 196, 107, 0.16); stroke: rgba(240, 196, 107, 0.8); }
+.spot:hover .spot-pill, .spot:focus-visible .spot-pill { stroke: var(--accent); }
+.spot:focus-visible .spot-pill { stroke-width: 2.5; }
+.spot.is-current .spot-pill { fill: var(--accent); stroke: var(--accent); }
+.spot.is-current .spot-text { fill: #14110a; }
+.spot.is-current .spot-lead, .spot:hover .spot-lead { stroke: var(--accent); stroke-dasharray: none; }
+.spot.is-done:not(.is-current) .spot-pill { stroke: rgba(127, 207, 155, 0.6); }
+.exam-panel { padding: 1rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); scroll-margin-top: 130px; }
+.exam-hint { margin: 0; color: var(--text-muted); }
+.exam-region { margin: 0 0 0.6rem; font-size: 1.2rem; }
+.exam-region:focus { outline: none; }
+.exam-tests { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.exam-test { width: 100%; min-height: 44px; padding: 0.5rem 0.85rem; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface); color: var(--text); font: inherit; font-size: 0.95rem; text-align: start; cursor: pointer; }
+.exam-test:hover { border-color: var(--accent); }
+.exam-test.is-current { border-color: var(--accent); color: var(--text); background: var(--surface); }
+.exam-out { margin: 0.35rem 0 0.25rem; }
+.exam-back { margin: 0.75rem 0 0; font-size: 0.85rem; }
+
+/* התיק */
+.chart { display: grid; gap: 0.75rem; }
+@media (min-width: 860px) { .chart { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; } }
+.chart-sec { padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); }
+.chart-sec h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.chart-sec ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; }
+.chart-sec li { font-size: 0.9rem; line-height: 1.5; color: var(--text-2); }
+.chart-sec li strong { display: block; color: var(--text); font-size: 0.85rem; font-weight: 600; }
+.chart-sec p { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .chat-pair, .chat-pair.is-flash .bubble, .mon-ecg.is-draw .ecg-line { animation: none; stroke-dashoffset: 0; } }
+html.a11y-still .chat-pair, html.a11y-still .chat-pair.is-flash .bubble, html.a11y-still .mon-ecg.is-draw .ecg-line { animation: none; stroke-dashoffset: 0; }
 
 /* ---------- מצבים ומחלות (conditions.html, condition-<id>.html) ---------- */
 .cond-en { font-size: 0.6em; font-weight: 400; color: var(--text-muted); }
