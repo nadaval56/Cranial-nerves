@@ -160,7 +160,7 @@ export const IMAGES = {
     source: { title: `Dogfish (PSF).png`, author: `Pearson Scott Foresman`, url: commons(`Dogfish (PSF).png`), ...PD, modifications: `הוקטן` },
   },
   fritsch: {
-    file: `fritsch-1878-terminal.webp`, w: 330, h: 621,
+    file: `fritsch-1878-terminal.webp`, w: 500, h: 941,
     alt: `תחריט מ-1878: מוח של כריש במבט מלמעלה, עם פקעות הריח בחלק העליון, גזע המוח בחלק התחתון ותוויות קטנות באותיות לטיניות`,
     caption: `המוח של כריש (Galeorhinus galeus) בספר של פריטש מ-1878. כאן הוא תיאר לראשונה את העצב שנקרא היום עצב 0.`,
     source: { title: `Fritsch dogfish shark brain.png`, author: `גוסטב פריטש, 1878`, url: commons(`Fritsch dogfish shark brain.png`), ...PD },

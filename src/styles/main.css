@@ -2019,3 +2019,8 @@ html.a11y-still .mon-ecg.is-running .ecg-track { animation: none; }
 .treat-card { margin-top: 1.25rem; padding: 1rem 1.1rem; background: var(--surface-2); border: 1px solid var(--border); border-inline-start: 3px solid var(--accent); border-radius: var(--radius); }
 .treat-card h3 { margin: 0 0 0.4rem; font-size: 1.1rem; }
 .treat-card p:last-child { margin: 0; color: var(--text-2); }
+
+/* עצב 0: התחריט של פריטש והגדלה שמראה איפה העצב */
+.zero-figs { display: grid; gap: 1rem; align-items: start; }
+.zero-figs .pic { margin: 0; }
+@media (min-width: 760px) { .zero-figs { grid-template-columns: 1fr 1.6fr; } }
