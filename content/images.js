@@ -147,6 +147,24 @@ export const IMAGES = {
     caption: `חתך של האף, הפה, הלוע והגרון. העצב הלשוני-לועי נותן תחושה ללוע ולבסיס הלשון. מגריי, 1918.`,
     source: GRAY(994),
   },
+  tuningFork: {
+    file: `tuning-fork-psf.webp`, w: 800, h: 618,
+    alt: `איור קווי של מזלג קול שעומד על קופסת תהודה מעץ`,
+    caption: `מזלג קול על קופסת תהודה. מזלגות כאלה נכנסו לבדיקת השמיעה במאה ה-19.`,
+    source: { title: `Tuning Fork (PSF).png`, author: `Pearson Scott Foresman`, url: commons(`Tuning Fork (PSF).png`), ...PD, modifications: `הוקטן` },
+  },
+  dogfish: {
+    file: `dogfish-psf.webp`, w: 1000, h: 309,
+    alt: `איור קווי של כריש קטן וצר, מהסוג שנקרא כלב-ים (dogfish)`,
+    caption: `כריש קטן (dogfish). אצל כרישים תיאר פריטש לראשונה את עצב 0.`,
+    source: { title: `Dogfish (PSF).png`, author: `Pearson Scott Foresman`, url: commons(`Dogfish (PSF).png`), ...PD, modifications: `הוקטן` },
+  },
+  fritsch: {
+    file: `fritsch-1878-terminal.webp`, w: 330, h: 621,
+    alt: `תחריט מ-1878: מוח של כריש במבט מלמעלה, עם פקעות הריח בחלק העליון, גזע המוח בחלק התחתון ותוויות קטנות באותיות לטיניות`,
+    caption: `המוח של כריש (Galeorhinus galeus) בספר של פריטש מ-1878. כאן הוא תיאר לראשונה את העצב שנקרא היום עצב 0.`,
+    source: { title: `Fritsch dogfish shark brain.png`, author: `גוסטב פריטש, 1878`, url: commons(`Fritsch dogfish shark brain.png`), ...PD },
+  },
 };
 
 // תמונות בעמודי העצבים (בסעיף "מה הוא עושה")
@@ -190,4 +208,7 @@ export const CREDITS = [
   [`faceMuscles`, `מצבים: עצב הפנים`],
   [`pharynx`, `מצבים: העצב הלשוני-לועי`],
   [`autonomic`, `ציר הזמן (1997), מצבים: העצב התועה`],
+  [`tuningFork`, `ציר הזמן (1855)`],
+  [`dogfish`, `ציר הזמן (1878)`],
+  [`fritsch`, `עצב 0`],
 ].map(([k, where]) => ({ im: IMAGES[k], where }));

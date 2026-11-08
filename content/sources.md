@@ -230,3 +230,6 @@
 - גלנוס, ליתוגרפיה של P. R. Vignéron (Wellcome V0002113): `{{cc-by-2.0}}`.
 - רוברט וויט (Wellcome L0008120): `{{cc-by-4.0}}`.
 - זמרינג, ציור של Wendelin Moosbrugger (1813): `{{PD-art-old-100}}`.
+- מזלג קול על קופסת תהודה, Pearson Scott Foresman: `{{ScottForesman}}`, נחלת הכלל (Tuning Fork (PSF).png).
+- כריש קטן (dogfish), Pearson Scott Foresman: `{{ScottForesman}}`, נחלת הכלל (Dogfish (PSF).png).
+- המוח של כריש, גוסטב פריטש (1878): `{{PD-Art}}` (Fritsch dogfish shark brain.png). מקור לתיאור הראשון של עצב 0.
