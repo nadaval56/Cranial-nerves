@@ -82,7 +82,6 @@ const svg = s('svg', { class: 'eyes-stage', viewBox: `0 0 ${W} ${H}`, role: 'img
 
 // סגנון ומעברי צבע של האיור, באותה שפה כמו מעבדות הפנים והאישונים. חל רק על האיור הזה.
 const STYLE = `
-.eyes-stage .ex-skin { fill: url(#ex-skin); }
 .eyes-stage .ex-socket { fill: url(#ex-socket); }
 .eyes-stage .ex-bridge { fill: none; stroke: #9a6650; stroke-width: 1.8; stroke-linecap: round; opacity: 0.38; }
 .eyes-stage .ex-bridge-hi { fill: #f0cdb4; opacity: 0.3; }
@@ -112,23 +111,21 @@ const STYLE = `
 const grad = (id, kind, attrs, stops) => s(kind, { id, ...attrs }, ...stops.map(([o, c, op = 1]) => s('stop', { offset: o, 'stop-color': c, 'stop-opacity': op })));
 const defs = s('defs', {},
   s('style', {}, document.createTextNode(STYLE)),
-  grad('ex-skin', 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, [['0', '#e2b597'], ['0.6', '#cf9c7e'], ['1', '#a8705a']]),
   grad('ex-socket', 'radialGradient', {}, [['0.4', '#8a5340', 0.45], ['1', '#8a5340', 0]]),
   grad('ex-sclera', 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, [['0', '#fdfaf6'], ['0.7', '#ece4dc'], ['1', '#c9bcb0']]),
   grad('ex-iris', 'radialGradient', {}, [['0', '#6fa4b2'], ['0.45', '#4f8696'], ['0.85', '#2e5562'], ['1', '#1d3a44']]),
   grad('ex-lid', 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, [['0', '#d8a98b'], ['0.85', '#c48f72'], ['1', '#a06c56']]),
   // העור דוהה בשוליים אל הרקע
   // (בלי פילטר טשטוש: הוא מחושב מחדש בכל תזוזה של העיניים, ובטלפון זה גרם לעיכוב. מעבר שקיפות רדיאלי זול בהרבה)
-  grad('ex-fade', 'radialGradient', { cx: '50%', cy: '48%', r: '50%' }, [['0', '#fff'], ['0.6', '#fff'], ['1', '#fff', 0]]),
-  s('mask', { id: 'ex-face', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H },
-    s('rect', { x: 40, y: 10, width: 560, height: 330, fill: 'url(#ex-fade)' })),
+  // (גם בלי מסכה: מסכה מחייבת לצייר מחדש את כל מה שמתחתיה בכל תזוזה. הדהייה בנויה לתוך מעבר הצבע של העור עצמו)
+  grad('ex-skin-fade', 'radialGradient', { cx: '50%', cy: '48%', r: '50%' }, [['0', '#e2b597'], ['0.45', '#d6a587'], ['0.6', '#cf9c7e'], ['0.8', '#bb8468', 0.55], ['1', '#a8705a', 0]]),
 );
 svg.append(defs);
 
 // רקע ופלג הפנים העליון: עור, גשר האף וצללית סביב העיניים
 svg.append(s('rect', { class: 'stage-bg', x: 0, y: 0, width: W, height: H, rx: 18 }));
-const face = s('g', { mask: 'url(#ex-face)' });
-face.append(s('rect', { class: 'ex-skin', x: 0, y: 0, width: W, height: H }));
+const face = s('g');
+face.append(s('rect', { x: 40, y: 10, width: 560, height: 330, fill: 'url(#ex-skin-fade)' }));
 for (const side of ['R', 'L']) face.append(s('ellipse', { class: 'ex-socket', cx: EYES[side].cx + (side === 'R' ? 8 : -8), cy: EYES[side].cy - 4, rx: 90, ry: 56 }));
 face.append(s('ellipse', { class: 'ex-bridge-hi', cx: 320, cy: 200, rx: 10, ry: 48 }));
 face.append(s('path', { class: 'ex-bridge', d: 'M302 140 C308 172 306 214 296 262' }));
@@ -159,13 +156,15 @@ for (const side of ['R', 'L']) {
   for (const k of [-1, 1]) ball.append(s('path', { class: 'ex-vessel', d: `M${cx + k * 60} ${cy + 2} C${cx + k * 50} ${cy - 2} ${cx + k * 44} ${cy + 5} ${cx + k * 36} ${cy + 3}` }));
   const iris = s('g', { class: 'iris-g' });
   iris.append(s('circle', { class: 'iris', cx, cy, r: 21 }));
-  const fibers = s('g');
+  // סיבי הקשתית: שני נתיבים (בהיר וכהה) במקום 40 קווים נפרדים, כדי שהציור בכל תזוזה יהיה קל
+  const fib = { 'ex-fiber': '', 'ex-fiber-d': '' };
   for (let i = 0; i < 40; i++) {
     const a = (i / 40) * Math.PI * 2 + (i % 2) * 0.03;
     const r0 = 9.5 + (i % 3) * 0.7, r1 = 19 - (i % 4) * 0.7;
-    fibers.append(s('line', { class: i % 3 ? 'ex-fiber' : 'ex-fiber-d', x1: cx + Math.cos(a) * r0, y1: cy + Math.sin(a) * r0, x2: cx + Math.cos(a) * r1, y2: cy + Math.sin(a) * r1 }));
+    const f = (n) => n.toFixed(2);
+    fib[i % 3 ? 'ex-fiber' : 'ex-fiber-d'] += `M${f(cx + Math.cos(a) * r0)} ${f(cy + Math.sin(a) * r0)}L${f(cx + Math.cos(a) * r1)} ${f(cy + Math.sin(a) * r1)}`;
   }
-  iris.append(fibers);
+  for (const [cls, d] of Object.entries(fib)) iris.append(s('path', { class: cls, d }));
   iris.append(s('circle', { class: 'ex-collarette', cx, cy, r: 12.5 }));
   iris.append(s('circle', { class: 'ex-limbus', cx, cy, r: 20.6 }));
   const pupil = s('circle', { class: 'pupil', cx, cy, r: 8.5 });
@@ -252,6 +251,14 @@ root.append(layout);
 
 // ---------- עדכון ----------
 
+// כותבים ל-DOM רק כשהערך באמת השתנה: כתיבה של טקסט בכל תזוזה מכריחה את הדפדפן לחשב מחדש את פריסת העמוד,
+// ובטלפון זה מה שגרם לעיכוב בגרירה
+const last = new WeakMap();
+const put = (el, key, val, fn) => { let m = last.get(el); if (!m) last.set(el, m = {}); if (m[key] !== val) { m[key] = val; fn(val); } };
+const setAttr = (el, name, val) => put(el, name, val, (v) => el.setAttribute(name, v));
+const setHtml = (el, val) => put(el, 'html', val, (v) => { el.innerHTML = v; });
+const setText = (el, val) => put(el, 'text', val, (v) => { el.textContent = v; });
+
 function update() {
   const tx = W / 2 + gx * 290, ty = H / 2 + gy * 150;
   target.setAttribute('transform', `translate(${tx} ${ty})`);
@@ -264,7 +271,7 @@ function update() {
     const { iris, pupil, lid, lashes } = parts[side];
     iris.setAttribute('transform', `translate(${p.h * RX} ${p.v * RY})`);
     const hit = lside === side && nerve === 'III';
-    pupil.setAttribute('r', hit ? 14 : 8.5);
+    setAttr(pupil, 'r', hit ? 14 : 8.5);
     // העפעף עוקב מעט אחרי המבט (עולה במבט למעלה, יורד במבט למטה); בפגיעה ב-III הוא צנוח כמעט עד הסוף
     const follow = LID_REST + (p.v < 0 ? p.v * 7 : p.v * 9);
     const off = hit && !lidLifted ? 30 : follow;
@@ -274,13 +281,13 @@ function update() {
     const list = document.getElementById(`mus-${side}`);
     // השרירים שהמבט הזה *דורש* — לפי הכיוון המבוקש, לא לפי מה שהעין הצליחה לעשות
     const mus = activeMuscles(gx * (side === 'R' ? -1 : 1), gy);
-    list.innerHTML = mus.length
+    setHtml(list, mus.length
       ? mus.map((m) => {
         const bad = lside === side && MUSCLES[m].nerve === nerve;
         const noSignal = lside === side && nerve === 'MLF' && m === 'MR';
         return `<li class="${bad || noSignal ? 'is-bad' : ''}">${MUSCLES[m].name} <span class="nerve-num">(${MUSCLES[m].nerve})</span>${bad ? ': לא עובד' : noSignal ? ': תקין, אבל הפקודה לא מגיעה אליו' : ''}</li>`;
       }).join('')
-      : '<li class="muted">מבט ישר: כל השרירים במתח מאוזן</li>';
+      : '<li class="muted">מבט ישר: כל השרירים במתח מאוזן</li>');
   }
 
   // ראייה כפולה: כמה כל עין סוטה מהמקום שהייתה אמורה להיות בו
@@ -296,18 +303,19 @@ function update() {
   const c = (v, m) => Math.max(-m, Math.min(m, v * scale));
   document.getElementById('img-L').setAttribute('transform', `translate(${c(off.L.x, 46)} ${c(off.L.y, 26)})`);
   document.getElementById('img-R').setAttribute('transform', `translate(${c(off.R.x, 46)} ${c(off.R.y, 26)})`);
-  document.getElementById('img-R').style.opacity = ptoClosed && lside === 'R' ? 0 : 1;
-  document.getElementById('img-L').style.opacity = ptoClosed && lside === 'L' ? 0 : 1;
+  setAttr(document.getElementById('img-R'), 'opacity', ptoClosed && lside === 'R' ? 0 : 1);
+  setAttr(document.getElementById('img-L'), 'opacity', ptoClosed && lside === 'L' ? 0 : 1);
   const text = document.getElementById('diplo-text');
-  if (ptoClosed) text.textContent = 'העפעף הצנוח מכסה את העין, ולכן אין ראייה כפולה. הרימו אותו כדי לראות.';
-  else if (sep < 0.05) text.textContent = 'תמונה אחת: העיניים מכוונות יחד.';
+  // אזור "מה האדם רואה" מוקרא לקורא מסך, ולכן הטקסט מתעדכן רק כשהמסקנה משתנה, לא בכל תזוזה
+  if (ptoClosed) setText(text, 'העפעף הצנוח מכסה את העין, ולכן אין ראייה כפולה. הרימו אותו כדי לראות.');
+  else if (sep < 0.05) setText(text, 'תמונה אחת: העיניים מכוונות יחד.');
   else {
     const dir = Math.abs(dx) > Math.abs(dy) * 1.6 ? 'זו ליד זו (אופקית)' : Math.abs(dy) > Math.abs(dx) * 1.6 ? 'זו מעל זו (אנכית)' : 'באלכסון';
-    text.textContent = `ראייה כפולה: שתי תמונות ${dir}. ${sep > 0.35 ? 'הפער גדול.' : 'הפער קטן.'}`;
+    setText(text, `ראייה כפולה: שתי תמונות ${dir}. ${sep > 0.35 ? 'הפער גדול.' : 'הפער קטן.'}`);
   }
 
-  document.getElementById('explain').textContent = EXPLAIN[nerve === 'none' ? 'none' : nerve];
-  document.getElementById('lift').hidden = nerve !== 'III';
+  setText(document.getElementById('explain'), EXPLAIN[nerve === 'none' ? 'none' : nerve]);
+  put(document.getElementById('lift'), 'hidden', nerve !== 'III', (v) => { document.getElementById('lift').hidden = v; });
 }
 
 // ---------- אינטראקציה ----------
