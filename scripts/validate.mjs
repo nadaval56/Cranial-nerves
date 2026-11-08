@@ -6,6 +6,7 @@ import { EVENTS } from '../content/timeline.js';
 import { DIAGRAMS } from '../src/lib/diagrams.js';
 import { CASES, LEVELS } from '../content/cases.js';
 import { ACTIONS, actionById, REQUIRED, REGIONS, DEVICES } from '../content/clinic-actions.js';
+import { DISTRACTORS, distractorById, ADD_KEYS } from '../content/distractors.js';
 import { existsSync } from 'node:fs';
 import { CONDITIONS, SECTION_TITLES } from '../content/conditions.js';
 
@@ -77,9 +78,39 @@ CASES.forEach((c, i) => {
   (c.key ?? []).forEach((id) => { if (!actionById[id]) err(w, `ממצא מפתח לא קיים: ${id}`); else if (!c.exam?.[id]) err(w, `לממצא המפתח ${id} אין תשובה מותאמת`); });
   (c.redFlags ?? []).forEach((id) => { if (!actionById[id]) err(w, `סימן אזהרה לא קיים: ${id}`); });
   if (c.ecg != null && (!['sinus', 'af'].includes(c.ecg.rhythm) || !(c.ecg.rate >= 30 && c.ecg.rate <= 180))) err(w, `ecg צריך להיות { rhythm: 'sinus' | 'af', rate: 30-180 }`);
+  // מסיחים: קיימים, ולא מתנגשים בתשובות של המקרה, בממצאי המפתח או בסימני האזהרה
+  if (!Array.isArray(c.distractors) || c.distractors.length < 2) err(w, 'צריך לפחות 2 מסיחים (למטופל ב ולמטופל ג)');
+  const protectedIds = new Set([...Object.keys(c.exam ?? {}), ...(c.key ?? []), ...(c.redFlags ?? [])]);
+  (c.distractors ?? []).forEach((did) => {
+    const d = distractorById[did];
+    if (!d) { err(w, `מסיח לא קיים: ${did}`); return; }
+    Object.keys(d.exam ?? {}).forEach((id) => { if (protectedIds.has(id)) err(w, `המסיח ${did} מחליף את ${id}, שהוא חלק מהמקרה`); });
+    Object.keys(d.add ?? {}).forEach((id) => {
+      if ((c.key ?? []).includes(id) || (c.redFlags ?? []).includes(id)) err(w, `המסיח ${did} מוסיף ל-${id}, שהוא ממצא מפתח`);
+      if (/^(אין|לא )/.test(c.exam?.[id] ?? '')) err(w, `המסיח ${did} מוסיף ל-${id}, אבל במקרה כתוב "${c.exam[id].slice(0, 20)}"`);
+    });
+  });
+  // מטופל ג: שני המסיחים לא מחליפים את אותה בדיקה
+  const [, c1, c2] = c.distractors ?? [];
+  if (c1 && c2 && distractorById[c1] && distractorById[c2]) {
+    Object.keys(distractorById[c1].exam ?? {}).forEach((id) => { if (distractorById[c2].exam?.[id]) err(w, `במטופל ג שני מסיחים מחליפים את ${id}`); });
+  }
   const txt = JSON.stringify(c);
   if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
   if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');
+});
+
+// ספריית המסיחים
+DISTRACTORS.forEach((d) => {
+  const w = `מסיח ${d.id}`;
+  for (const k of ['id', 'label', 'explain']) if (!d[k]) err(w, `חסר שדה ${k}`);
+  if (!d.exam && !d.add) err(w, 'צריך exam או add');
+  Object.keys(d.exam ?? {}).forEach((id) => { if (!actionById[id]) err(w, `בדיקה לא קיימת: ${id}`); });
+  Object.keys(d.add ?? {}).forEach((id) => { if (!ADD_KEYS.includes(id)) err(w, `add מותר רק ל-${ADD_KEYS.join(', ')}`); });
+  const txt = JSON.stringify(d);
+  if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
+  if (/—/.test(txt)) err(w, 'מקף ארוך');
+  if (/\((?:[IVX]+(?:, ?[IVX]+)*)\)/.test(d.label)) err(w, 'שם עצב בסוגריים בתווית');
 });
 
 // מצבים ומחלות

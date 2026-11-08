@@ -1992,3 +1992,14 @@ html.a11y-still .mon-ecg.is-running .ecg-track { animation: none; }
 .typing i:nth-child(2) { animation-delay: 0.15s; }
 .typing i:nth-child(3) { animation-delay: 0.3s; }
 @keyframes typing-dot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+
+/* ---------- קליניקה: מטופלים (מסיחים) ומוניטור חי ---------- */
+.case-variant { padding: 0.1rem 0.6rem; border: 1px solid var(--border); border-radius: 999px; color: var(--text-2); }
+.case-reroll { min-height: 32px; padding: 0.15rem 0.7rem; font-size: 0.8rem; border: 1px solid var(--border-strong); border-radius: 999px; }
+.mon-top { display: flex; justify-content: flex-end; min-height: 0; }
+.mon-top:has(.mon-pause:not([hidden])) { margin-bottom: 0.5rem; }
+.mon-pause { min-height: 32px; padding: 0.2rem 0.75rem; border: 1px solid rgba(91, 224, 138, 0.35); border-radius: 999px; background: transparent; color: #5be08a; font: inherit; font-size: 0.8rem; cursor: pointer; }
+.mon-pause[aria-pressed='true'] { background: rgba(91, 224, 138, 0.12); }
+.mon-beat { display: inline-block; width: 8px; height: 8px; margin-inline-start: 0.3rem; border-radius: 50%; background: #5be08a; opacity: 0.3; vertical-align: middle; transition: opacity 0.08s ease-out, transform 0.08s ease-out; }
+.mon-beat.is-beat { opacity: 1; transform: scale(1.35); box-shadow: 0 0 8px #5be08a; }
+.debrief-distractors li > span:last-child { display: block; margin-top: 0.2rem; color: var(--text-2); }

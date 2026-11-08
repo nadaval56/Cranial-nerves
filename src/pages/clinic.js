@@ -3,7 +3,9 @@
 // · בדיקה (איור של המטופל: לוחצים על אזור ומקבלים רק את הבדיקות שלו) · התיק (כל מה שנאסף).
 // אחר כך "אני מוכן לאבחנה": שאלה 1 (אילו עצבים) → שאלה 2 (איפה) → סיכום הבדיקה והסבר. שום דבר לא נשמר.
 // על הכפתורים לא כתוב איזה עצב נבדק, כדי לא לרמוז. העצבים מופיעים רק בסיכום.
+// כל מקרה מוגרל כמטופל א (בלי מסיחים), ב או ג (עם מסיחים מ-content/distractors.js). #case-<id>/b = מטופל קבוע, לשיתוף.
 import { CASES, LEVELS } from '../../content/cases.js';
+import { distractorById } from '../../content/distractors.js';
 import { ACTIONS, REGIONS, DEVICES, actionById, groupById } from '../../content/clinic-actions.js';
 import { NERVES, byId } from '../../content/nerves.js';
 import { esc } from '../lib/render.js';
@@ -35,7 +37,17 @@ const kindOf = (id) => (actionById[id].group === 'history' ? 'talk' : actionById
 const CNS_LABEL = 'פגיעה במוח או בגזע המוח (מערכת העצבים המרכזית)';
 const nervesTag = (id) => (actionById[id].nerves ? ` <span class="debrief-nerves" dir="ltr">(${esc(actionById[id].nerves)})</span>` : '');
 
+// מה שרץ ברקע במקרה הפתוח (המוניטור): עוצרים כשעוזבים את המקרה
+let teardown = null;
+const stopCase = () => { if (teardown) { teardown(); teardown = null; } };
+
+// מטופלים: א בלי מסיחים, ב עם המסיח הראשון של המקרה, ג עם השני (והשלישי, אם יש)
+const VARIANTS = ['a', 'b', 'c'];
+const VARIANT_HE = { a: 'א', b: 'ב', c: 'ג' };
+const variantDistractors = (c, v) => (v === 'b' ? c.distractors.slice(0, 1) : v === 'c' ? c.distractors.slice(1, 3) : []);
+
 function showList(focusId) {
+  stopCase();
   view.hidden = true; view.innerHTML = '';
   list.hidden = false; head.hidden = false; how.hidden = false;
   document.title = baseTitle;
@@ -94,10 +106,20 @@ function bodySvg() {
   </svg>`;
 }
 
-function openCase(c) {
+function openCase(c, variant) {
+  stopCase();
   const idx = CASES.indexOf(c);
   const next = CASES[(idx + 1) % CASES.length];
-  const answer = (id) => c.exam[id] ?? actionById[id].normal;
+  const ds = variantDistractors(c, variant).map((id) => distractorById[id]);
+  // התשובה: של המקרה, ואחריה של המסיח, ואחריה התשובה הרגילה. תוספות (add) נכתבות אחרי התשובה של המקרה
+  const answer = (id) => {
+    const adds = ds.map((d) => d.add?.[id]).filter(Boolean);
+    if (c.exam[id]) return adds.length ? `${c.exam[id]} בנוסף: ${adds.join(' ')}` : c.exam[id];
+    const dx = ds.find((d) => d.exam?.[id]);
+    if (dx) return dx.exam[id];
+    if (adds.length) return adds.join(' ');
+    return actionById[id].normal;
+  };
   list.hidden = true; head.hidden = true; how.hidden = true;
   view.hidden = false;
   document.title = `${c.title} · קליניקה · ${SITE.name}`;
@@ -111,7 +133,7 @@ function openCase(c) {
 
   view.innerHTML = `<nav class="breadcrumb case-crumb" aria-label="נתיב"><a href="#" data-back>קליניקה</a> / מקרה ${idx + 1}</nav>`
     + `<article class="case" aria-labelledby="case-h">`
-    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
+    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><span class="case-variant">מטופל ${VARIANT_HE[variant]}</span><button type="button" class="btn btn-ghost case-reroll" data-reroll>מטופל אחר</button><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
     + `<h1 id="case-h">${esc(c.title)}</h1>`
     + `<p class="lead case-story">${esc(c.story)}</p>`
     + `<div class="case-bar"><div class="case-tabs" role="tablist" aria-label="שלבי הביקור">`
@@ -127,8 +149,9 @@ function openCase(c) {
     // מדדים
     + `<section class="case-panel" role="tabpanel" id="panel-vitals" aria-labelledby="tab-vitals" hidden>`
     + `<div class="monitor">`
+    + `<div class="mon-top"><button type="button" class="mon-pause" data-mon-pause aria-pressed="false" hidden>עצירת המוניטור</button></div>`
     + `<div class="mon-grid">`
-    + `<div class="mon-cell mon-hr"><span class="mon-k">דופק</span><span class="mon-v" data-mon="hr">--</span><span class="mon-u">לדקה <span data-mon="hrx"></span></span></div>`
+    + `<div class="mon-cell mon-hr"><span class="mon-k">דופק <span class="mon-beat" aria-hidden="true" hidden></span></span><span class="mon-v" data-mon="hr">--</span><span class="mon-u">לדקה <span data-mon="hrx"></span></span></div>`
     + `<div class="mon-cell mon-bp"><span class="mon-k">לחץ דם</span><span class="mon-v" data-mon="bp">--/--</span><span class="mon-u">מ"מ כספית</span></div>`
     + `<div class="mon-cell mon-sat"><span class="mon-k">ריווי חמצן</span><span class="mon-v" data-mon="sat">--</span><span class="mon-u">%</span></div>`
     + `<div class="mon-cell mon-temp"><span class="mon-k">חום</span><span class="mon-v" data-mon="temp">--</span><span class="mon-u">מעלות</span></div>`
@@ -247,17 +270,73 @@ function openCase(c) {
   const num = (t) => (t.match(/\d+(?:\.\d+)?/) ?? [''])[0];
   const mon = (k, v) => { const el = $(`[data-mon="${k}"]`); el.textContent = v; el.closest('.mon-cell').classList.add('is-on'); };
   const note = $('[data-mon-note]');
+
+  // ---------- מוניטור חי ----------
+  // אחרי מדידת דופק: נקודה שמהבהבת בקצב הדופק (בפרפור פרוזדורים: במרווחים לא סדירים), והערכים זזים מעט (דופק ±4, ריווי ±1).
+  // האק"ג רץ. הכול נעצר בכפתור "עצירת המוניטור" (WCAG 2.2.2), ב"עצירת אנימציות" ובהעדפת "פחות תנועה".
+  // הערכים שזזים לא מוקראים (התא לא אזור חי). בתיק ובסיכום נשאר הערך שנמדד.
+  const monitorEl = $('.monitor'), pauseBtn = $('[data-mon-pause]'), dot = $('.mon-beat');
+  const hrEl = $('[data-mon="hr"]'), satEl = $('[data-mon="sat"]');
+  const irregular = c.ecg?.rhythm === 'af' || /לא סדיר/.test(answer('v_pulse'));
+  let liveOn = false, userPaused = false, hrBase = null, hrCur = null, satBase = null, satCur = null, beatT = 0, driftT = 0, flashT = 0;
+  const running = () => liveOn && !userPaused && !reduced();
+  const beat = () => {
+    if (!running()) { beatT = 0; return; }
+    dot.classList.add('is-beat'); clearTimeout(flashT); flashT = setTimeout(() => dot.classList.remove('is-beat'), 140);
+    const mean = 60000 / (hrCur || 76);
+    beatT = setTimeout(beat, irregular ? mean * (0.55 + Math.random() * 0.95) : mean);
+  };
+  const drift = () => {
+    if (!running()) { driftT = 0; return; }
+    if (hrBase != null) {
+      hrCur = Math.max(hrBase - 4, Math.min(hrBase + 4, hrCur + Math.round(Math.random() * 4) - 2));
+      hrEl.textContent = String(hrCur);
+    }
+    if (satBase != null && Math.random() < 0.35) {
+      satCur = Math.max(satBase - 1, Math.min(Math.min(100, satBase + 1), satCur + (Math.random() < 0.5 ? -1 : 1)));
+      satEl.textContent = String(satCur);
+    }
+    driftT = setTimeout(drift, 2000);
+  };
+  const stopTimers = () => { clearTimeout(beatT); clearTimeout(driftT); clearTimeout(flashT); beatT = driftT = 0; dot.classList.remove('is-beat'); };
+  const syncLive = () => {
+    const still = reduced();
+    pauseBtn.hidden = !liveOn || still;
+    pauseBtn.setAttribute('aria-pressed', String(userPaused));
+    pauseBtn.textContent = userPaused ? 'הפעלת המוניטור' : 'עצירת המוניטור';
+    const run = running();
+    monitorEl.classList.toggle('is-live', run);
+    $('[data-ecg]').classList.toggle('is-running', run);
+    if (run) {
+      if (!beatT && hrBase != null) beat();
+      if (!driftT) driftT = setTimeout(drift, 2000);
+    } else {
+      stopTimers();
+      if (still) { if (hrBase != null) { hrCur = hrBase; hrEl.textContent = String(hrBase); } if (satBase != null) { satCur = satBase; satEl.textContent = String(satBase); } }
+    }
+  };
+  const startPulse = () => {
+    if (hrBase == null) { hrBase = hrCur = Number(num(answer('v_pulse'))) || null; dot.hidden = hrBase == null; }
+    liveOn = true; syncLive();
+  };
+  pauseBtn.addEventListener('click', () => { userPaused = !userPaused; syncLive(); });
+  const obs = new MutationObserver(syncLive);
+  obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  teardown = () => { obs.disconnect(); stopTimers(); };
   view.querySelectorAll('.mon-dev').forEach((b) => b.addEventListener('click', () => {
     const d = DEVICES.find((x) => x.id === b.dataset.dev);
     let line = '';
     if (d.id === 'cuff') {
       const p = answer('v_pulse'), bp = answer('v_bp');
       mon('hr', num(p)); $('[data-mon="hrx"]').textContent = /לא סדיר/.test(p) ? '· לא סדיר' : '';
+      startPulse();
       mon('bp', (bp.match(/\d{2,3}\/\d{2,3}/) ?? ['?'])[0]);
       line = `דופק: ${p} לחץ דם: ${bp}`;
     } else if (d.id === 'oxi') {
       const s = answer('v_sat');
       mon('sat', num(s)); mon('hr', num(answer('v_pulse')));
+      satBase = satCur = Number(num(s)) || null;
+      startPulse();
       line = `ריווי חמצן: ${s}`;
     } else if (d.id === 'gluco') {
       const g = answer('v_glucose'); mon('glu', num(g)); line = `סוכר: ${g}`;
@@ -266,23 +345,10 @@ function openCase(c) {
     } else if (d.id === 'ecg') {
       const box = $('[data-ecg]');
       const rate = c.ecg?.rate ?? (Number(num(answer('v_pulse'))) || 76);
-      box.innerHTML = `<div class="mon-ecg-head"><p class="mon-k">אק"ג, 3 לידים</p><button type="button" class="ecg-pause" aria-pressed="false">עצירת האק"ג</button></div>`
+      box.innerHTML = `<div class="mon-ecg-head"><p class="mon-k">אק"ג, 3 לידים</p></div>`
         + ecgSvg({ rhythm: c.ecg?.rhythm ?? 'sinus', rate, seed: c.id, title: `אק"ג, 3 לידים. ${answer('v_ecg')}` });
       box.hidden = false;
-      // הרצועה רצה כל עוד העמוד פתוח. כפתור עצירה (WCAG 2.2.2), ונעצרת גם ב"עצירת אנימציות" ובהעדפת "פחות תנועה"
-      const pauseBtn = box.querySelector('.ecg-pause');
-      let userPaused = false;
-      const sync = () => {
-        const still = reduced();
-        const run = !userPaused && !still;
-        box.classList.toggle('is-running', run);
-        pauseBtn.hidden = still;
-        pauseBtn.setAttribute('aria-pressed', String(userPaused));
-        pauseBtn.textContent = userPaused ? 'הפעלת האק"ג' : 'עצירת האק"ג';
-      };
-      pauseBtn.addEventListener('click', () => { userPaused = !userPaused; sync(); });
-      new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-      sync();
+      liveOn = true; syncLive();
       line = `אק"ג: ${answer('v_ecg')}`;
     }
     note.textContent = line;
@@ -415,8 +481,26 @@ function openCase(c) {
     if (missed.length) html += `<h3 class="case-sub">ממצאים חשובים שלא בדקתם</h3><ul class="debrief debrief-missed">${missed.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">✗</span><span class="visually-hidden">לא נבדק: </span>')).join('')}</ul>`;
     if (flags.length) html += `<h3 class="case-sub">סימני אזהרה שכדאי לבדוק תמיד במצב כזה</h3><ul class="debrief debrief-flags">${flags.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">!</span>')).join('')}</ul>`;
     if (extra.length) html += `<h3 class="case-sub">בדיקות שלא היו הכרחיות במקרה הזה</h3><p class="muted">אין בהן נזק, והן חלק מבדיקה יסודית. הן פשוט לא שינו את האבחנה: ${extra.map((id) => esc(actionById[id].label)).join(' · ')}.</p>`;
+    html += `<h3 class="case-sub">מסיחים בתרחיש הזה</h3>`;
+    if (!ds.length) html += `<p class="muted">הפעם (מטופל ${VARIANT_HE[variant]}) לא היו מסיחים: כל מה שמצאתם קשור לאבחנה או תקין. אפשר לנסות "מטופל אחר".</p>`;
+    else {
+      html += `<p class="muted">למטופל ${VARIANT_HE[variant]} יש פרטים אמיתיים מהחיים שלא קשורים לאבחנה. ככה זה גם במרפאה: לא כל ממצא חריג הוא התשובה.</p>`
+        + `<ul class="debrief debrief-distractors">${ds.map((d) => {
+          const ids = [...Object.keys(d.exam ?? {}), ...Object.keys(d.add ?? {})];
+          const met = ids.some((id) => done.includes(id));
+          const where = ids.map((id) => esc(actionById[id].label)).join(' · ');
+          return `<li><span class="debrief-mark" aria-hidden="true">${met ? '◆' : '◇'}</span><strong>${esc(d.label)}</strong> <span class="muted">(${met ? 'נתקלתם בזה' : 'לא נתקלתם בזה'}: ${where})</span><span>${esc(d.explain)}</span></li>`;
+        }).join('')}</ul>`;
+    }
     return html;
   }
+
+  $('[data-reroll]').addEventListener('click', () => {
+    const others = VARIANTS.filter((v) => v !== variant);
+    const v = others[Math.floor(Math.random() * others.length)];
+    history.replaceState(null, '', `#case-${c.id}/${v}`);
+    openCase(c, v);
+  });
 
   view.querySelectorAll('[data-back]').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();
@@ -427,9 +511,9 @@ function openCase(c) {
 }
 
 function route() {
-  const m = location.hash.match(/^#case-([\w-]+)$/);
+  const m = location.hash.match(/^#case-([\w-]+?)(?:\/([abc]))?$/);
   const c = m && CASES.find((x) => x.id === m[1]);
-  if (c) openCase(c); else showList();
+  if (c) openCase(c, m[2] ?? VARIANTS[Math.floor(Math.random() * VARIANTS.length)]); else showList();
 }
 addEventListener('hashchange', route);
 addEventListener('popstate', route);
