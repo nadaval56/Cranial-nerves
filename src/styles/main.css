@@ -1894,3 +1894,10 @@ html.a11y-still .case-findings li { animation: none; }
 @media (prefers-reduced-motion: reduce) { .act-chips .act-out { animation: none; } }
 html.a11y-still .act-chips .act-out { animation: none; }
 .act.is-current { border-color: var(--accent); color: var(--text); }
+/* עמוד מצב: קישורים לשאר האתר ככרטיסים קטנים, ותמונות */
+.cond-links { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.cond-links a { display: flex; flex-direction: column; gap: 0.15rem; height: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); text-decoration: none; transition: border-color 0.15s; }
+.cond-links a:hover, .cond-links a:focus-visible { border-color: var(--accent); }
+.cond-link-kind { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
+.cond-link-label { font-size: 0.925rem; line-height: 1.45; }
+.cond-pic { margin-top: 1rem; }

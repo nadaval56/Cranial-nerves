@@ -22,6 +22,7 @@ export const PRESS = [
       `חולשה פתאומית בפנים יכולה להיות גם סימן לשבץ. בשבץ המצח ממשיך לזוז, ובשיתוק בל גם המצח משותק. את ההבדל אפשר לראות במעבדת הפנים.`,
     ],
     links: [
+      { href: `condition-bell.html`, label: `שיתוק בל: העמוד המלא` },
       { href: `nerve-facial.html`, label: `עצב הפנים` },
       { href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
       { href: `press-anski-synkinesis.html`, label: `מיכל אנסקי: כשההחלמה חלקית` },
@@ -55,6 +56,7 @@ export const PRESS = [
       `טיפול בסטרואידים שמתחיל בתוך 72 שעות משפר את הסיכוי להחלמה מלאה.`,
     ],
     links: [
+      { href: `condition-bell.html`, label: `שיתוק בל: העמוד המלא` },
       { href: `nerve-facial.html`, label: `עצב הפנים` },
       { href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
       { href: `press-anski-synkinesis.html`, label: `מיכל אנסקי: כשההחלמה חלקית` },
@@ -196,6 +198,7 @@ export const PRESS = [
       `רוב האנשים עם שיתוק בל מחלימים לגמרי. אצל מיעוט ההחלמה חלקית, ואז יכולים להישאר חולשה או סינקינזיס.`,
     ],
     links: [
+      { href: `condition-bell.html`, label: `שיתוק בל: העמוד המלא` },
       { href: `nerve-facial.html`, label: `עצב הפנים` },
       { href: `press-gilad-bell.html`, label: `גם אברי גלעד: שיתוק בל ב-2026` },
     ],

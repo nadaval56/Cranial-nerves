@@ -47,6 +47,7 @@ export const CASES = [
       `זו התמונה של שיתוק בל: שיתוק פתאומי של עצב הפנים בצד אחד, שהסיבה המדויקת שלו לא ידועה. אצל רוב האנשים הוא חולף בתוך שבועות עד חודשים.`,
     ],
     links: [
+      { href: `condition-bell.html`, label: `שיתוק בל: העמוד המלא` },
       { href: `nerve-facial.html`, label: `עצב הפנים` },
       { href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
       { href: `press-gilad-bell.html`, label: `בתקשורת: אברי גלעד` },
@@ -95,6 +96,7 @@ export const CASES = [
       `חולשה פתאומית בפנים ובזרוע, עם קושי בדיבור, היא סימן אזהרה לשבץ. במצב כזה פונים מיד לחדר מיון.`,
     ],
     links: [
+      { href: `condition-bell.html`, label: `שיתוק בל: העמוד המלא` },
       { href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
       { href: `basics.html#chain`, label: `יסודות: שני נוירונים בשרשרת` },
       { href: `nerve-facial.html`, label: `עצב הפנים` },
