@@ -47,7 +47,6 @@ const svg = s('svg', { class: 'pupil-stage', viewBox: `0 0 ${W} ${H}`, role: 'im
 
 // סגנון ומעברי צבע של האיור, באותה שפה כמו הפנים במעבדת עצב הפנים. חל רק על האיור הזה.
 const STYLE = `
-.pupil-stage .px-skin { fill: url(#px-skin); }
 .pupil-stage .px-socket { fill: url(#px-socket); }
 .pupil-stage .px-bridge { fill: none; stroke: #9a6650; stroke-width: 1.8; stroke-linecap: round; opacity: 0.38; }
 .pupil-stage .px-bridge-hi { fill: #f0cdb4; opacity: 0.3; }
@@ -80,22 +79,20 @@ const grad = (id, kind, attrs, stops) => s(kind, { id, ...attrs }, ...stops.map(
 const defs = s('defs', {},
   s('style', {}, document.createTextNode(STYLE)),
   grad('beam', 'radialGradient', {}, [['0', '#fff7d6', 0.85], ['1', '#fff7d6', 0]]),
-  grad('px-skin', 'radialGradient', { cx: '50%', cy: '38%', r: '62%' }, [['0', '#e2b597'], ['0.6', '#cf9c7e'], ['1', '#a8705a']]),
   grad('px-socket', 'radialGradient', {}, [['0.4', '#8a5340', 0.45], ['1', '#8a5340', 0]]),
   grad('px-sclera', 'radialGradient', { cx: '50%', cy: '42%', r: '62%' }, [['0', '#fdfaf6'], ['0.7', '#ece4dc'], ['1', '#c9bcb0']]),
   grad('px-iris', 'radialGradient', {}, [['0', '#6fa4b2'], ['0.45', '#4f8696'], ['0.85', '#2e5562'], ['1', '#1d3a44']]),
   grad('px-lid', 'linearGradient', { x1: '0', y1: '0', x2: '0', y2: '1' }, [['0', '#d8a98b'], ['0.85', '#c48f72'], ['1', '#a06c56']]),
-  // העור דוהה בשוליים אל הרקע
-  s('filter', { id: 'px-soft', x: '-20%', y: '-20%', width: '140%', height: '140%' }, s('feGaussianBlur', { stdDeviation: 14 })),
-  s('mask', { id: 'px-face', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H },
-    s('path', { d: 'M78 178 C60 110 96 30 320 18 C544 30 580 110 562 178 C520 196 120 196 78 178 Z', fill: '#fff', filter: 'url(#px-soft)' })),
+  // העור דוהה בשוליים אל הרקע. הדהייה בתוך מעבר הצבע עצמו, בלי מסכה ובלי טשטוש:
+  // מסכה מטושטשת מחושבת מחדש בכל פריים של אנימציה (האישונים, הפנס), ובטלפון זה מאט
+  grad('px-skin-fade', 'radialGradient', { cx: '50%', cy: '50%', r: '50%' }, [['0', '#e2b597'], ['0.55', '#d6a587'], ['0.74', '#cc987a'], ['0.88', '#bd8669', 0.55], ['1', '#a8705a', 0]]),
 );
 svg.append(defs);
 svg.append(s('rect', { class: 'stage-bg', x: 0, y: 0, width: W, height: H, rx: 18 }));
 
 // פלג הפנים העליון: עור, גשר האף וצללית סביב העיניים
-const face = s('g', { mask: 'url(#px-face)' });
-face.append(s('rect', { class: 'px-skin', x: 0, y: 0, width: W, height: H }));
+const face = s('g');
+face.append(s('ellipse', { cx: 320, cy: 102, rx: 282, ry: 102, fill: 'url(#px-skin-fade)' }));
 for (const side of ['R', 'L']) face.append(s('ellipse', { class: 'px-socket', cx: EYES[side].cx + (side === 'R' ? 8 : -8), cy: EYES[side].cy - 4, rx: 96, ry: 58 }));
 face.append(s('ellipse', { class: 'px-bridge-hi', cx: 320, cy: 128, rx: 10, ry: 40 }));
 face.append(s('path', { class: 'px-bridge', d: 'M300 86 C306 112 304 146 296 182' }));
