@@ -31,34 +31,43 @@ function beat(t, lead, withP) {
 }
 
 function beatTimes(rhythm, rate, rand) {
+  // פעימות בתוך "מחזור" אחד של SEC שניות. הרצועה בנויה משני מחזורים זהים, כדי שאפשר יהיה לגלול אותה בלולאה בלי תפר
   const mean = 60 / Math.max(30, Math.min(180, rate || 76));
+  const n = Math.max(1, Math.round(SEC / mean));
+  const step = SEC / n;
   const times = [];
-  let t = 0.35 + rand() * 0.2;
-  while (t < SEC + 0.5) {
-    times.push(t);
-    t += rhythm === 'af' ? mean * (0.55 + rand() * 0.95) : mean * (0.985 + rand() * 0.03);
+  if (rhythm === 'af') {
+    let t = rand() * step;
+    while (t < SEC) { times.push(t); t += mean * (0.55 + rand() * 0.95); }
+  } else {
+    for (let i = 0; i < n; i++) times.push(i * step + step * 0.4);
   }
   return times;
 }
 
 export function ecgSvg({ rhythm = 'sinus', rate = 76, seed = 'x', title = 'אק"ג' } = {}) {
   const rand = rng(seed);
-  const times = beatTimes(rhythm, rate, rand);
+  const base = beatTimes(rhythm, rate, rand);
+  const times = [-1, 0, 1, 2].flatMap((k) => base.map((b) => b + k * SEC));
   const fib = [rand() * 6, rand() * 6, rand() * 6];
   const grid = [];
   for (let x = 0; x <= W; x += 8) grid.push(`<line x1="${x}" y1="0" x2="${x}" y2="${LEAD_H * 3}" class="ecg-g${x % 40 ? '' : ' ecg-g2'}"/>`);
   for (let y = 0; y <= LEAD_H * 3; y += 8) grid.push(`<line x1="0" y1="${y}" x2="${W}" y2="${y}" class="ecg-g${y % 40 ? '' : ' ecg-g2'}"/>`);
+  const fibW = (2 * Math.PI) / SEC; // תדרי הרטט כפולות שלמות של המחזור, כדי שגם הם יתחברו בלי תפר
   const paths = LEADS.map((lead, li) => {
-    const base = LEAD_H * li + LEAD_H * 0.62;
+    const y0 = LEAD_H * li + LEAD_H * 0.62;
     const pts = [];
-    for (let x = 0; x <= W; x += 1.5) {
+    for (let x = 0; x <= 2 * W; x += 1.5) {
       const ts = x / PX_PER_S;
       let v = 0;
       for (const b of times) { const d = ts - b; if (d > -0.3 && d < 0.6) v += beat(d, lead, rhythm !== 'af'); }
-      if (rhythm === 'af') v += 0.035 * (Math.sin(ts * 37 + fib[li]) + 0.7 * Math.sin(ts * 53 + fib[li] * 2) + 0.5 * Math.sin(ts * 71));
-      pts.push(`${x.toFixed(1)},${(base - v * 46).toFixed(1)}`);
+      if (rhythm === 'af') v += 0.035 * (Math.sin(ts * fibW * 35 + fib[li]) + 0.7 * Math.sin(ts * fibW * 51 + fib[li] * 2) + 0.5 * Math.sin(ts * fibW * 68));
+      pts.push(`${x.toFixed(1)},${(y0 - v * 46).toFixed(1)}`);
     }
     return `<text x="${W - 8}" y="${LEAD_H * li + 18}" class="ecg-lead" text-anchor="end">${lead.name}</text><polyline points="${pts.join(' ')}" class="ecg-line"/>`;
   }).join('');
-  return `<svg class="ecg" viewBox="0 0 ${W} ${LEAD_H * 3}" role="img" aria-label="${title}" direction="ltr">${grid.join('')}${paths}</svg>`;
+  // המסילה (ecg-track) רחבה פי שניים מהחלון וזזה שמאלה במחזור אחד, בלולאה
+  return `<svg class="ecg" viewBox="0 0 ${W} ${LEAD_H * 3}" role="img" aria-label="${title}" direction="ltr"><defs><clipPath id="ecg-clip"><rect width="${W}" height="${LEAD_H * 3}"/></clipPath></defs>${grid.join('')}`
+    + `<g clip-path="url(#ecg-clip)"><g class="ecg-track" style="--ecg-w:${W}px;--ecg-s:${SEC}s">${paths.replace(/<text[^>]*>[^<]*<\/text>/g, '')}</g></g>`
+    + LEADS.map((lead, li) => `<text x="${W - 8}" y="${LEAD_H * li + 18}" class="ecg-lead" text-anchor="end">${lead.name}</text>`).join('') + `</svg>`;
 }

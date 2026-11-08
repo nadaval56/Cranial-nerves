@@ -227,9 +227,17 @@ function openCase(c) {
     pair.className = 'chat-pair';
     pair.dataset.bubble = id;
     pair.innerHTML = `<p class="bubble bubble-doc"><span class="visually-hidden">אתם: </span>${esc(actionById[id].label)}</p>`
-      + `<p class="bubble bubble-pt"><span class="visually-hidden">המטופל: </span>${esc(answer(id))}</p>`;
+      + `<p class="bubble bubble-pt is-typing" aria-hidden="true"><span class="typing"><i></i><i></i><i></i></span></p>`;
     chat.append(pair);
     chat.scrollTo({ top: chat.scrollHeight, behavior: behavior() });
+    // המטופל "מקליד" רגע לפני שהוא עונה, כמו בצ'אט. בלי תנועה: התשובה מיד
+    const pt = pair.querySelector('.bubble-pt');
+    const reply = () => {
+      pt.classList.remove('is-typing'); pt.removeAttribute('aria-hidden');
+      pt.innerHTML = `<span class="visually-hidden">המטופל: </span>${esc(answer(id))}`;
+      chat.scrollTo({ top: chat.scrollHeight, behavior: behavior() });
+    };
+    if (reduced()) reply(); else setTimeout(reply, 650 + Math.min(900, answer(id).length * 12));
     b.classList.add('is-done');
     b.setAttribute('aria-label', `${actionById[id].label} (נשאל)`);
     record(id);
@@ -258,9 +266,23 @@ function openCase(c) {
     } else if (d.id === 'ecg') {
       const box = $('[data-ecg]');
       const rate = c.ecg?.rate ?? (Number(num(answer('v_pulse'))) || 76);
-      box.innerHTML = `<p class="mon-k">אק"ג, 3 לידים</p>` + ecgSvg({ rhythm: c.ecg?.rhythm ?? 'sinus', rate, seed: c.id, title: `אק"ג, 3 לידים. ${answer('v_ecg')}` });
+      box.innerHTML = `<div class="mon-ecg-head"><p class="mon-k">אק"ג, 3 לידים</p><button type="button" class="ecg-pause" aria-pressed="false">עצירת האק"ג</button></div>`
+        + ecgSvg({ rhythm: c.ecg?.rhythm ?? 'sinus', rate, seed: c.id, title: `אק"ג, 3 לידים. ${answer('v_ecg')}` });
       box.hidden = false;
-      box.classList.toggle('is-draw', !reduced());
+      // הרצועה רצה כל עוד העמוד פתוח. כפתור עצירה (WCAG 2.2.2), ונעצרת גם ב"עצירת אנימציות" ובהעדפת "פחות תנועה"
+      const pauseBtn = box.querySelector('.ecg-pause');
+      let userPaused = false;
+      const sync = () => {
+        const still = reduced();
+        const run = !userPaused && !still;
+        box.classList.toggle('is-running', run);
+        pauseBtn.hidden = still;
+        pauseBtn.setAttribute('aria-pressed', String(userPaused));
+        pauseBtn.textContent = userPaused ? 'הפעלת האק"ג' : 'עצירת האק"ג';
+      };
+      pauseBtn.addEventListener('click', () => { userPaused = !userPaused; sync(); });
+      new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      sync();
       line = `אק"ג: ${answer('v_ecg')}`;
     }
     note.textContent = line;
