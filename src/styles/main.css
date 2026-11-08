@@ -270,8 +270,9 @@ a:hover { color: var(--accent-strong); }
 /* אייקון לכל נושא — רק בתפריט הנפתח בנייד */
 .nav-icon { display: none; }
 
-/* בנייד: התפריט נסגר רק כש-JS פעיל (שיפור הדרגתי) */
-@media (max-width: 759px) {
+/* בנייד ובטאבלט: התפריט נסגר רק כש-JS פעיל (שיפור הדרגתי).
+   עד 959px, כי תשעת הפריטים לא נכנסים בשורה אחת ברוחב קטן יותר */
+@media (max-width: 959px) {
   .js .nav-toggle { display: block; }
   .js .site-nav {
     position: absolute;
@@ -810,15 +811,15 @@ a:hover { color: var(--accent-strong); }
   z-index: 10;
   margin: 0 calc(var(--gutter) * -1) 1.5rem;
   padding: 0.6rem var(--gutter);
-  background: rgba(11, 14, 18, 0.92);
+  background: rgba(11, 14, 18, 0.97);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-  scrollbar-width: none;
 }
-.tl-nav::-webkit-scrollbar { display: none; }
-.tl-nav ol { display: flex; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+/* כל השנים גלויות, בלי גלילה הצידה: בטלפון רשת של שתי שורות, ובמסך רחב שורה שנשברת לפי הצורך */
+.tl-nav ol { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+.tl-nav li { display: flex; }
+@media (min-width: 760px) { .tl-nav ol { display: flex; flex-wrap: wrap; gap: 0.4rem; } }
 .tl-nav a {
   display: inline-block;
   padding: 0.3rem 0.75rem;
@@ -830,6 +831,7 @@ a:hover { color: var(--accent-strong); }
   text-decoration: none;
   white-space: nowrap;
 }
+@media (max-width: 759px) { .tl-nav a { flex: 1; text-align: center; padding: 0.3rem 0.2rem; font-size: 0.8rem; } }
 .tl-nav a:hover { color: var(--text); }
 .tl-nav a[aria-current] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
 
