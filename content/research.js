@@ -2,7 +2,7 @@
 // נוצר מ-PubMed E-utilities (סקירות, ניסויים ומטה-אנליזות מהשנה האחרונה, באנגלית, עם תקציר).
 // הכותרות בעברית הן תרגום חופשי שלנו; הקישור מוביל למאמר המקורי.
 
-export const RESEARCH_UPDATED = `2026-11-07`;
+export const RESEARCH_UPDATED = `2026-11-08`;
 
 export const RESEARCH = {
   olfactory: [
@@ -13,8 +13,8 @@ export const RESEARCH = {
     { pmid: `42248815`, he: `פגיעה בחוש הריח ומרכיבי התסמונת המטבולית`, en: `Olfactory Dysfunction and Metabolic Syndrome Components: A Systematic Review and Meta-Analysis`, journal: `The Laryngoscope`, date: `נובמבר 2026`, kind: `מטה-אנליזה` },
   ],
   optic: [
+    { pmid: `42965719`, he: `נזק לעצב הראייה בטוקסופלזמוזיס: מאפיינים קליניים, אבחון ותוצאות`, en: `Toxoplasmosis-associated optic neuropathies: a systematic review and meta-analysis of clinical characteristics, diagnosis, and outcomes`, journal: `International ophthalmology`, date: `אוקטובר 2026`, kind: `מטה-אנליזה` },
     { pmid: `42768849`, he: `תרופות ממשפחת GLP-1 (כמו אוזמפיק) והסיכון לאוטם בעצב הראייה: השוואה בין התרופות`, en: `Comparative Risk of Nonarteritic Anterior Ischemic Optic Neuropathy Among Glucagon-Like Peptide-1 Receptor Agonists: An Integrated Safety and Mechanistic Analysis`, journal: `Diabetes, obesity & metabolism`, date: `דצמבר 2026`, kind: `מטה-אנליזה` },
-    { pmid: `42663284`, he: `אבחון טרשת נפוצה: איך מיושמים קריטריוני מקדונלד החדשים (2024), ומה ההשפעות הלא-מכוונות שלהם`, en: `Diagnosing multiple sclerosis: implementation and unintended effects of the 2024 McDonald criteria`, journal: `Brain`, date: `נובמבר 2026`, kind: `סקירה` },
     { pmid: `42242557`, he: `עדכון על הקשר בין מבנה עצב הראייה לתפקוד הראייה בגלאוקומה`, en: `Update on the structure-function relationship in glaucoma`, journal: `Survey of ophthalmology`, date: `נובמבר 2026`, kind: `סקירה` },
     { pmid: `42697106`, he: `יעילות ובטיחות של התרופה אקוליזומאב ב-NMOSD, מחלה דלקתית של עצב הראייה וחוט השדרה`, en: `A systematic review and meta-analysis of the efficacy and safety of eculizumab in AQP4-IgG-positive neuromyelitis optica spectrum disorder`, journal: `Multiple sclerosis and related disorders`, date: `נובמבר 2026`, kind: `מטה-אנליזה` },
     { pmid: `42125905`, he: `נזק לעצב הראייה אחרי ניתוח לתיקון היפרדות רשתית: גורמי סיכון ומנגנונים`, en: `Risk factors and pathophysiological insights into optic neuropathy after rhegmatogenous retinal detachment repair: A literature review`, journal: `European journal of ophthalmology`, date: `נובמבר 2026`, kind: `סקירה` },
@@ -34,8 +34,8 @@ export const RESEARCH = {
     { pmid: `41190566`, he: `הטיית ראש ממושכת בשיתוק מולד של העצב הרביעי: ההשפעה על זרימת הדם בעורקי התרדמה`, en: `Impact of Long-term Abnormal Head Position on Carotid Artery Flow in Congenital Fourth Nerve Palsy`, journal: `Journal of pediatric ophthalmology and strabismus`, date: `מאי 2026`, kind: `מחקר` },
   ],
   trigeminal: [
+    { pmid: `42972164`, he: `קרינה ממוקדת לנוירלגיה טריגמינלית בשני צדי הפנים: סקירה שיטתית והצעה לטיפול בשלבים`, en: `Stereotactic radiosurgery for bilateral trigeminal neuralgia: A systematic review and proposed framework for staged treatment`, journal: `Neurosurgical review`, date: `נובמבר 2026`, kind: `סקירה שיטתית` },
     { pmid: `42568178`, he: `ניתוח לשחרור לחץ של כלי דם מהעצב בנוירלגיה טריגמינלית: אנדוסקופ מול מיקרוסקופ`, en: `Endoscopic vs microscopic microvascular decompression for trigeminal neuralgia: a systematic review and meta-analysis`, journal: `British journal of neurosurgery`, date: `אוקטובר 2026`, kind: `מטה-אנליזה` },
-    { pmid: `42802273`, he: `נוירלגיה טריגמינלית: כאב ובטיחות בטיפול בבלון בהשוואה לניתוח לשחרור לחץ`, en: `Pain outcomes and safety in trigeminal neuralgia: a systematic review and meta-analysis comparing percutaneous balloon compression with microvascular decompression`, journal: `Neurosurgical review`, date: `ספטמבר 2026`, kind: `מטה-אנליזה` },
     { pmid: `42484626`, he: `נוירלגיה טריגמינלית: מבוא לרופאי שיניים`, en: `Trigeminal neuralgia: a primer for dental practitioners`, journal: `Quintessence international`, date: `אוקטובר 2026`, kind: `סקירה` },
     { pmid: `42839184`, he: `כמה יעילים ניתוחים לנוירלגיה טריגמינלית אצל חולי טרשת נפוצה?`, en: `The efficacy of surgical interventions for trigeminal neuralgia in multiple sclerosis: A systematic review`, journal: `Neurosurgical review`, date: `אוקטובר 2026`, kind: `סקירה שיטתית` },
     { pmid: `41813571`, he: `האם תחושות שמגיעות דרך העצב התלת-ראשי משפיעות על תפיסת המליחות?`, en: `Can trigeminal sensations impact saltiness perception? A mini-review`, journal: `Journal of the science of food and agriculture`, date: `אוקטובר 2026`, kind: `סקירה` },
