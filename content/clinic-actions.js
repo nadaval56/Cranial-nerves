@@ -1,5 +1,6 @@
 // "קליניקה": כל השאלות והבדיקות שאפשר לבצע בכל מקרה, בכל סדר.
 // normal = מה עונה או מה נמצא אצל אדם בריא. כל מקרה ב-content/cases.js מחליף רק את מה ששונה אצלו (exam).
+// region = האזור בגוף שבו נמצאת הבדיקה (לשונית "בדיקה"). nerves = העצבים שהבדיקה בודקת: מוצג רק בסיכום, לא על הכפתור, כדי לא לרמוז.
 // basic = שאלות רקע וסימנים חיוניים: הן אף פעם לא נחשבות "בדיקה מיותרת" בסיכום.
 
 export const GROUPS = [
@@ -33,41 +34,63 @@ export const ACTIONS = [
   { id: `v_temp`, group: `vitals`, label: `חום`, normal: `36.8 מעלות.` },
   { id: `v_sat`, group: `vitals`, label: `ריווי חמצן`, normal: `98%.` },
   { id: `v_glucose`, group: `vitals`, label: `סוכר בדם`, normal: `102 מ"ג לדציליטר.` },
+  { id: `v_ecg`, group: `vitals`, label: `אק"ג 3 לידים`, normal: `קצב סינוס סדיר.` },
 
   // עצבי הגולגולת
-  { id: `c_smell`, group: `cranial`, label: `ריח (I)`, normal: `מזהה ריח של קפה בכל נחיר בנפרד.` },
-  { id: `c_acuity`, group: `cranial`, label: `חדות ראייה (II)`, normal: `קורא את השורה התחתונה בטבלה, בכל עין בנפרד.` },
-  { id: `c_fields`, group: `cranial`, label: `שדות ראייה (II)`, normal: `שדות הראייה מלאים בשתי העיניים.` },
-  { id: `c_pupils`, group: `cranial`, label: `אישונים ותגובה לאור (II, III)`, normal: `האישונים שווים בגודלם. שניהם מתכווצים כשמאירים על כל אחת מהעיניים.` },
-  { id: `c_lids`, group: `cranial`, label: `עפעפיים`, normal: `העפעפיים במקומם, בלי צניחה.` },
-  { id: `c_eyemoves`, group: `cranial`, label: `תנועות עיניים (III, IV, VI)`, normal: `שתי העיניים זזות יחד לכל הכיוונים, בלי ראייה כפולה.` },
-  { id: `c_facesens`, group: `cranial`, label: `תחושה בפנים (V)`, normal: `מרגיש מגע ודקירה באופן שווה במצח, בלחיים ובסנטר, בשני הצדדים.` },
-  { id: `c_corneal`, group: `cranial`, label: `רפלקס הקרנית (V, VII)`, normal: `נגיעה בקרנית של כל אחת מהעיניים גורמת לשתי העיניים למצמץ.` },
-  { id: `c_jaw`, group: `cranial`, label: `שרירי הלעיסה (V)`, normal: `שרירי הלעיסה חזקים בשני הצדדים, והלסת נפתחת ישר.` },
-  { id: `c_brow`, group: `cranial`, label: `הרמת גבות וקימוט מצח (VII)`, normal: `המצח מתקמט שווה בשני הצדדים.` },
-  { id: `c_eyeclose`, group: `cranial`, label: `עצימת עיניים חזקה (VII)`, normal: `סוגר את שתי העיניים חזק, ואי אפשר לפתוח אותן בכוח.` },
-  { id: `c_smile`, group: `cranial`, label: `חיוך וחשיפת שיניים (VII)`, normal: `החיוך סימטרי.` },
-  { id: `c_puff`, group: `cranial`, label: `ניפוח לחיים (VII)`, normal: `מנפח את הלחיים, והאוויר לא בורח.` },
-  { id: `c_taste`, group: `cranial`, label: `טעם (VII, IX)`, normal: `מזהה מתוק ומלוח בשני צדי הלשון.` },
-  { id: `c_hearing`, group: `cranial`, label: `שמיעה ומבחני מזלג קול (VIII)`, normal: `שומע לחישה בשתי האוזניים. במבחן וובר הצליל נשמע באמצע, ובמבחן רינה הוא נשמע טוב יותר באוויר מאשר דרך העצם, בשתי האוזניים.` },
-  { id: `c_balance`, group: `cranial`, label: `שיווי משקל (VIII)`, normal: `עומד יציב גם בעיניים עצומות, ואין ריצוד עיניים (ניסטגמוס).` },
-  { id: `c_aah`, group: `cranial`, label: `"אההה" ותנועת הענבל (IX, X)`, normal: `החך הרך עולה שווה בשני הצדדים, והענבל במרכז.` },
-  { id: `c_gag`, group: `cranial`, label: `רפלקס הקאה (IX, X)`, normal: `רפלקס ההקאה קיים, כשנוגעים בכל אחד מצדי הלוע.` },
-  { id: `c_voice`, group: `cranial`, label: `קול ובליעה (X)`, normal: `הקול רגיל, ובולע מים בלי להשתעל.` },
-  { id: `c_shrug`, group: `cranial`, label: `הרמת כתפיים (XI)`, normal: `מרים את שתי הכתפיים בכוח שווה.` },
-  { id: `c_headturn`, group: `cranial`, label: `סיבוב ראש נגד התנגדות (XI)`, normal: `מסובב את הראש לשני הצדדים נגד התנגדות, בכוח שווה.` },
-  { id: `c_tongue`, group: `cranial`, label: `הוצאת לשון (XII)`, normal: `הלשון יוצאת ישר, בלי דלדול ובלי רטטים.` },
+  { id: `c_smell`, group: `cranial`, region: `nose`, nerves: `I`, label: `ריח`, normal: `מזהה ריח של קפה בכל נחיר בנפרד.` },
+  { id: `c_acuity`, group: `cranial`, region: `eyes`, nerves: `II`, label: `חדות ראייה`, normal: `קורא את השורה התחתונה בטבלה, בכל עין בנפרד.` },
+  { id: `c_fields`, group: `cranial`, region: `eyes`, nerves: `II`, label: `שדות ראייה`, normal: `שדות הראייה מלאים בשתי העיניים.` },
+  { id: `c_pupils`, group: `cranial`, region: `eyes`, nerves: `II, III`, label: `אישונים ותגובה לאור`, normal: `האישונים שווים בגודלם. שניהם מתכווצים כשמאירים על כל אחת מהעיניים.` },
+  { id: `c_lids`, group: `cranial`, region: `eyes`, nerves: `III`, label: `עפעפיים`, normal: `העפעפיים במקומם, בלי צניחה.` },
+  { id: `c_eyemoves`, group: `cranial`, region: `eyes`, nerves: `III, IV, VI`, label: `תנועות עיניים`, normal: `שתי העיניים זזות יחד לכל הכיוונים, בלי ראייה כפולה.` },
+  { id: `c_facesens`, group: `cranial`, region: `face`, nerves: `V`, label: `תחושה בפנים`, normal: `מרגיש מגע ודקירה באופן שווה במצח, בלחיים ובסנטר, בשני הצדדים.` },
+  { id: `c_corneal`, group: `cranial`, region: `face`, nerves: `V, VII`, label: `רפלקס הקרנית`, normal: `נגיעה בקרנית של כל אחת מהעיניים גורמת לשתי העיניים למצמץ.` },
+  { id: `c_jaw`, group: `cranial`, region: `mouth`, nerves: `V`, label: `שרירי הלעיסה`, normal: `שרירי הלעיסה חזקים בשני הצדדים, והלסת נפתחת ישר.` },
+  { id: `c_brow`, group: `cranial`, region: `face`, nerves: `VII`, label: `הרמת גבות וקימוט מצח`, normal: `המצח מתקמט שווה בשני הצדדים.` },
+  { id: `c_eyeclose`, group: `cranial`, region: `face`, nerves: `VII`, label: `עצימת עיניים חזקה`, normal: `סוגר את שתי העיניים חזק, ואי אפשר לפתוח אותן בכוח.` },
+  { id: `c_smile`, group: `cranial`, region: `face`, nerves: `VII`, label: `חיוך וחשיפת שיניים`, normal: `החיוך סימטרי.` },
+  { id: `c_puff`, group: `cranial`, region: `face`, nerves: `VII`, label: `ניפוח לחיים`, normal: `מנפח את הלחיים, והאוויר לא בורח.` },
+  { id: `c_taste`, group: `cranial`, region: `mouth`, nerves: `VII, IX`, label: `טעם`, normal: `מזהה מתוק ומלוח בשני צדי הלשון.` },
+  { id: `c_hearing`, group: `cranial`, region: `ears`, nerves: `VIII`, label: `שמיעה ומבחני מזלג קול`, normal: `שומע לחישה בשתי האוזניים. במבחן וובר הצליל נשמע באמצע, ובמבחן רינה הוא נשמע טוב יותר באוויר מאשר דרך העצם, בשתי האוזניים.` },
+  { id: `c_balance`, group: `cranial`, region: `ears`, nerves: `VIII`, label: `שיווי משקל ועמידה`, normal: `עומד יציב גם בעיניים עצומות, ואין ריצוד עיניים (ניסטגמוס).` },
+  { id: `c_aah`, group: `cranial`, region: `mouth`, nerves: `IX, X`, label: `"אההה": החך והענבל`, normal: `החך הרך עולה שווה בשני הצדדים, והענבל במרכז.` },
+  { id: `c_gag`, group: `cranial`, region: `mouth`, nerves: `IX, X`, label: `רפלקס הקאה`, normal: `רפלקס ההקאה קיים, כשנוגעים בכל אחד מצדי הלוע.` },
+  { id: `c_voice`, group: `cranial`, region: `mouth`, nerves: `X`, label: `קול ובליעה`, normal: `הקול רגיל, ובולע מים בלי להשתעל.` },
+  { id: `c_shrug`, group: `cranial`, region: `neck`, nerves: `XI`, label: `הרמת כתפיים`, normal: `מרים את שתי הכתפיים בכוח שווה.` },
+  { id: `c_headturn`, group: `cranial`, region: `neck`, nerves: `XI`, label: `סיבוב ראש נגד התנגדות`, normal: `מסובב את הראש לשני הצדדים נגד התנגדות, בכוח שווה.` },
+  { id: `c_tongue`, group: `cranial`, region: `mouth`, nerves: `XII`, label: `הוצאת לשון`, normal: `הלשון יוצאת ישר, בלי דלדול ובלי רטטים.` },
 
   // בדיקה כללית ונוירולוגית
-  { id: `g_strength`, group: `general`, label: `כוח בידיים וברגליים`, normal: `הכוח בידיים וברגליים מלא ושווה.` },
-  { id: `g_reflexes`, group: `general`, label: `החזרים (רפלקסים בגפיים)`, normal: `ההחזרים בידיים וברגליים תקינים ושווים בשני הצדדים.` },
-  { id: `g_sensation`, group: `general`, label: `תחושה בגוף`, normal: `מרגיש מגע, דקירה וחום בגוף ובגפיים, באופן שווה.` },
-  { id: `g_gait`, group: `general`, label: `הליכה וקואורדינציה`, normal: `הולך ישר, ובדיקת אצבע-אף תקינה בשתי הידיים.` },
-  { id: `g_speech`, group: `general`, label: `דיבור ושפה`, normal: `מדבר ברור ובשטף, ומבין הכול.` },
-  { id: `g_otoscope`, group: `general`, label: `בדיקת אוזניים (אוטוסקופ)`, normal: `עור התוף תקין בשתי האוזניים.` },
-  { id: `g_fundus`, group: `general`, label: `בדיקת קרקעית העין`, normal: `הדיסקות האופטיות חדות ותקינות בשתי העיניים.` },
-  { id: `g_neck`, group: `general`, label: `בדיקת צוואר`, normal: `הצוואר רך, בלי גושים ובלי נוקשות.` },
-  { id: `g_skin`, group: `general`, label: `עור (פריחה, שלפוחיות)`, normal: `אין פריחה ואין שלפוחיות, גם לא באוזניים ובפה.` },
+  { id: `g_strength`, group: `general`, region: `limbs`, label: `כוח בידיים וברגליים`, normal: `הכוח בידיים וברגליים מלא ושווה.` },
+  { id: `g_reflexes`, group: `general`, region: `limbs`, label: `החזרים (רפלקסים בגפיים)`, normal: `ההחזרים בידיים וברגליים תקינים ושווים בשני הצדדים.` },
+  { id: `g_sensation`, group: `general`, region: `limbs`, label: `תחושה בגוף`, normal: `מרגיש מגע, דקירה וחום בגוף ובגפיים, באופן שווה.` },
+  { id: `g_gait`, group: `general`, region: `limbs`, label: `הליכה וקואורדינציה`, normal: `הולך ישר, ובדיקת אצבע-אף תקינה בשתי הידיים.` },
+  { id: `g_speech`, group: `general`, region: `mouth`, label: `דיבור ושפה`, normal: `מדבר ברור ובשטף, ומבין הכול.` },
+  { id: `g_otoscope`, group: `general`, region: `ears`, label: `בדיקת אוזניים (אוטוסקופ)`, normal: `עור התוף תקין בשתי האוזניים.` },
+  { id: `g_fundus`, group: `general`, region: `eyes`, label: `קרקעית העין`, normal: `הדיסקות האופטיות חדות ותקינות בשתי העיניים.` },
+  { id: `g_neck`, group: `general`, region: `neck`, label: `בדיקת צוואר`, normal: `הצוואר רך, בלי גושים ובלי נוקשות.` },
+  { id: `g_skin`, group: `general`, region: `skin`, label: `עור (פריחה, שלפוחיות)`, normal: `אין פריחה ואין שלפוחיות, גם לא באוזניים ובפה.` },
+];
+
+// אזורי הגוף בלשונית "בדיקה" (כל אזור פותח רק את הבדיקות שלו)
+export const REGIONS = [
+  { id: `eyes`, label: `עיניים` },
+  { id: `face`, label: `פנים` },
+  { id: `ears`, label: `אוזניים` },
+  { id: `nose`, label: `אף` },
+  { id: `mouth`, label: `פה ולשון` },
+  { id: `neck`, label: `צוואר וכתפיים` },
+  { id: `limbs`, label: `ידיים ורגליים` },
+  { id: `skin`, label: `עור` },
+];
+
+// מכשירי המדידה בלשונית "מדדים". כל מכשיר מבצע פעולה אחת או יותר מהקטלוג
+export const DEVICES = [
+  { id: `cuff`, label: `דופק ולחץ דם`, acts: [`v_pulse`, `v_bp`] },
+  { id: `oxi`, label: `ריווי חמצן (אוקסימטר)`, acts: [`v_sat`] },
+  { id: `gluco`, label: `סוכר (סטיק)`, acts: [`v_glucose`] },
+  { id: `thermo`, label: `חום`, acts: [`v_temp`] },
+  { id: `ecg`, label: `אק"ג 3 לידים`, acts: [`v_ecg`] },
 ];
 
 export const actionById = Object.fromEntries(ACTIONS.map((a) => [a.id, a]));
