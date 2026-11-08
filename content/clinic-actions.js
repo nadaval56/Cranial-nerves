@@ -41,7 +41,7 @@ export const ACTIONS = [
   { id: `c_smell`, group: `cranial`, region: `nose`, nerves: `I`, label: `ריח`, normal: `מזהה ריח של קפה בכל נחיר בנפרד.` },
   { id: `c_acuity`, group: `cranial`, region: `eyes`, nerves: `II`, label: `חדות ראייה`, normal: `{קורא|קוראת} את השורה התחתונה בטבלה, בכל עין בנפרד.` },
   { id: `c_fields`, group: `cranial`, region: `eyes`, nerves: `II`, label: `שדות ראייה`, normal: `שדות הראייה מלאים בשתי העיניים.` },
-  { id: `c_pupils`, group: `cranial`, region: `eyes`, nerves: `II, III`, label: `אישונים ותגובה לאור`, normal: `האישונים שווים בגודלם. שניהם מתכווצים כשמאירים על כל אחת מהעיניים.` },
+  { id: `c_pupils`, group: `cranial`, region: `eyes`, nerves: `II, III, המסלול הסימפתטי`, label: `אישונים ותגובה לאור`, normal: `האישונים שווים בגודלם. שניהם מתכווצים כשמאירים על כל אחת מהעיניים.` },
   { id: `c_lids`, group: `cranial`, region: `eyes`, nerves: `III`, label: `עפעפיים`, normal: `העפעפיים במקומם, בלי צניחה.` },
   { id: `c_eyemoves`, group: `cranial`, region: `eyes`, nerves: `III, IV, VI`, label: `תנועות עיניים`, normal: `שתי העיניים זזות יחד לכל הכיוונים, בלי ראייה כפולה.` },
   { id: `c_facesens`, group: `cranial`, region: `face`, nerves: `V`, label: `תחושה בפנים`, normal: `{מרגיש|מרגישה} מגע ודקירה באופן שווה במצח, בלחיים ובסנטר, בשני הצדדים.` },

@@ -59,7 +59,7 @@ export function nerveBody(n) {
   const head = `<header class="nerve-head">`
     + `<nav class="breadcrumb" aria-label="נתיב"><a href="./nerves.html">העצבים</a> / עצב ${n.roman}</nav>`
     + `<div class="nerve-title">${romanBadge(n, 'roman-xl')}<div>`
-    + `<p class="nerve-kicker">העצב הקרניאלי ה-${n.num} · ${typeTag(n.type)}</p>`
+    + `<p class="nerve-kicker">עצב קרניאלי מספר ${n.num} · ${typeTag(n.type)}</p>`
     + `<h1>${esc(n.name)}</h1>`
     + `<p class="nerve-latin" lang="la" dir="ltr">${esc(n.latin)} · <span lang="en">${esc(n.en)}</span></p>`
     + `</div></div><p class="lead">${esc(n.tagline)}</p></header>`;
@@ -102,7 +102,7 @@ export function nerveBody(n) {
 
   const papers = RESEARCH[n.id] ?? [];
   const research = papers.length ? section('research', 'lab', 'מהמחקר החדש',
-    `<p class="muted">מאמרים מהשנה האחרונה על ${esc(n.name)}, מתוך PubMed, מאגר המאמרים הרפואיים של ספריית הרפואה האמריקאית. הכותרות תורגמו לעברית; המאמרים עצמם באנגלית.</p>`
+    `<p class="muted">מאמרים מהשנה האחרונה על ${esc(n.name)}, מתוך PubMed, מאגר המאמרים הרפואיים של הספרייה הלאומית לרפואה של ארצות הברית. הכותרות תורגמו לעברית; המאמרים עצמם באנגלית.</p>`
     + `<ul class="papers">${papers.map((a) => `<li><a class="paper-title" href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" rel="noopener" target="_blank">${esc(a.he)}</a>`
       + `<p class="paper-en" lang="en" dir="ltr">${esc(a.en)}</p>`
       + `<p class="paper-meta"><span class="paper-kind">${esc(a.kind)}</span> <span lang="en" dir="ltr">${esc(a.journal)}</span> · ${esc(a.date)}</p></li>`).join('')}</ul>`

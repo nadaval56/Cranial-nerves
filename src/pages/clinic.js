@@ -441,7 +441,7 @@ function openCase(c, variant) {
     const extra = picked.filter((id) => !target.includes(id) && !(c.alsoOk ?? []).includes(id));
     if (!missing.length && !extra.length) {
       fb1.className = 'try-feedback is-correct';
-      fb1.textContent = target.length > 1 ? `נכון! כל ${target.length} התשובות.` : 'נכון!';
+      fb1.textContent = target.length > 1 ? 'נכון! כל התשובות.' : 'נכון!';
       finishQ1();
       return;
     }

@@ -35,7 +35,7 @@ const REFLEXES = {
   },
   stapedius: {
     label: 'רפלקס שריר הארכוף',
-    aff: { n: 'VIII', full: 'עצב השמיעה (VIII)', short: 'עצב השמיעה' },
+    aff: { n: 'VIII', full: 'עצב השמיעה ושיווי המשקל (VIII)', short: 'עצב השמיעה ושיווי המשקל' },
     eff: { n: 'VII', full: 'עצב הפנים (VII)', short: 'עצב הפנים' },
     trig: { R: 'צליל חזק באוזן הימנית', L: 'צליל חזק באוזן השמאלית' },
     stim: (e) => `השמעתם צליל חזק באוזן ${HE_F[e]}`,
@@ -457,7 +457,7 @@ function setReflex(id) {
   buildCircuit();
   clearResult();
   showLesion();
-  document.getElementById('rx-explain').textContent = `בחרו פגיעה (או השאירו בלי פגיעה), ולחצו על ${Object.values(REFLEXES[id].trig).join(' או על ')}.`;
+  document.getElementById('rx-explain').textContent = `בחרו פגיעה (או השאירו בלי פגיעה), ולחצו על הכפתור "${Object.values(REFLEXES[id].trig).join('" או על הכפתור "')}".`;
 }
 
 controls.addEventListener('click', (e) => {

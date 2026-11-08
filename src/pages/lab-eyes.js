@@ -209,7 +209,7 @@ svg.append(target);
 const controls = document.createElement('div');
 controls.className = 'lab-controls';
 controls.innerHTML = `
-  <fieldset class="chip-set"><legend>פגיעה בעצב <span class="muted">(ימין ושמאל של האדם)</span></legend>
+  <fieldset class="chip-set"><legend>הפגיעה <span class="muted">(ימין ושמאל של האדם)</span></legend>
     ${LESIONS.map((l) => `<button type="button" class="chip" data-lesion="${l.id}" aria-pressed="${l.id === lesion}">${l.label}</button>`).join('')}
   </fieldset>
   <div class="btn-row">

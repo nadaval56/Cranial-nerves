@@ -239,7 +239,7 @@ function tongueSvg(mode) {
     <text x="150" y="104">${TONGUE_NERVES[m.back].roman}</text>
     <text x="150" y="262">${TONGUE_NERVES[m.front].roman}</text>
   </g>
-  <g class="dgm-small" text-anchor="middle"><text x="150" y="378">קצה הלשון</text><text x="150" y="10">← לכיוון הגרון</text></g>
+  <g class="dgm-small" text-anchor="middle"><text x="150" y="378">קצה הלשון</text><text x="150" y="10">↑ לכיוון הגרון</text></g>
 </svg>`;
 }
 const tongueLegend = (mode) => {

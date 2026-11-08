@@ -16,7 +16,7 @@ const GEN = [
   (n) => ({ q: n.try.q, options: n.try.options, answer: n.try.answer, explain: n.try.explain, nerve: n }),
   (n) => {
     const opts = shuffle([n, ...others(n)]);
-    return { q: `מה המספר של ${n.name}?`, options: opts.map((m) => m.roman), answer: opts.indexOf(n), explain: `${n.name} הוא העצב ה-${n.num} (${n.roman}).`, nerve: n };
+    return { q: `מה המספר של ${n.name}?`, options: opts.map((m) => m.roman), answer: opts.indexOf(n), explain: `${n.name} הוא עצב מספר ${n.num} (${n.roman}).`, nerve: n };
   },
   (n) => {
     const opts = shuffle([n, ...others(n)]);
@@ -42,8 +42,10 @@ const GEN = [
     return { q: `דרך איזה פתח עובר ${n.name} (${n.roman})?`, options: opts.map((f) => f.name), answer: opts.indexOf(right), explain: `${n.exit}.`, nerve: n };
   },
   (n) => {
-    const step = pick(n.test.steps);
-    const opts = shuffle([n, ...others(n)]);
+    // צעד שמזכיר את שם העצב מסגיר את התשובה; ועצב שותף לאותה בדיקה (II ו-III באישון, V ו-VII בקרנית...) לא יכול להיות מסיח
+    const clean = n.test.steps.filter((s) => !s.includes(n.name));
+    const step = pick(clean.length ? clean : n.test.steps);
+    const opts = shuffle([n, ...shuffle(NERVES.filter((m) => m.id !== n.id && !(n.related ?? []).includes(m.id) && !(m.related ?? []).includes(n.id))).slice(0, 3)]);
     return { q: `איזה עצב בודקים כך? "${step}"`, options: opts.map((m) => `${m.roman} · ${m.name}`), answer: opts.indexOf(n), explain: `זה חלק מהבדיקה של ${n.name} (${n.roman}).`, nerve: n };
   },
 ];

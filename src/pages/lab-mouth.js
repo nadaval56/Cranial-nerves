@@ -19,7 +19,7 @@ const OTHER = { R: 'L', L: 'R' };
 
 const ACTIONS = [
   { id: 'rest', label: 'מנוחה', view: 'mouth' },
-  { id: 'aah', label: 'להגיד "אההה"', view: 'mouth' },
+  { id: 'aah', label: 'לומר "אההה"', view: 'mouth' },
   { id: 'tongue', label: 'להוציא לשון', view: 'mouth' },
   { id: 'gag-R', label: 'לגעת בלוע מימין', view: 'mouth' },
   { id: 'gag-L', label: 'לגעת בלוע משמאל', view: 'mouth' },
