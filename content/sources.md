@@ -21,7 +21,7 @@
 | עצב הריח: ~20 צרורות (fila olfactoria), מיליוני אקסונים; העצב הקצר ביותר | עצב I | Wikipedia: Olfactory nerve |
 | עצב הראייה: 770 אלף עד 1.7 מיליון סיבים, ~53% חוצים | עצב II | Wikipedia: Optic nerve |
 | עור זווית הלסת — C2–C3, לא העצב החמישי | עצב V | Wikipedia: Trigeminal nerve |
-| שריר הארכובה — שריר השלד הקטן ביותר | עצב VII | Wikipedia: Stapedius muscle |
+| שריר הארכוף — שריר השלד הקטן ביותר | עצב VII | Wikipedia: Stapedius muscle |
 | התעלפות וזו-וגאלית: האטת הלב (עצב התועה) + נסיגת הטונוס הסימפתטי | עצב X | Wikipedia: Reflex syncope |
 | עצב VI כ"סימן ממקם כוזב" בלחץ תוך-גולגולתי | עצב VI | StatPearls, Abducens |
 | שיתוק מרכזי חוסך את המצח (עצבוב קורטיקלי דו-צדדי של החלק העליון) | עצב VII, המעבדה | StatPearls, Facial |
@@ -124,7 +124,7 @@
 - המיאנופסיה ביטמפורלית ובלוטת יותרת המוח: [Wikipedia: Bitemporal hemianopsia](https://en.wikipedia.org/wiki/Bitemporal_hemianopsia), [Wikipedia: Pituitary adenoma](https://en.wikipedia.org/wiki/Pituitary_adenoma), [Wikipedia: Optic chiasm](https://en.wikipedia.org/wiki/Optic_chiasm).
 - הסינוס המערתי (III, IV, V1, V2, VI; V3 יוצא בחור הסגלגל): [Wikipedia: Cavernous sinus syndrome](https://en.wikipedia.org/wiki/Cavernous_sinus_syndrome), [Wikipedia: Cavernous sinus](https://en.wikipedia.org/wiki/Cavernous_sinus).
 - החור הצווארי (IX, X, XI; הענבל לצד הבריא): [Wikipedia: Vernet's syndrome](https://en.wikipedia.org/wiki/Vernet%27s_syndrome), [Wikipedia: Jugular foramen](https://en.wikipedia.org/wiki/Jugular_foramen).
-- עצב XII (הלשון לצד הפגוע, דילדול ורטטים בפגיעת נוירון תחתון): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve).
+- עצב XII (הלשון לצד הפגוע, דלדול ורטטים בפגיעת נוירון תחתון): [Wikipedia: Hypoglossal nerve](https://en.wikipedia.org/wiki/Hypoglossal_nerve).
 - תסמונת ובר (III באותו צד, חולשה בגוף בצד הנגדי): [Wikipedia: Weber's syndrome](https://en.wikipedia.org/wiki/Weber%27s_syndrome).
 - תסמונת המוח המוארך הצדדית (וולנברג): [Wikipedia: Lateral medullary syndrome](https://en.wikipedia.org/wiki/Lateral_medullary_syndrome), [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome).
 
@@ -149,7 +149,7 @@
 
 - רפלקס הקרנית: V1 קולט, VII מבצע, תגובה ישירה ועקיפה: [Wikipedia: Corneal reflex](https://en.wikipedia.org/wiki/Corneal_reflex).
 - רפלקס ההקאה: IX קולט, X מבצע; בפגיעה ב-X החך לא עולה בצד הפגוע והענבל נמשך לצד הבריא (כמו ב-content/nerves.js): [Wikipedia: Pharyngeal reflex](https://en.wikipedia.org/wiki/Pharyngeal_reflex), [Wikipedia: Vagus nerve](https://en.wikipedia.org/wiki/Vagus_nerve).
-- רפלקס שריר הארכובה (acoustic reflex): VIII קולט, VII מבצע, התכווצות בשתי האוזניים גם כשהצליל באוזן אחת; בפגיעה ב-VII רגישות לרעשים חזקים: [Wikipedia: Acoustic reflex](https://en.wikipedia.org/wiki/Acoustic_reflex).
+- רפלקס שריר הארכוף (acoustic reflex): VIII קולט, VII מבצע, התכווצות בשתי האוזניים גם כשהצליל באוזן אחת; בפגיעה ב-VII רגישות לרעשים חזקים: [Wikipedia: Acoustic reflex](https://en.wikipedia.org/wiki/Acoustic_reflex).
 - רפלקס הלסת: V3 קולט ומבצע; אצל בריאים לרוב חלש או לא נראה; רפלקס ער מרמז על פגיעה בנוירון המוטורי העליון בשני הצדדים, מעל הגשר: [Wikipedia: Jaw jerk reflex](https://en.wikipedia.org/wiki/Jaw_jerk_reflex).
 - המודל בסימולטור מפושט: הוא מציג קולט, מרכז בגזע המוח ומבצע לשני הצדדים, בלי הגרעינים הספציפיים.
 
@@ -230,6 +230,6 @@
 - גלנוס, ליתוגרפיה של P. R. Vignéron (Wellcome V0002113): `{{cc-by-2.0}}`.
 - רוברט וויט (Wellcome L0008120): `{{cc-by-4.0}}`.
 - זמרינג, ציור של Wendelin Moosbrugger (1813): `{{PD-art-old-100}}`.
-- מזלג קול על קופסת תהודה, Pearson Scott Foresman: `{{ScottForesman}}`, נחלת הכלל (Tuning Fork (PSF).png).
+- קולן על קופסת תהודה, Pearson Scott Foresman: `{{ScottForesman}}`, נחלת הכלל (Tuning Fork (PSF).png).
 - כריש קטן (dogfish), Pearson Scott Foresman: `{{ScottForesman}}`, נחלת הכלל (Dogfish (PSF).png).
 - המוח של כריש, גוסטב פריטש (1878): `{{PD-Art}}` (Fritsch dogfish shark brain.png). מקור לתיאור הראשון של עצב 0.

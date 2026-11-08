@@ -149,13 +149,13 @@ export const IMAGES = {
   },
   tuningFork: {
     file: `tuning-fork-psf.webp`, w: 800, h: 618,
-    alt: `איור קווי של מזלג קול שעומד על קופסת תהודה מעץ`,
-    caption: `מזלג קול על קופסת תהודה. מזלגות כאלה נכנסו לבדיקת השמיעה במאה ה-19.`,
+    alt: `איור קווי של קולן שעומד על קופסת תהודה מעץ`,
+    caption: `קולן על קופסת תהודה. קולנים כאלה נכנסו לבדיקת השמיעה במאה ה-19.`,
     source: { title: `Tuning Fork (PSF).png`, author: `Pearson Scott Foresman`, url: commons(`Tuning Fork (PSF).png`), ...PD, modifications: `הוקטן` },
   },
   dogfish: {
     file: `dogfish-psf.webp`, w: 1000, h: 309,
-    alt: `איור קווי של כריש קטן וצר, מהסוג שנקרא כלב-ים (dogfish)`,
+    alt: `איור קווי של כריש קטן וצר, מהסוג שנקרא באנגלית dogfish`,
     caption: `כריש קטן (dogfish). אצל כרישים תיאר פריטש לראשונה את עצב 0.`,
     source: { title: `Dogfish (PSF).png`, author: `Pearson Scott Foresman`, url: commons(`Dogfish (PSF).png`), ...PD, modifications: `הוקטן` },
   },

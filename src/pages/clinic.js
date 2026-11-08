@@ -1,7 +1,7 @@
 // "קליניקה": רשימת מקרים, ומקרה אחד בכל פעם לפי הכתובת (#case-<מספר>), כדי שאפשר יהיה לקשר למקרה מסוים.
 // מקרה = ביקור בארבע לשוניות, בכל סדר: שיחה (שאלות, כמו צ'אט) · מדדים (מוניטור עם מכשירים נפרדים ואק"ג)
 // · בדיקה (איור של המטופל: לוחצים על אזור ומקבלים רק את הבדיקות שלו) · התיק (כל מה שנאסף).
-// אחר כך "אני מוכן לאבחנה": שאלה 1 (אילו עצבים) → שאלה 2 (איפה) → סיכום הבדיקה והסבר. שום דבר לא נשמר.
+// אחר כך "מוכנים לאבחנה": שאלה 1 (אילו עצבים) → שאלה 2 (איפה) → סיכום הבדיקה והסבר. שום דבר לא נשמר.
 // על הכפתורים לא כתוב איזה עצב נבדק, כדי לא לרמוז. העצבים מופיעים רק בסיכום.
 // בכל מקרה מוגרל אחד משלושה מטופלים (שם, מין, גיל וסיפור משלו; a בלי מסיחים, b ו-c עם מסיחים מ-content/distractors.js).
 // #case-<מספר>/b = מטופל קבוע, לשיתוף. הטקסטים מותאמים למין המטופל דרך tpl (src/lib/persona.js).
@@ -140,7 +140,7 @@ function openCase(c, variant) {
 
   view.innerHTML = `<nav class="breadcrumb case-crumb" aria-label="נתיב"><a href="#" data-back>קליניקה</a> / מקרה ${idx + 1}</nav>`
     + `<article class="case" aria-labelledby="case-h">`
-    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><button type="button" class="btn btn-ghost case-reroll" data-reroll>למטופל אחר</button><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
+    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><button type="button" class="btn btn-ghost case-reroll" data-reroll>למטופל אחר</button><button type="button" class="btn btn-primary case-ready-mini" data-ready>מוכנים לאבחנה</button></p>`
     + `<h1 id="case-h">${esc(c.title)}</h1>`
     + `<div class="case-patient"><span class="pt-avatar pt-${P.sex}" aria-hidden="true">${esc(initials(P))}</span><p class="pt-id"><strong>${esc(P.name)}</strong><span class="muted">${T('{בן|בת}')} ${P.age}</span></p></div>`
     + `<p class="lead case-story">${esc(T(P.story))}</p>`
@@ -179,7 +179,7 @@ function openCase(c, variant) {
     + `<section class="case-panel" role="tabpanel" id="panel-chart" aria-labelledby="tab-chart" hidden>`
     + `<p class="case-log-count" data-count>עוד לא שאלתם ולא בדקתם.</p>`
     + `<div class="chart" data-chart></div>`
-    + `<button type="button" class="btn btn-primary case-ready" data-ready>אני מוכן לאבחנה</button>`
+    + `<button type="button" class="btn btn-primary case-ready" data-ready>מוכנים לאבחנה</button>`
     + `</section>`
 
     + `<section class="lesson case-step" aria-labelledby="q1-h" hidden data-q1><h2 id="q1-h">שאלה 1: מה נפגע?</h2>`
@@ -408,7 +408,7 @@ function openCase(c, variant) {
         : '<p class="muted">עוד אין.</p>'}</section>`;
     };
     $('[data-chart]').innerHTML = sec('talk', 'שיחה') + sec('vitals', 'מדדים') + sec('exam', 'בדיקה');
-    $('[data-count]').textContent = done.length ? `אספתם ${done.length} ${done.length === 1 ? 'ממצא' : 'ממצאים'}.` : 'עוד לא שאלתם ולא בדקתם.';
+    $('[data-count]').textContent = done.length ? (done.length === 1 ? 'אספתם ממצא אחד.' : `אספתם ${done.length} ממצאים.`) : 'עוד לא שאלתם ולא בדקתם.';
   }
 
   view.querySelectorAll('[data-ready]').forEach((b) => b.addEventListener('click', () => {
@@ -488,7 +488,7 @@ function openCase(c, variant) {
     const missed = c.key.filter((id) => !done.includes(id));
     const flags = (c.redFlags ?? []).filter((id) => !done.includes(id) && !c.key.includes(id));
     const extra = done.filter((id) => !c.key.includes(id) && !(c.redFlags ?? []).includes(id) && !groupById[actionById[id].group].basic);
-    let html = `<p class="case-debrief-lead">אספתם ${done.length} ${done.length === 1 ? 'ממצא' : 'ממצאים'}. במקרה הזה יש ${c.key.length} ממצאים חשובים לאבחנה, ובדקתם ${found.length} מהם.</p>`;
+    let html = `<p class="case-debrief-lead">${done.length === 1 ? 'אספתם ממצא אחד' : `אספתם ${done.length} ממצאים`}. במקרה הזה יש ${c.key.length} ממצאים חשובים לאבחנה, ובדקתם ${found.length} מהם.</p>`;
     if (found.length) html += `<h3 class="case-sub">ממצאים חשובים שבדקתם</h3><ul class="debrief debrief-found">${found.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">✓</span><span class="visually-hidden">נמצא: </span>')).join('')}</ul>`;
     if (missed.length) html += `<h3 class="case-sub">ממצאים חשובים שלא בדקתם</h3><ul class="debrief debrief-missed">${missed.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">✗</span><span class="visually-hidden">לא נבדק: </span>')).join('')}</ul>`;
     if (flags.length) html += `<h3 class="case-sub">סימני אזהרה שכדאי לבדוק תמיד במצב כזה</h3><ul class="debrief debrief-flags">${flags.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">!</span>')).join('')}</ul>`;

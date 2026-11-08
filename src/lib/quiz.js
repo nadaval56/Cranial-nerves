@@ -66,7 +66,7 @@ function start(focus = true) {
 function show(focus = true) {
   const q = qs[idx];
   root.innerHTML = `<div class="quiz quiz-lab">
-    <div class="quiz-progress"><span>שאלה ${idx + 1} מתוך ${ROUND}</span><span>${score} נכונות</span></div>
+    <div class="quiz-progress"><span>שאלה ${idx + 1} מתוך ${ROUND}</span><span>תשובות נכונות: ${score}</span></div>
     <div class="progress-bar" aria-hidden="true"><i style="width:${(idx / ROUND) * 100}%"></i></div>
     <p class="quiz-question" id="qq">${esc(q.q)}</p>
     <ol class="quiz-options" type="א" aria-labelledby="qq">${q.options.map((o, i) => `<li><button type="button" class="quiz-option" data-i="${i}">${esc(o)}</button></li>`).join('')}</ol>

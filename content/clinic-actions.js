@@ -52,7 +52,7 @@ export const ACTIONS = [
   { id: `c_smile`, group: `cranial`, region: `face`, nerves: `VII`, label: `חיוך וחשיפת שיניים`, normal: `החיוך סימטרי.` },
   { id: `c_puff`, group: `cranial`, region: `face`, nerves: `VII`, label: `ניפוח לחיים`, normal: `{מנפח|מנפחת} את הלחיים, והאוויר לא בורח.` },
   { id: `c_taste`, group: `cranial`, region: `mouth`, nerves: `VII, IX`, label: `טעם`, normal: `מזהה מתוק ומלוח בשני צדי הלשון.` },
-  { id: `c_hearing`, group: `cranial`, region: `ears`, nerves: `VIII`, label: `שמיעה ומבחני מזלג קול`, normal: `{שומע|שומעת} לחישה בשתי האוזניים. במבחן וובר הצליל נשמע באמצע, ובמבחן רינה הוא נשמע טוב יותר באוויר מאשר דרך העצם, בשתי האוזניים.` },
+  { id: `c_hearing`, group: `cranial`, region: `ears`, nerves: `VIII`, label: `שמיעה ומבחני קולן`, normal: `{שומע|שומעת} לחישה בשתי האוזניים. במבחן ובר הצליל נשמע באמצע, ובמבחן רינה הוא נשמע טוב יותר באוויר מאשר דרך העצם, בשתי האוזניים.` },
   { id: `c_balance`, group: `cranial`, region: `ears`, nerves: `VIII`, label: `שיווי משקל ועמידה`, normal: `{עומד יציב|עומדת יציבה} גם בעיניים עצומות, ואין ריצוד עיניים (ניסטגמוס).` },
   { id: `c_aah`, group: `cranial`, region: `mouth`, nerves: `IX, X`, label: `"אההה": החך והענבל`, normal: `החך הרך עולה שווה בשני הצדדים, והענבל במרכז.` },
   { id: `c_gag`, group: `cranial`, region: `mouth`, nerves: `IX, X`, label: `רפלקס הקאה`, normal: `רפלקס ההקאה קיים, כשנוגעים בכל אחד מצדי הלוע.` },
@@ -70,7 +70,7 @@ export const ACTIONS = [
   { id: `g_otoscope`, group: `general`, region: `ears`, label: `בדיקת אוזניים (אוטוסקופ)`, normal: `עור התוף תקין בשתי האוזניים.` },
   { id: `g_fundus`, group: `general`, region: `eyes`, label: `קרקעית העין`, normal: `הדיסקות האופטיות חדות ותקינות בשתי העיניים.` },
   { id: `g_neck`, group: `general`, region: `neck`, label: `בדיקת צוואר`, normal: `הצוואר רך, בלי גושים ובלי נוקשות.` },
-  { id: `g_skin`, group: `general`, region: `skin`, label: `עור (פריחה, שלפוחיות)`, normal: `אין פריחה ואין שלפוחיות, גם לא באוזניים ובפה.` },
+  { id: `g_skin`, group: `general`, region: `skin`, label: `עור (פריחה, שלפוחיות)`, normal: `אין פריחה ואין שלפוחיות, גם לא באוזניים ולא בפה.` },
 ];
 
 // אזורי הגוף בלשונית "בדיקה" (כל אזור פותח רק את הבדיקות שלו)
