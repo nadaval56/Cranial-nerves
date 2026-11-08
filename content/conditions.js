@@ -573,6 +573,10 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `ear`, after: `what` },
+      { key: `cochlea`, after: `symptoms` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-vestibulocochlear.html`, label: `עצב השמיעה ושיווי המשקל (VIII)` },
       { kind: `הבדיקה`, href: `exam.html#exam-vestibulocochlear`, label: `מבחני וובר ורינה: איך מבדילים בין ירידה הולכתית לעצבית` },
@@ -655,6 +659,10 @@ export const CONDITIONS = [
         `בכל אחד מאלה: לפנות לחדר מיון מיד.`,
       ],
     },
+    images: [
+      { key: `labyrinth`, after: `what` },
+      { key: `membranous`, after: `causes` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-vestibulocochlear.html`, label: `עצב השמיעה ושיווי המשקל (VIII)` },
       { kind: `הבדיקה`, href: `exam.html#exam-vestibulocochlear`, label: `איך בודקים שמיעה ושיווי משקל` },
@@ -820,6 +828,10 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `ear`, after: `what` },
+      { key: `faceMuscles`, after: `symptoms` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-facial.html`, label: `עצב הפנים (VII)` },
       { kind: `מצב קשור`, href: `condition-bell.html`, label: `שיתוק בל` },
@@ -893,6 +905,9 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `faceMuscles`, after: `what` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-facial.html`, label: `עצב הפנים (VII)` },
       { kind: `מצב קשור`, href: `condition-trigeminal-neuralgia.html`, label: `נוירלגיה טריגמינלית: אותו מנגנון של לחץ מכלי דם` },
@@ -973,6 +988,9 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `pharynx`, after: `what` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-glossopharyngeal.html`, label: `העצב הלשוני-לועי (IX)` },
       { kind: `מצב קשור`, href: `condition-trigeminal-neuralgia.html`, label: `נוירלגיה טריגמינלית` },
@@ -1057,6 +1075,9 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `orbit`, after: `what` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-abducens.html`, label: `העצב המרחיק (VI)` },
       { kind: `מצב קשור`, href: `condition-third-nerve-palsy.html`, label: `שיתוק העצב השלישי` },
@@ -1135,6 +1156,9 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `autonomic`, after: `causes` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-oculomotor.html`, label: `העצב המניע את העין (III): להשוואה` },
       { kind: `מצב קשור`, href: `condition-third-nerve-palsy.html`, label: `שיתוק העצב השלישי: אישון גדול, עפעף צונח מאוד` },
@@ -1217,6 +1241,9 @@ export const CONDITIONS = [
         ] },
       ],
     },
+    images: [
+      { key: `autonomic`, after: `what` },
+    ],
     links: [
       { kind: `העצב`, href: `nerve-vagus.html`, label: `העצב התועה (X)` },
       { kind: `היסטוריה`, href: `history.html#tl-vns`, label: `1997: האישור הראשון לקוצב לעצב התועה` },
