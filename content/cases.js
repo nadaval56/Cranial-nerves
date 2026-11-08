@@ -1,7 +1,8 @@
 // מקרים קליניים לעמוד "קליניקה" (clinic.html). כל מקרה: סיפור, ותשובות לשאלות ולבדיקות שהלומד בוחר לבצע (exam).
 // exam מחליף את התשובה הרגילה (content/clinic-actions.js) רק במה ששונה אצל המטופל. key = הממצאים שחשובים לאבחנה,
 // redFlags = ממצאים שחשוב לא לפספס. ecg (לא חובה) = { rhythm: 'sinus' | 'af', rate } לרצועת האק"ג; ברירת המחדל: סינוס לפי הדופק.
-// שאלה 1: אילו עצבים (nerves = התשובה, alsoOk = עצבים שבחירה בהם לא נחשבת טעות),
+// שאלה 1: אילו עצבים (nerves = התשובה, alsoOk = עצבים שבחירה בהם לא נחשבת טעות, cns = האם יש גם פגיעה במוח או בגזע המוח,
+// q1Notes = הסבר קצר כשבוחרים עצב מסוים בטעות),
 // שאלה 2: איפה הבעיה (where.options, where.answer = id של האפשרות הנכונה), הסבר, קישורים ומקורות.
 // המקרים בדויים ונועדו ללימוד בלבד. מקורות מלאים גם ב-content/sources.md (סעיף "קליניקה").
 // "ימין" ו"שמאל" הם תמיד של המטופל.
@@ -33,6 +34,7 @@ export const CASES = [
     },
     key: [`c_brow`, `c_eyeclose`, `c_smile`, `c_taste`, `g_strength`],
     nerves: [`facial`],
+    cns: false,
     where: {
       options: [
         { id: `nerve`, text: `בעצב עצמו, בדרכו מחוץ לגזע המוח` },
@@ -83,7 +85,9 @@ export const CASES = [
     },
     key: [`h_course`, `c_brow`, `c_smile`, `g_strength`],
     redFlags: [`h_course`, `g_strength`, `v_glucose`],
-    nerves: [`facial`],
+    nerves: [],
+    cns: true,
+    q1Notes: { facial: `עצב הפנים עצמו תקין: הפגיעה מעליו, במוח. לכן המצח עוד זז.` },
     where: {
       options: [
         { id: `nerve`, text: `בעצב הפנים השמאלי עצמו` },
@@ -127,6 +131,7 @@ export const CASES = [
     key: [`c_pupils`, `c_lids`, `c_eyemoves`, `h_headache`],
     redFlags: [`h_headache`, `c_pupils`],
     nerves: [`oculomotor`],
+    cns: false,
     where: {
       options: [
         { id: `compress`, text: `לחץ על העצב מבחוץ, למשל ממפרצת בעורק סמוך` },
@@ -169,6 +174,7 @@ export const CASES = [
     },
     key: [`c_pupils`, `c_lids`, `c_eyemoves`, `h_background`],
     nerves: [`oculomotor`],
+    cns: false,
     where: {
       options: [
         { id: `compress`, text: `לחץ על העצב מבחוץ, למשל ממפרצת בעורק סמוך` },
@@ -208,6 +214,7 @@ export const CASES = [
     key: [`c_eyemoves`, `g_fundus`, `h_headache`],
     redFlags: [`g_fundus`, `h_headache`],
     nerves: [`abducens`],
+    cns: false,
     where: {
       options: [
         { id: `pressure`, text: `לחץ תוך-גולגולתי מוגבר, שלוחץ על העצב לאורך המסלול הארוך שלו` },
@@ -246,6 +253,7 @@ export const CASES = [
     },
     key: [`c_hearing`, `c_facesens`, `c_corneal`, `g_otoscope`],
     nerves: [`vestibulocochlear`, `trigeminal`],
+    cns: false,
     alsoOk: [`facial`],
     where: {
       options: [
@@ -284,6 +292,7 @@ export const CASES = [
     },
     key: [`c_fields`, `c_acuity`, `c_eyemoves`],
     nerves: [`optic`],
+    cns: false,
     where: {
       options: [
         { id: `one-nerve`, text: `בעצב הראייה של עין אחת` },
@@ -324,6 +333,7 @@ export const CASES = [
     },
     key: [`c_eyemoves`, `c_lids`, `c_facesens`, `c_corneal`, `c_jaw`],
     nerves: [`oculomotor`, `trochlear`, `trigeminal`, `abducens`],
+    cns: false,
     where: {
       options: [
         { id: `cavernous`, text: `בסינוס המערתי, שבו העצבים האלה עוברים יחד` },
@@ -363,6 +373,7 @@ export const CASES = [
     },
     key: [`c_aah`, `c_gag`, `c_shrug`, `c_headturn`, `c_tongue`, `c_voice`],
     nerves: [`glossopharyngeal`, `vagus`, `accessory`],
+    cns: false,
     where: {
       options: [
         { id: `jugular`, text: `בחור הצווארי משמאל, שדרכו שלושת העצבים יוצאים יחד` },
@@ -399,6 +410,7 @@ export const CASES = [
     },
     key: [`c_tongue`, `c_aah`],
     nerves: [`hypoglossal`],
+    cns: false,
     where: {
       options: [
         { id: `right`, text: `בעצב התת-לשוני הימני (נוירון תחתון)` },
@@ -441,6 +453,7 @@ export const CASES = [
     key: [`c_lids`, `c_eyemoves`, `c_pupils`, `g_strength`],
     redFlags: [`h_course`, `g_strength`],
     nerves: [`oculomotor`],
+    cns: true,
     where: {
       options: [
         { id: `midbrain`, text: `בגזע המוח, במוח התיכון בצד שמאל` },
@@ -490,6 +503,7 @@ export const CASES = [
     key: [`c_facesens`, `g_sensation`, `c_aah`, `c_pupils`, `g_gait`, `g_strength`],
     redFlags: [`h_course`, `h_dizzy`],
     nerves: [`trigeminal`, `glossopharyngeal`, `vagus`],
+    cns: true,
     alsoOk: [`vestibulocochlear`],
     where: {
       options: [
