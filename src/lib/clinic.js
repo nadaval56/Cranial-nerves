@@ -9,7 +9,7 @@ const romans = (ids) => ids.map((id) => byId[id].roman).join(' · ');
 export function caseCards(cases) {
   return `<ol class="case-cards">${cases.map((c, i) => `<li class="card case-card"><div class="card-body">`
     + `<p class="case-meta"><span class="case-num">מקרה ${i + 1}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span></p>`
-    + `<h2><a class="card-link" href="#case-${esc(c.id)}" data-case="${esc(c.id)}">${esc(c.title)}</a></h2>`
+    + `<h2><a class="card-link" href="#case-${i + 1}" data-case="${esc(c.id)}">${esc(c.title)}</a></h2>`
     + `<p>${esc(c.teaser)}</p></div></li>`).join('')}</ol>`;
 }
 

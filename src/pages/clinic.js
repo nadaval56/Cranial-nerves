@@ -1,10 +1,10 @@
-// "קליניקה": רשימת מקרים, ומקרה אחד בכל פעם לפי הכתובת (#case-<id>), כדי שאפשר יהיה לקשר למקרה מסוים.
+// "קליניקה": רשימת מקרים, ומקרה אחד בכל פעם לפי הכתובת (#case-<מספר>), כדי שאפשר יהיה לקשר למקרה מסוים.
 // מקרה = ביקור בארבע לשוניות, בכל סדר: שיחה (שאלות, כמו צ'אט) · מדדים (מוניטור עם מכשירים נפרדים ואק"ג)
 // · בדיקה (איור של המטופל: לוחצים על אזור ומקבלים רק את הבדיקות שלו) · התיק (כל מה שנאסף).
 // אחר כך "אני מוכן לאבחנה": שאלה 1 (אילו עצבים) → שאלה 2 (איפה) → סיכום הבדיקה והסבר. שום דבר לא נשמר.
 // על הכפתורים לא כתוב איזה עצב נבדק, כדי לא לרמוז. העצבים מופיעים רק בסיכום.
 // בכל מקרה מוגרל אחד משלושה מטופלים (שם, מין, גיל וסיפור משלו; a בלי מסיחים, b ו-c עם מסיחים מ-content/distractors.js).
-// #case-<id>/b = מטופל קבוע, לשיתוף. הטקסטים מותאמים למין המטופל דרך tpl (src/lib/persona.js).
+// #case-<מספר>/b = מטופל קבוע, לשיתוף. הטקסטים מותאמים למין המטופל דרך tpl (src/lib/persona.js).
 import { CASES, LEVELS } from '../../content/cases.js';
 import { distractorById } from '../../content/distractors.js';
 import { ACTIONS, REGIONS, DEVICES, actionById, groupById } from '../../content/clinic-actions.js';
@@ -197,7 +197,7 @@ function openCase(c, variant) {
     + `<div class="case-explain-grid"><div>${caseSummary(c, T)}</div>`
     + `<figure class="case-fig">${brainstemSvg({ active: c.nerves.length === 1 ? c.nerves[0] : null, title: c.nerves.length === 1 ? `גזע המוח מלמטה, ועליו מודגש ${byId[c.nerves[0]].name}` : 'גזע המוח מלמטה' })}`
     + `<figcaption class="muted">${!c.nerves.length ? 'העצבים הקרניאליים תקינים. הבעיה מעליהם, במוח.' : c.nerves.length === 1 ? `${esc(byId[c.nerves[0]].name)} מודגש` : `העצבים במקרה: ${c.nerves.map((id) => byId[id].roman).join(' · ')}`}</figcaption></figure></div>`
-    + `<div class="btn-row case-end"><a class="btn btn-primary" href="#case-${next.id}">למקרה הבא ←</a><a class="btn" href="#" data-back>לכל המקרים</a></div></section>`
+    + `<div class="btn-row case-end"><a class="btn btn-primary" href="#case-${CASES.indexOf(next) + 1}">למקרה הבא ←</a><a class="btn" href="#" data-back>לכל המקרים</a></div></section>`
     + `</article>`;
 
   const $ = (sel) => view.querySelector(sel);
@@ -509,7 +509,7 @@ function openCase(c, variant) {
 
   $('[data-reroll]').addEventListener('click', () => {
     const v = randomPatient(c, variant);
-    history.replaceState(null, '', `#case-${c.id}/${v}`);
+    history.replaceState(null, '', `#case-${CASES.indexOf(c) + 1}/${v}`);
     openCase(c, v);
   });
 
@@ -523,8 +523,13 @@ function openCase(c, variant) {
 
 function route() {
   const m = location.hash.match(/^#case-([\w-]+?)(?:\/([abc]))?$/);
-  const c = m && CASES.find((x) => x.id === m[1]);
-  if (c) openCase(c, m[2] ?? randomPatient(c)); else showList();
+  // בכתובת מספר המקרה, לא השם שלו (השם מסגיר את האבחנה). קישורים ישנים עם השם עדיין עובדים, והכתובת מתחלפת למספר
+  const c = m && (CASES[Number(m[1]) - 1] ?? CASES.find((x) => x.id === m[1]));
+  if (!c) { showList(); return; }
+  const v = m[2] ?? randomPatient(c);
+  const want = `#case-${CASES.indexOf(c) + 1}${m[2] ? `/${m[2]}` : ''}`;
+  if (location.hash !== want) history.replaceState(null, '', want);
+  openCase(c, v);
 }
 addEventListener('hashchange', route);
 addEventListener('popstate', route);

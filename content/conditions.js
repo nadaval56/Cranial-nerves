@@ -109,7 +109,7 @@ export const CONDITIONS = [
       { kind: `מעבדה`, href: `lab-face.html`, label: `מעבדת הפנים: שבץ מול שיתוק בל` },
       { kind: `מעבדה`, href: `lab-reflex.html`, label: `מעגלי רפלקס: רפלקס הקרנית ושריר הארכובה` },
       { kind: `קליניקה`, href: `clinic.html#case-bell`, label: `מקרה: פנים עקומות בבוקר` },
-      { kind: `קליניקה`, href: `clinic.html#case-stroke-face`, label: `מקרה: הפה צונח, והמצח בסדר` },
+      { kind: `קליניקה`, href: `clinic.html#case-stroke-face`, label: `מקרה: דיבור לא ברור ופה עקום` },
       { kind: `בתקשורת`, href: `press-gilad-bell.html`, label: `אברי גלעד: "אני משותק בחצי פנים"` },
       { kind: `בתקשורת`, href: `press-maman-bell.html`, label: `חלי ממן: "לא זיהיתי את עצמי"` },
       { kind: `בתקשורת`, href: `press-anski-synkinesis.html`, label: `מיכל אנסקי: כשההחלמה חלקית` },
