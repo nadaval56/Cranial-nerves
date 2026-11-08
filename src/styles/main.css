@@ -1864,3 +1864,33 @@ html.a11y-still .case-findings li { animation: none; }
 .debrief-missed .debrief-mark { color: var(--warning, #f0a372); }
 .debrief-flags .debrief-mark { color: #ef9a8f; }
 @media (min-width: 860px) { .case-ready { position: sticky; bottom: 0; box-shadow: 0 -10px 16px var(--bg-elev); } }
+
+/* ---------- מצבים ומחלות (conditions.html, condition-<id>.html) ---------- */
+.cond-en { font-size: 0.6em; font-weight: 400; color: var(--text-muted); }
+.cond-cards .cond-en { font-size: 0.75em; }
+.cond-head .press-date { margin-bottom: 0.4rem; }
+.cond-note { margin-top: 1rem; border-inline-start: 3px solid var(--accent); }
+.cond-toc { margin: 1.5rem 0; padding: 0.9rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-elev); }
+.cond-toc-title { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--text-muted); }
+.cond-toc ol { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: 0.2rem 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr)); }
+.cond-body { display: grid; gap: 1.25rem; }
+.cond-sec { padding: 1.25rem 1.25rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-elev); }
+.cond-sec h2 { font-size: 1.3rem; margin: 0 0 0.75rem; }
+.cond-sec .prose ul { padding-inline-start: 1.2rem; display: grid; gap: 0.4rem; }
+.cond-sec + .cond-sec, .cond-body + .cond-sec { margin-top: 1.25rem; }
+.cond-ddx { display: grid; gap: 0.6rem; margin: 0; }
+.cond-ddx > div { padding: 0.65rem 0.9rem; border-radius: var(--radius); background: var(--surface); }
+.cond-ddx dt { font-weight: 600; color: var(--text); }
+.cond-ddx dd { margin: 0.2rem 0 0; color: var(--text-2); }
+.cond-treat { border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+.cond-red { border-color: var(--warning, #e8a33d); background: color-mix(in srgb, var(--warning, #e8a33d) 9%, var(--bg-elev)); }
+.cond-red h2::before { content: '!'; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; margin-inline-end: 0.5rem; border-radius: 50%; background: var(--warning, #e8a33d); color: #111; font-size: 1rem; vertical-align: middle; }
+.cond-links { margin: 1rem 0 0; }
+.cond-promo { margin-top: 1.5rem; }
+.cond-promo .roman { color: var(--accent); }
+/* קליניקה: התשובה נפתחת בשורה משלה, מתחת לכפתור שנלחץ */
+.act-chips .act-out { flex-basis: 100%; margin: 0.1rem 0 0.35rem; animation: act-in 0.18s ease-out; }
+@keyframes act-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .act-chips .act-out { animation: none; } }
+html.a11y-still .act-chips .act-out { animation: none; }
+.act.is-current { border-color: var(--accent); color: var(--text); }

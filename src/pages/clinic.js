@@ -92,8 +92,14 @@ function openCase(c) {
     const id = b.dataset.act;
     const group = b.closest('.act-group');
     const out = group.querySelector('.act-out');
+    // התשובה מופיעה מיד מתחת לכפתור שנלחץ, ולא בסוף הקבוצה
+    b.after(out);
+    group.querySelectorAll('.act.is-current').forEach((x) => x.classList.remove('is-current'));
+    b.classList.add('is-current');
     out.hidden = false;
     out.innerHTML = `<strong>${esc(actionById[id].label)}</strong> ${esc(answer(id))}`;
+    const r = out.getBoundingClientRect();
+    if (r.bottom > innerHeight - 16) out.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     if (done.includes(id)) return;
     done.push(id);
     b.classList.add('is-done');

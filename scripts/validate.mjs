@@ -7,6 +7,7 @@ import { DIAGRAMS } from '../src/lib/diagrams.js';
 import { CASES, LEVELS } from '../content/cases.js';
 import { ACTIONS, actionById, REQUIRED } from '../content/clinic-actions.js';
 import { existsSync } from 'node:fs';
+import { CONDITIONS, SECTION_TITLES } from '../content/conditions.js';
 
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -41,7 +42,7 @@ const caseIds = new Set();
 const pageExists = (href) => {
   const [file, hash] = href.split('#');
   const m = file.match(/^nerve-([\w-]+)\.html$/);
-  const ok = m ? (m[1] === 'zero' || !!byId[m[1]]) : /^press-[\w-]+\.html$/.test(file) || existsSync(new URL(`../${file}`, import.meta.url));
+  const ok = m ? (m[1] === 'zero' || !!byId[m[1]]) : /^press-[\w-]+\.html$/.test(file) || /^condition-[\w-]+\.html$/.test(file) || existsSync(new URL(`../${file}`, import.meta.url));
   if (ok && hash && file === 'lab-skull.html' && !foramina.has(hash)) return false;
   return ok;
 };
@@ -74,8 +75,25 @@ CASES.forEach((c, i) => {
   if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');
 });
 
+// מצבים ומחלות
+const condIds = new Set();
+CONDITIONS.forEach((c, i) => {
+  const w = `מצב ${c.id ?? i}`;
+  for (const k of ['id', 'nerve', 'title', 'en', 'short', 'updated', 'sections', 'links', 'sources']) if (c[k] == null) err(w, `חסר שדה ${k}`);
+  if (condIds.has(c.id)) err(w, 'מזהה כפול'); condIds.add(c.id);
+  if (!byId[c.nerve]) err(w, `עצב לא קיים: ${c.nerve}`);
+  for (const k of Object.keys(SECTION_TITLES)) if (!c.sections?.[k]?.length) err(w, `חסר סעיף ${k}`);
+  if ((c.sources ?? []).length < 3) err(w, 'פחות משלושה מקורות');
+  (c.sources ?? []).forEach((x) => { if (!/^https:\/\//.test(x.url ?? '') || !x.label) err(w, 'מקור לא תקין'); });
+  (c.links ?? []).forEach((l) => { if (!pageExists(l.href)) err(w, `קישור שבור: ${l.href}`);
+    const [f, h] = l.href.split('#'); if (f === 'clinic.html' && h && !caseIds.has(h.replace(/^case-/, ''))) err(w, `מקרה לא קיים: ${h}`); });
+  const txt = JSON.stringify(c);
+  if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
+  if (/—/.test(txt)) err(w, 'מקף ארוך');
+});
+
 if (errors.length) {
   console.error(`✗ ${errors.length} שגיאות:\n  ${errors.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים, ${CASES.length} מקרים: הכול תקין`);
+console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים, ${CASES.length} מקרים, ${CONDITIONS.length} מצבים: הכול תקין`);

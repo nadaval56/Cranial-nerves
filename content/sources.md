@@ -159,3 +159,11 @@
 - פגיעה בעצב התת-לשוני (XII): הלשון סוטה לצד הפגוע בהוצאה, ועם הזמן מופיעות התנוונות ופסיקולציות באותו צד: [Wikipedia: Hypoglossal nerve, Clinical significance](https://en.wikipedia.org/wiki/Hypoglossal_nerve#Clinical_significance).
 - העצב הנלווה (XI): השריר הטרפזי מרים את הכתף באותו צד; שריר ה-SCM מסובב את הסנטר לצד הנגדי, ולכן פגיעה בצד אחד מחלישה את הסיבוב לצד השני; בפגיעה הכתף שמוטה: [Wikipedia: Accessory nerve](https://en.wikipedia.org/wiki/Accessory_nerve), [Wikipedia: Sternocleidomastoid muscle](https://en.wikipedia.org/wiki/Sternocleidomastoid_muscle).
 - רפלקס ההקאה: הצד הקולט הוא העצב הלשוני-לועי (IX), הצד המבצע הוא העצב התועה (X): [Wikipedia: Pharyngeal reflex](https://en.wikipedia.org/wiki/Pharyngeal_reflex).
+
+## מצבים: שיתוק בל (content/conditions.js)
+- הנחיות האיגוד האמריקאי לאף-אוזן-גרון (AAO-HNS): [Baugh et al. 2013, PMID 24189771](https://pubmed.ncbi.nlm.nih.gov/24189771/). אבחנה לפי סיפור ובדיקה; אין צורך שגרתי בבדיקות דם או בהדמיה; סטרואידים בבליעה בתוך 72 שעות; תרופות נגד נגיפים לא לבד, ואפשר בנוסף לסטרואידים; הגנה על העין; לא ממליצים על ניתוח שחרור באופן שגרתי.
+- סטרואידים: [Madhok et al., Cochrane 2016, PMID 27428352](https://pubmed.ncbi.nlm.nih.gov/27428352/). החלמה חלקית אחרי 6 חודשים: 17% עם סטרואידים מול 28% בלי.
+- תרופות נגד נגיפים: [Gagyor et al., Cochrane 2019, PMID 31486071](https://pubmed.ncbi.nlm.nih.gov/31486071/). השילוב עם סטרואידים: תועלת לא ודאית.
+- [NHS: Bell's palsy](https://www.nhs.uk/conditions/bells-palsy/): טיפול מוקדם בתוך 72 שעות; סימני שבץ הם מצב חירום; רוב השיפור בתוך חודשים.
+- [Wikipedia: Bell's palsy](https://en.wikipedia.org/wiki/Bell%27s_palsy): שכיחות 1–4 ל-10,000 בשנה; גורמי סיכון: סוכרת, הריון, זיהום בדרכי הנשימה העליונות; HSV-1 חשוד; תסמינים (טעם, כאב באוזן, היפראקוזיס); תחילת שיפור בתוך שלושה שבועות; סינקינזיס ודמעות תנין; אבחנה מבדלת (שבץ, רמזי האנט, ליים, גידול, סרקואידוזיס, חבלה).
+- [Wikipedia: Ramsay Hunt syndrome type 2](https://en.wikipedia.org/wiki/Ramsay_Hunt_syndrome_type_2): שלפוחיות באוזן, כאב, ירידה בשמיעה וסחרחורת.
