@@ -7,6 +7,7 @@ import { DIAGRAMS } from '../src/lib/diagrams.js';
 import { CASES, LEVELS } from '../content/cases.js';
 import { ACTIONS, actionById, REQUIRED, REGIONS, DEVICES } from '../content/clinic-actions.js';
 import { DISTRACTORS, distractorById, ADD_KEYS } from '../content/distractors.js';
+import { tpl, leftover } from '../src/lib/persona.js';
 import { existsSync } from 'node:fs';
 import { CONDITIONS, SECTION_TITLES } from '../content/conditions.js';
 
@@ -62,7 +63,7 @@ CASES.forEach((c, i) => {
   if (typeof c.cns !== 'boolean') err(w, `חסר שדה cns (true/false: האם יש גם פגיעה במוח או בגזע המוח)`);
   if (!Array.isArray(c.nerves) || (!c.nerves.length && !c.cns)) err(w, `צריך לפחות עצב אחד, או cns: true`);
   Object.keys(c.q1Notes ?? {}).forEach((id) => { if (!byId[id] && id !== 'cns') err(w, `q1Notes: עצב לא קיים ${id}`); });
-  for (const k of ['id', 'title', 'teaser', 'story', 'exam', 'key', 'where', 'explain', 'links', 'sources']) {
+  for (const k of ['id', 'title', 'teaser', 'patients', 'exam', 'key', 'where', 'explain', 'links', 'sources']) {
     if (c[k] == null || (Array.isArray(c[k]) && !c[k].length)) err(w, `חסר שדה ${k}`);
   }
   if (caseIds.has(c.id)) err(w, 'מזהה כפול'); caseIds.add(c.id);
@@ -78,23 +79,44 @@ CASES.forEach((c, i) => {
   (c.key ?? []).forEach((id) => { if (!actionById[id]) err(w, `ממצא מפתח לא קיים: ${id}`); else if (!c.exam?.[id]) err(w, `לממצא המפתח ${id} אין תשובה מותאמת`); });
   (c.redFlags ?? []).forEach((id) => { if (!actionById[id]) err(w, `סימן אזהרה לא קיים: ${id}`); });
   if (c.ecg != null && (!['sinus', 'af'].includes(c.ecg.rhythm) || !(c.ecg.rate >= 30 && c.ecg.rate <= 180))) err(w, `ecg צריך להיות { rhythm: 'sinus' | 'af', rate: 30-180 }`);
-  // מסיחים: קיימים, ולא מתנגשים בתשובות של המקרה, בממצאי המפתח או בסימני האזהרה
-  if (!Array.isArray(c.distractors) || c.distractors.length < 2) err(w, 'צריך לפחות 2 מסיחים (למטופל ב ולמטופל ג)');
+  // מטופלים: שלושה (a, b, c), עם שם, מין, גיל וסיפור. a בלי מסיחים. מסיחים קיימים, ולא מתנגשים בתשובות של המקרה,
+  // בממצאי המפתח או בסימני האזהרה. תשובות של מטופל (exam) לא נוגעות בממצאי מפתח ובסימני אזהרה.
+  const pts = c.patients ?? [];
+  if (pts.map((p) => p.id).join() !== 'a,b,c') err(w, 'צריכים להיות שלושה מטופלים: a, b, c');
   const protectedIds = new Set([...Object.keys(c.exam ?? {}), ...(c.key ?? []), ...(c.redFlags ?? [])]);
-  (c.distractors ?? []).forEach((did) => {
-    const d = distractorById[did];
-    if (!d) { err(w, `מסיח לא קיים: ${did}`); return; }
-    Object.keys(d.exam ?? {}).forEach((id) => { if (protectedIds.has(id)) err(w, `המסיח ${did} מחליף את ${id}, שהוא חלק מהמקרה`); });
-    Object.keys(d.add ?? {}).forEach((id) => {
-      if ((c.key ?? []).includes(id) || (c.redFlags ?? []).includes(id)) err(w, `המסיח ${did} מוסיף ל-${id}, שהוא ממצא מפתח`);
-      if (/^(אין|לא )/.test(c.exam?.[id] ?? '')) err(w, `המסיח ${did} מוסיף ל-${id}, אבל במקרה כתוב "${c.exam[id].slice(0, 20)}"`);
+  const keyish = new Set([...(c.key ?? []), ...(c.redFlags ?? [])]);
+  pts.forEach((p) => {
+    const pw = `${w}, מטופל ${p.id}`;
+    if (!p.name || !/^[\u0590-\u05FF'"\- ]+$/.test(p.name) || p.name.split(' ').length < 2) err(pw, 'שם מלא בעברית (פרטי ומשפחה)');
+    if (!['m', 'f'].includes(p.sex)) err(pw, "sex צריך להיות 'm' או 'f'");
+    if (!(p.age >= 16 && p.age <= 95)) err(pw, 'גיל לא סביר');
+    if (!p.story) err(pw, 'חסר סיפור');
+    if (p.id === 'a' && p.distractors?.length) err(pw, 'למטופל a אין מסיחים');
+    if (p.id !== 'a' && !p.distractors?.length) err(pw, 'צריך לפחות מסיח אחד');
+    Object.keys(p.exam ?? {}).forEach((id) => {
+      if (!actionById[id]) err(pw, `בדיקה לא קיימת: ${id}`);
+      if (keyish.has(id)) err(pw, `תשובה של מטופל לא יכולה להחליף ממצא מפתח או סימן אזהרה: ${id}`);
     });
+    const ex = new Set(Object.keys(p.exam ?? {}));
+    (p.distractors ?? []).forEach((did) => {
+      const d = distractorById[did];
+      if (!d) { err(pw, `מסיח לא קיים: ${did}`); return; }
+      Object.keys(d.exam ?? {}).forEach((id) => { if (protectedIds.has(id) || ex.has(id)) err(pw, `המסיח ${did} מחליף את ${id}, שהוא חלק מהמקרה`); });
+      Object.keys(d.add ?? {}).forEach((id) => {
+        if (keyish.has(id)) err(pw, `המסיח ${did} מוסיף ל-${id}, שהוא ממצא מפתח`);
+        const own = p.exam?.[id] ?? c.exam?.[id] ?? '';
+        if (/^(אין|לא )/.test(own)) err(pw, `המסיח ${did} מוסיף ל-${id}, אבל במקרה כתוב "${own.slice(0, 20)}"`);
+      });
+    });
+    const [d1, d2] = p.distractors ?? [];
+    if (d1 && d2 && distractorById[d1] && distractorById[d2]) {
+      Object.keys(distractorById[d1].exam ?? {}).forEach((id) => { if (distractorById[d2].exam?.[id]) err(pw, `שני מסיחים מחליפים את ${id}`); });
+    }
+    // התבניות ({זכר|נקבה}, {name}, {first}, {age}) נפתרות עד הסוף אצל המטופל הזה
+    const texts = [p.story, ...Object.values(p.exam ?? {}), ...Object.values(c.exam ?? {}), ...(c.explain ?? []), ...Object.values(c.q1Notes ?? {}),
+      ...ACTIONS.map((a) => a.normal), ...(p.distractors ?? []).flatMap((did) => Object.values({ ...distractorById[did]?.exam, ...distractorById[did]?.add }))];
+    texts.forEach((t) => { const r = tpl(t, p); if (leftover(r)) err(pw, `תבנית לא נפתרה: "${r.slice(0, 50)}"`); });
   });
-  // מטופל ג: שני המסיחים לא מחליפים את אותה בדיקה
-  const [, c1, c2] = c.distractors ?? [];
-  if (c1 && c2 && distractorById[c1] && distractorById[c2]) {
-    Object.keys(distractorById[c1].exam ?? {}).forEach((id) => { if (distractorById[c2].exam?.[id]) err(w, `במטופל ג שני מסיחים מחליפים את ${id}`); });
-  }
   const txt = JSON.stringify(c);
   if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
   if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');

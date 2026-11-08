@@ -3,7 +3,8 @@
 // · בדיקה (איור של המטופל: לוחצים על אזור ומקבלים רק את הבדיקות שלו) · התיק (כל מה שנאסף).
 // אחר כך "אני מוכן לאבחנה": שאלה 1 (אילו עצבים) → שאלה 2 (איפה) → סיכום הבדיקה והסבר. שום דבר לא נשמר.
 // על הכפתורים לא כתוב איזה עצב נבדק, כדי לא לרמוז. העצבים מופיעים רק בסיכום.
-// כל מקרה מוגרל כמטופל א (בלי מסיחים), ב או ג (עם מסיחים מ-content/distractors.js). #case-<id>/b = מטופל קבוע, לשיתוף.
+// בכל מקרה מוגרל אחד משלושה מטופלים (שם, מין, גיל וסיפור משלו; a בלי מסיחים, b ו-c עם מסיחים מ-content/distractors.js).
+// #case-<id>/b = מטופל קבוע, לשיתוף. הטקסטים מותאמים למין המטופל דרך tpl (src/lib/persona.js).
 import { CASES, LEVELS } from '../../content/cases.js';
 import { distractorById } from '../../content/distractors.js';
 import { ACTIONS, REGIONS, DEVICES, actionById, groupById } from '../../content/clinic-actions.js';
@@ -13,6 +14,7 @@ import { caseCards, caseSummary } from '../lib/clinic.js';
 import { brainstemSvg } from '../lib/brainstem.js';
 import { ecgSvg } from '../lib/ecg.js';
 import { SITE } from '../config.js';
+import { tpl, firstName, initials } from '../lib/persona.js';
 
 const root = document.getElementById('clinic-root');
 const list = document.getElementById('case-list');
@@ -41,10 +43,8 @@ const nervesTag = (id) => (actionById[id].nerves ? ` <span class="debrief-nerves
 let teardown = null;
 const stopCase = () => { if (teardown) { teardown(); teardown = null; } };
 
-// מטופלים: א בלי מסיחים, ב עם המסיח הראשון של המקרה, ג עם השני (והשלישי, אם יש)
-const VARIANTS = ['a', 'b', 'c'];
-const VARIANT_HE = { a: 'א', b: 'ב', c: 'ג' };
-const variantDistractors = (c, v) => (v === 'b' ? c.distractors.slice(0, 1) : v === 'c' ? c.distractors.slice(1, 3) : []);
+// מטופלים: שלושה לכל מקרה. a בלי מסיחים, b ו-c עם המסיחים שלהם
+const randomPatient = (c, not) => { const ps = c.patients.filter((p) => p.id !== not); return ps[Math.floor(Math.random() * ps.length)].id; };
 
 function showList(focusId) {
   stopCase();
@@ -58,7 +58,7 @@ function showList(focusId) {
 // ---------- איור המטופל בלשונית "בדיקה" ----------
 // מבט מלפנים: ראש, צוואר, כתפיים וזרועות. כל אזור הוא כפתור, ולכל אזור תווית בצד עם קו מוביל.
 const SPOTS = {
-  face: { shape: '<ellipse cx="220" cy="128" rx="68" ry="86"/>', label: [70, 76], to: [168, 84] },
+  face: { shape: '<ellipse cx="220" cy="128" rx="58" ry="84"/>', label: [70, 76], to: [168, 84] },
   eyes: { shape: '<rect x="176" y="100" width="88" height="30" rx="14"/>', label: [370, 112], to: [264, 115] },
   nose: { shape: '<ellipse cx="220" cy="150" rx="15" ry="19"/>', label: [370, 150], to: [235, 150] },
   mouth: { shape: '<ellipse cx="220" cy="183" rx="28" ry="15"/>', label: [370, 188], to: [248, 184] },
@@ -68,7 +68,8 @@ const SPOTS = {
   limbs: { shape: '<path d="M96 276 L124 270 L130 398 L98 398 Z"/><path d="M316 270 L344 276 L342 398 L310 398 Z"/>', label: [70, 330], to: [104, 330] },
 };
 function bodySvg() {
-  const spots = REGIONS.map((r) => {
+  // הפנים קודם, כדי שהאזורים הקטנים שבתוכם (עיניים, אף, פה) ייצאו מעליהם ויקבלו את הלחיצה
+  const spots = [...REGIONS].sort((a, b) => (b.id === 'face') - (a.id === 'face')).map((r) => {
     const s = SPOTS[r.id];
     const [lx, ly] = s.label; const [tx, ty] = s.to;
     const w = r.label.length * 7.4 + 26;
@@ -110,11 +111,17 @@ function openCase(c, variant) {
   stopCase();
   const idx = CASES.indexOf(c);
   const next = CASES[(idx + 1) % CASES.length];
-  const ds = variantDistractors(c, variant).map((id) => distractorById[id]);
+  const P = c.patients.find((p) => p.id === variant) ?? c.patients[0];
+  variant = P.id;
+  const ds = P.distractors.map((id) => distractorById[id]);
+  const T = (str) => tpl(str, P);
   // התשובה: של המקרה, ואחריה של המסיח, ואחריה התשובה הרגילה. תוספות (add) נכתבות אחרי התשובה של המקרה
-  const answer = (id) => {
+  // התשובה: של המטופל, ואחריה של המקרה, ואחריה של המסיח, ואחריה התשובה הרגילה. הכול מותאם למין המטופל
+  const answer = (id) => T(rawAnswer(id));
+  const rawAnswer = (id) => {
     const adds = ds.map((d) => d.add?.[id]).filter(Boolean);
-    if (c.exam[id]) return adds.length ? `${c.exam[id]} בנוסף: ${adds.join(' ')}` : c.exam[id];
+    const own = P.exam?.[id] ?? c.exam[id];
+    if (own) return adds.length ? `${own} בנוסף: ${adds.join(' ')}` : own;
     const dx = ds.find((d) => d.exam?.[id]);
     if (dx) return dx.exam[id];
     if (adds.length) return adds.join(' ');
@@ -133,16 +140,17 @@ function openCase(c, variant) {
 
   view.innerHTML = `<nav class="breadcrumb case-crumb" aria-label="נתיב"><a href="#" data-back>קליניקה</a> / מקרה ${idx + 1}</nav>`
     + `<article class="case" aria-labelledby="case-h">`
-    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><span class="case-variant">מטופל ${VARIANT_HE[variant]}</span><button type="button" class="btn btn-ghost case-reroll" data-reroll>מטופל אחר</button><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
+    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><button type="button" class="btn btn-ghost case-reroll" data-reroll>למטופל אחר</button><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
     + `<h1 id="case-h">${esc(c.title)}</h1>`
-    + `<p class="lead case-story">${esc(c.story)}</p>`
+    + `<div class="case-patient"><span class="pt-avatar pt-${P.sex}" aria-hidden="true">${esc(initials(P))}</span><p class="pt-id"><strong>${esc(P.name)}</strong><span class="muted">${T('{בן|בת}')} ${P.age}</span></p></div>`
+    + `<p class="lead case-story">${esc(T(P.story))}</p>`
     + `<div class="case-bar"><div class="case-tabs" role="tablist" aria-label="שלבי הביקור">`
     + TABS.map((t, i) => `<button type="button" role="tab" id="tab-${t.id}" class="case-tab" aria-controls="panel-${t.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${t.id}">${t.label}<span class="case-tab-n" data-n="${t.id}" aria-hidden="true"></span></button>`).join('')
     + `</div></div>`
 
     // שיחה
     + `<section class="case-panel" role="tabpanel" id="panel-talk" aria-labelledby="tab-talk">`
-    + `<div class="chat" data-chat aria-live="polite"><p class="chat-hint">המטופל יושב מולכם. מה תשאלו אותו?</p></div>`
+    + `<div class="chat" data-chat aria-live="polite"><p class="chat-hint">${esc(T(`{first} {יושב|יושבת} מולכם. מה תשאלו {אותו|אותה}?`))}</p></div>`
     + `<div class="chat-qs" role="group" aria-label="שאלות">${HISTORY.map((a) => `<button type="button" class="chip chat-q" data-act="${a.id}">${esc(a.label)}</button>`).join('')}</div>`
     + `</section>`
 
@@ -186,7 +194,7 @@ function openCase(c, variant) {
     + `<section class="lesson case-step case-explain" aria-labelledby="ex-h" hidden data-ex><h2 id="ex-h">סיכום הבדיקה</h2>`
     + `<div data-debrief></div>`
     + `<h3 class="case-sub">ההסבר</h3>`
-    + `<div class="case-explain-grid"><div>${caseSummary(c)}</div>`
+    + `<div class="case-explain-grid"><div>${caseSummary(c, T)}</div>`
     + `<figure class="case-fig">${brainstemSvg({ active: c.nerves.length === 1 ? c.nerves[0] : null, title: c.nerves.length === 1 ? `גזע המוח מלמטה, ועליו מודגש ${byId[c.nerves[0]].name}` : 'גזע המוח מלמטה' })}`
     + `<figcaption class="muted">${!c.nerves.length ? 'העצבים הקרניאליים תקינים. הבעיה מעליהם, במוח.' : c.nerves.length === 1 ? `${esc(byId[c.nerves[0]].name)} מודגש` : `העצבים במקרה: ${c.nerves.map((id) => byId[id].roman).join(' · ')}`}</figcaption></figure></div>`
     + `<div class="btn-row case-end"><a class="btn btn-primary" href="#case-${next.id}">למקרה הבא ←</a><a class="btn" href="#" data-back>לכל המקרים</a></div></section>`
@@ -257,7 +265,7 @@ function openCase(c, variant) {
     const pt = pair.querySelector('.bubble-pt');
     const reply = () => {
       pt.classList.remove('is-typing'); pt.removeAttribute('aria-hidden');
-      pt.innerHTML = `<span class="visually-hidden">המטופל: </span>${esc(answer(id))}`;
+      pt.innerHTML = `<span class="bubble-who">${esc(firstName(P))}</span><span class="visually-hidden">: </span>${esc(answer(id))}`;
       chat.scrollTo({ top: chat.scrollHeight, behavior: behavior() });
     };
     if (reduced()) reply(); else setTimeout(reply, 650 + Math.min(900, answer(id).length * 12));
@@ -440,7 +448,7 @@ function openCase(c, variant) {
     if (xNerves.length) parts.push(xNerves.length === 1 ? 'בחרתם עצב אחד שלא נפגע' : `בחרתם ${xNerves.length} עצבים שלא נפגעו`);
     const notes = [];
     if (extra.includes('cns')) notes.push('המוח וגזע המוח תקינים כאן: הממצאים מתאימים לפגיעה מחוץ להם, בעצב עצמו או בדרכו.');
-    extra.forEach((id) => { if (c.q1Notes?.[id]) notes.push(c.q1Notes[id]); });
+    extra.forEach((id) => { if (c.q1Notes?.[id]) notes.push(T(c.q1Notes[id])); });
     fb1.className = 'try-feedback is-wrong';
     fb1.textContent = `עוד לא.${parts.length ? ` ${parts.join(', ו')}.` : ''}${notes.length ? ` ${notes.join(' ')}` : ''} אפשר לחזור ולבדוק עוד, ולנסות שוב.`;
     if (tries >= 2) $('[data-reveal1]').hidden = false;
@@ -482,9 +490,9 @@ function openCase(c, variant) {
     if (flags.length) html += `<h3 class="case-sub">סימני אזהרה שכדאי לבדוק תמיד במצב כזה</h3><ul class="debrief debrief-flags">${flags.map((id) => findingItem(id, '<span class="debrief-mark" aria-hidden="true">!</span>')).join('')}</ul>`;
     if (extra.length) html += `<h3 class="case-sub">בדיקות שלא היו הכרחיות במקרה הזה</h3><p class="muted">אין בהן נזק, והן חלק מבדיקה יסודית. הן פשוט לא שינו את האבחנה: ${extra.map((id) => esc(actionById[id].label)).join(' · ')}.</p>`;
     html += `<h3 class="case-sub">מסיחים בתרחיש הזה</h3>`;
-    if (!ds.length) html += `<p class="muted">הפעם (מטופל ${VARIANT_HE[variant]}) לא היו מסיחים: כל מה שמצאתם קשור לאבחנה או תקין. אפשר לנסות "מטופל אחר".</p>`;
+    if (!ds.length) html += `<p class="muted">אצל ${esc(P.name)} לא היו מסיחים: כל מה שמצאתם קשור לאבחנה או תקין. אפשר לנסות "למטופל אחר".</p>`;
     else {
-      html += `<p class="muted">למטופל ${VARIANT_HE[variant]} יש פרטים אמיתיים מהחיים שלא קשורים לאבחנה. ככה זה גם במרפאה: לא כל ממצא חריג הוא התשובה.</p>`
+      html += `<p class="muted">ל${esc(P.name)} יש פרטים אמיתיים מהחיים שלא קשורים לאבחנה. ככה זה גם במרפאה: לא כל ממצא חריג הוא התשובה.</p>`
         + `<ul class="debrief debrief-distractors">${ds.map((d) => {
           const ids = [...Object.keys(d.exam ?? {}), ...Object.keys(d.add ?? {})];
           const met = ids.some((id) => done.includes(id));
@@ -496,8 +504,7 @@ function openCase(c, variant) {
   }
 
   $('[data-reroll]').addEventListener('click', () => {
-    const others = VARIANTS.filter((v) => v !== variant);
-    const v = others[Math.floor(Math.random() * others.length)];
+    const v = randomPatient(c, variant);
     history.replaceState(null, '', `#case-${c.id}/${v}`);
     openCase(c, v);
   });
@@ -513,7 +520,7 @@ function openCase(c, variant) {
 function route() {
   const m = location.hash.match(/^#case-([\w-]+?)(?:\/([abc]))?$/);
   const c = m && CASES.find((x) => x.id === m[1]);
-  if (c) openCase(c, m[2] ?? VARIANTS[Math.floor(Math.random() * VARIANTS.length)]); else showList();
+  if (c) openCase(c, m[2] ?? randomPatient(c)); else showList();
 }
 addEventListener('hashchange', route);
 addEventListener('popstate', route);
