@@ -61,8 +61,5 @@ export const SISTER_SITES = [
   ['🛸', 'https://pursue.co.il/', 'PURSUE · ארכיון עב"מים', ''],
   ['🌍', 'https://quake.co.il/', 'רעידת אדמה · רעידות היסטוריות', ''],
   ['📅', 'https://heb-cal.co.il/', 'לוח עברי', ''],
-  ['🌱', 'https://holisticcenter.co.il/', 'מעט צרי · רפואה משלימה', ''],
-  ['🛸', 'https://pursue.co.il/', 'PURSUE · ארכיון עב"מים', ''],
-  ['🌍', 'https://quake.co.il/', 'רעידת אדמה · רעידות היסטוריות', ''],
-  ['📅', 'https://heb-cal.co.il/', 'לוח עברי', ''],
+  ['📖', 'https://kal-vachomer.co.il/', 'סגולת הבן איש חי לרפואה', ''],
 ];
