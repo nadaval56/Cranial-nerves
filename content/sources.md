@@ -167,3 +167,14 @@
 - [NHS: Bell's palsy](https://www.nhs.uk/conditions/bells-palsy/): טיפול מוקדם בתוך 72 שעות; סימני שבץ הם מצב חירום; רוב השיפור בתוך חודשים.
 - [Wikipedia: Bell's palsy](https://en.wikipedia.org/wiki/Bell%27s_palsy): שכיחות 1–4 ל-10,000 בשנה; גורמי סיכון: סוכרת, הריון, זיהום בדרכי הנשימה העליונות; HSV-1 חשוד; תסמינים (טעם, כאב באוזן, היפראקוזיס); תחילת שיפור בתוך שלושה שבועות; סינקינזיס ודמעות תנין; אבחנה מבדלת (שבץ, רמזי האנט, ליים, גידול, סרקואידוזיס, חבלה).
 - [Wikipedia: Ramsay Hunt syndrome type 2](https://en.wikipedia.org/wiki/Ramsay_Hunt_syndrome_type_2): שלפוחיות באוזן, כאב, ירידה בשמיעה וסחרחורת.
+
+## מצבים: נוירלגיה טריגמינלית (condition-trigeminal-neuralgia.html)
+- הגדרה, סוגים (קלסית, משנית, אידיופתית) ואבחנה: [Cruccu et al., Neurology 2016](https://pubmed.ncbi.nlm.nih.gov/27306631/).
+- MRI לכל המאובחנים, קרבמזפין או אוקסקרבזפין כטיפול ראשון, ניתוח לשחרור לחץ כבחירה ראשונה בין הניתוחים כשיש לחץ של כלי דם, ופעולות דרך העור וקרינה ממוקדת כחלופות: [EAN guideline, Bendtsen et al. 2019](https://pubmed.ncbi.nlm.nih.gov/30860637/).
+- שכיחות (כ-4 עד 13 ל-100,000 בשנה), גיל מעל 50, יותר נשים, העורק המוחוני העליון, טריגרים: [Wikipedia: Trigeminal neuralgia](https://en.wikipedia.org/wiki/Trigeminal_neuralgia), [NHS](https://www.nhs.uk/conditions/trigeminal-neuralgia/).
+- ניתוח לשחרור לחץ: [Wikipedia: Microvascular decompression](https://en.wikipedia.org/wiki/Microvascular_decompression).
+
+## מצבים: אובדן חוש הריח (condition-anosmia.html)
+- הגדרות (אנוסמיה, היפוסמיה, פרוסמיה, פנטוסמיה), שכיחות (כחמישית עם ירידה, כ-5% אובדן מלא), גורמים, בדיקות מתוקפות, אימון ריח כהמלצה עיקרית אחרי זיהום נגיפי ופגיעת ראש, ומיעוט הראיות לתרופות: [Hummel et al. 2017](https://pubmed.ncbi.nlm.nih.gov/29528615/), [Whitcroft et al. 2023](https://pubmed.ncbi.nlm.nih.gov/37454287/).
+- קורונה ותאים תומכים: [Brann et al. 2020](https://www.science.org/doi/10.1126/sciadv.abc5801).
+- סקירה כללית, מחלות ניווניות, בטיחות: [Wikipedia: Anosmia](https://en.wikipedia.org/wiki/Anosmia), [Wikipedia: Olfactory training](https://en.wikipedia.org/wiki/Olfactory_training).
