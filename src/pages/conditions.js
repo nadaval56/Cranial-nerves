@@ -1,4 +1,4 @@
-// "מצבים ומחלות": הרשימה נבנית מראש ב-build; בשרת הפיתוח היא נבנית כאן.
+// "פגיעות ומחלות": הרשימה נבנית מראש ב-build; בשרת הפיתוח היא נבנית כאן.
 import { CONDITIONS, isTreatment } from '../../content/conditions.js';
 import { conditionCards } from '../lib/render.js';
 

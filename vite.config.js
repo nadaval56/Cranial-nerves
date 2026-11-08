@@ -29,13 +29,13 @@ const pageUrl = (page) => `${SITE.url}${page === 'index' ? '' : `${page}.html`}`
 // ולעמודי העצבים תמונה משלהם (public/og/nerve-<id>.png, נוצרת ב-scripts/make-images.cjs).
 const CRUMB = {
   nerves: ['העצבים'], 'nerve-zero': ['העצבים', 'עצב 0'], basics: ['היסודות'], exam: ['הבדיקה'],
-  history: ['היסטוריה'], clinic: ['קליניקה'], press: ['בתקשורת'], conditions: ['העצבים', 'מצבים ומחלות'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
+  history: ['היסטוריה'], clinic: ['קליניקה'], press: ['בתקשורת'], conditions: ['העצבים', 'פגיעות ומחלות'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
   ...Object.fromEntries(PRESS.map((x) => [`press-${x.id}`, ['בתקשורת', x.title]])),
-  ...Object.fromEntries(CONDITIONS.map((c) => [`condition-${c.id}`, ['העצבים', isTreatment(c) ? `${byId[c.nerve].name} (${byId[c.nerve].roman})` : 'מצבים ומחלות', c.title]])),
+  ...Object.fromEntries(CONDITIONS.map((c) => [`condition-${c.id}`, ['העצבים', isTreatment(c) ? `${byId[c.nerve].name} (${byId[c.nerve].roman})` : 'פגיעות ומחלות', c.title]])),
 };
-const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab', 'בתקשורת': 'press', 'מצבים ומחלות': 'conditions',
+const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab', 'בתקשורת': 'press', 'פגיעות ומחלות': 'conditions',
   ...Object.fromEntries(NERVES.map((n) => [`${n.name} (${n.roman})`, `nerve-${n.id}`])) };
 const WEBSITE = { '@type': 'WebSite', '@id': `${SITE.url}#website`, name: SITE.name, url: SITE.url, inLanguage: 'he' };
 const EDU_LEVEL = 'תיכון, סטודנטים למקצועות הבריאות';
@@ -229,10 +229,10 @@ function staticPages() {
       }
       delete bundle['press-story.html'];
 
-      // עמוד סטטי לכל מצב ב"מצבים ומחלות"
+      // עמוד סטטי לכל פגיעה ב"פגיעות ומחלות"
       const condBase = String(bundle['condition.html'].source);
       for (const c of CONDITIONS) {
-        const title = `${c.title} · ${isTreatment(c) ? byId[c.nerve].name : 'מצבים ומחלות'} · ${SITE.name}`;
+        const title = `${c.title} · ${isTreatment(c) ? byId[c.nerve].name : 'פגיעות ומחלות'} · ${SITE.name}`;
         const description = c.short.slice(0, 158);
         let html = condBase
           .replace('<html lang="he" dir="rtl">', `<html lang="he" dir="rtl" data-condition-id="${attr(c.id)}">`)

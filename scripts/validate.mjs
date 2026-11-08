@@ -135,7 +135,7 @@ DISTRACTORS.forEach((d) => {
   if (/\((?:[IVX]+(?:, ?[IVX]+)*)\)/.test(d.label)) err(w, 'שם עצב בסוגריים בתווית');
 });
 
-// מצבים ומחלות
+// פגיעות ומחלות
 const condIds = new Set();
 CONDITIONS.forEach((c, i) => {
   const w = `מצב ${c.id ?? i}`;
@@ -156,4 +156,4 @@ if (errors.length) {
   console.error(`✗ ${errors.length} שגיאות:\n  ${errors.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים, ${CASES.length} מקרים, ${CONDITIONS.length} מצבים: הכול תקין`);
+console.log(`✓ ${NERVES.length} עצבים, ${FORAMINA.length} פתחים, ${EVENTS.length} אירועים, ${CASES.length} מקרים, ${CONDITIONS.length} פגיעות ומחלות: הכול תקין`);

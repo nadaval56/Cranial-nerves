@@ -220,7 +220,7 @@ export function pressStory(x) {
     + `</article><p class="press-back"><a href="./press.html">→ לכל הסיפורים בתקשורת</a></p>`;
 }
 
-// "מצבים ומחלות": רשימה (conditions.html) ועמוד לכל מצב (condition-<id>.html)
+// "פגיעות ומחלות": רשימה (conditions.html) ועמוד לכל פגיעה (condition-<id>.html)
 export const conditionUrl = (id) => `./condition-${id}.html`;
 const DISCLAIMER_NOTE = 'המידע כאן לימודי וכללי, ואינו תחליף לרופא. האתר אינו כלי אבחון ואינו ממליץ על טיפול.';
 const condBlock = (items) => items.map((it) => (typeof it === 'string'
@@ -250,7 +250,7 @@ export function conditionPage(c) {
     const cls = k === 'redFlags' ? ' cond-red' : k === 'treatment' ? ' cond-treat' : '';
     return `<section id="c-${k}" class="cond-sec${cls}" aria-labelledby="c-${k}-h"><h2 id="c-${k}-h">${T[k]}</h2><div class="prose">${inner}</div></section>`;
   }).join('');
-  const parent = treat ? `<a href="${nerveUrl(n.id)}">${esc(n.name)} (${n.roman})</a>` : `<a href="./conditions.html">מצבים ומחלות</a>`;
+  const parent = treat ? `<a href="${nerveUrl(n.id)}">${esc(n.name)} (${n.roman})</a>` : `<a href="./conditions.html">פגיעות ומחלות</a>`;
   return `<nav class="breadcrumb" aria-label="נתיב"><a href="./nerves.html">העצבים</a> / ${parent} / ${esc(c.title)}</nav>`
     + `<header class="page-head cond-head"><p class="press-date">${esc(n.name)} (${n.roman}) · עודכן ב-${heDate(c.updated)}</p>`
     + `<h1>${esc(c.title)} <span class="cond-en" lang="en" dir="ltr">${esc(c.en)}</span></h1><p class="lead">${esc(c.short)}</p>`
@@ -258,5 +258,5 @@ export function conditionPage(c) {
     + toc + `<div class="cond-body">${body}</div>`
     + `<section class="cond-sec" aria-labelledby="c-links-h"><h2 id="c-links-h">עוד באתר</h2><ul class="cond-links">${c.links.map((l) => `<li><a href="./${esc(l.href)}"><span class="cond-link-kind">${esc(l.kind ?? '')}</span><span class="cond-link-label">${esc(l.label)}</span></a></li>`).join('')}</ul></section>`
     + `<p class="press-sources muted">מקורות: ${c.sources.map((x) => `<a href="${esc(x.url)}" rel="noopener" target="_blank">${esc(x.label)}</a>`).join(' · ')}</p>`
-    + (treat ? `<p class="press-back"><a href="${nerveUrl(n.id)}">→ לעמוד של ${esc(n.name)}</a></p>` : `<p class="press-back"><a href="./conditions.html">→ לכל המצבים</a></p>`);
+    + (treat ? `<p class="press-back"><a href="${nerveUrl(n.id)}">→ לעמוד של ${esc(n.name)}</a></p>` : `<p class="press-back"><a href="./conditions.html">→ לכל הפגיעות</a></p>`);
 }

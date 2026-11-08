@@ -7,6 +7,6 @@ const root = document.getElementById('condition-root');
 if (!root.firstElementChild) {
   const id = document.documentElement.dataset.conditionId || new URL(location.href).searchParams.get('id');
   const c = CONDITIONS.find((x) => x.id === id);
-  root.innerHTML = c ? conditionPage(c) : '<header class="page-head"><h1>העמוד לא נמצא</h1><p class="lead"><a href="./conditions.html">לכל המצבים</a></p></header>';
-  if (c) document.title = `${c.title} · מצבים ומחלות · ${SITE.name}`;
+  root.innerHTML = c ? conditionPage(c) : '<header class="page-head"><h1>העמוד לא נמצא</h1><p class="lead"><a href="./conditions.html">לכל הפגיעות</a></p></header>';
+  if (c) document.title = `${c.title} · פגיעות ומחלות · ${SITE.name}`;
 }
