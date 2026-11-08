@@ -1830,3 +1830,37 @@ html.a11y-still .case-findings li { animation: none; }
 .case-fig { margin: 0; max-width: 360px; justify-self: center; }
 .case-fig svg { width: 100%; height: auto; }
 .case-end { margin-top: 1.25rem; }
+
+/* ---------- קליניקה: בדיקה חופשית ---------- */
+.case-work { display: grid; gap: 1.25rem; margin-top: 1.25rem; }
+@media (min-width: 860px) { .case-work { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: start; } .case-log { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; } }
+.case-actions h2, .case-log h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+.case-actions > .muted { margin: 0 0 0.75rem; font-size: 0.9rem; }
+.act-group { border-top: 1px solid var(--border); padding: 0.4rem 0; }
+.act-group > summary { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: 44px; cursor: pointer; font-weight: 600; color: var(--text); list-style: none; }
+.act-group > summary::-webkit-details-marker { display: none; }
+.act-group > summary::after { content: '▾'; color: var(--text-muted); transition: transform 0.15s; }
+.act-group:not([open]) > summary::after { transform: rotate(90deg); }
+.act-group-count { margin-inline-start: auto; font-size: 0.8rem; font-weight: 400; color: var(--text-muted); }
+.act-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.25rem 0 0.5rem; }
+.act { min-height: 40px; font-size: 0.875rem; }
+.act.is-done { border-color: var(--border-strong); background: var(--surface-2); color: var(--text-muted); }
+.act.is-done::before { content: '✓'; margin-inline-end: 0.35rem; color: var(--text-muted); }
+.act-out { margin: 0.25rem 0 0.6rem; padding: 0.65rem 0.85rem; border-radius: var(--radius); background: var(--surface); border-inline-start: 3px solid var(--accent); color: var(--text); font-size: 0.925rem; line-height: 1.55; }
+.act-out strong { display: block; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.1rem; }
+.case-log-count { margin: 0 0 0.6rem; font-size: 0.875rem; color: var(--text-muted); }
+.case-log-list { margin: 0 0 1rem; padding-inline-start: 1.3rem; display: grid; gap: 0.55rem; font-size: 0.9rem; }
+.case-log-list li { color: var(--text-2); line-height: 1.5; }
+.case-log-list strong { display: block; color: var(--text); font-weight: 600; font-size: 0.85rem; }
+.case-ready { width: 100%; }
+.case-sub { font-size: 1.05rem; margin: 1.1rem 0 0.5rem; }
+.case-debrief-lead { color: var(--text); }
+.debrief { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.debrief li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); column-gap: 0.4rem; padding: 0.55rem 0.75rem; border-radius: var(--radius); background: var(--surface); font-size: 0.9rem; line-height: 1.5; color: var(--text-2); }
+.debrief li > strong, .debrief li > span:not(.debrief-mark):not(.visually-hidden) { grid-column: 2; }
+.debrief li > strong { color: var(--text); font-size: 0.85rem; }
+.debrief-mark { grid-row: 1 / span 2; font-weight: 700; text-align: center; }
+.debrief-found .debrief-mark { color: var(--success); }
+.debrief-missed .debrief-mark { color: var(--warning, #f0a372); }
+.debrief-flags .debrief-mark { color: #ef9a8f; }
+@media (min-width: 860px) { .case-ready { position: sticky; bottom: 0; box-shadow: 0 -10px 16px var(--bg-elev); } }

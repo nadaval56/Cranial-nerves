@@ -5,6 +5,7 @@ import { FORAMINA } from '../content/foramina.js';
 import { EVENTS } from '../content/timeline.js';
 import { DIAGRAMS } from '../src/lib/diagrams.js';
 import { CASES, LEVELS } from '../content/cases.js';
+import { ACTIONS, actionById, REQUIRED } from '../content/clinic-actions.js';
 import { existsSync } from 'node:fs';
 
 const errors = [];
@@ -44,9 +45,16 @@ const pageExists = (href) => {
   if (ok && hash && file === 'lab-skull.html' && !foramina.has(hash)) return false;
   return ok;
 };
+const actionIds = new Set();
+ACTIONS.forEach((a) => {
+  if (actionIds.has(a.id)) err('קטלוג הבדיקות', `מזהה כפול: ${a.id}`); actionIds.add(a.id);
+  if (!a.label || !a.normal) err('קטלוג הבדיקות', `חסר טקסט: ${a.id}`);
+  if (/[„“”]/.test(a.label + a.normal)) err('קטלוג הבדיקות', `מירכאות לא ישרות: ${a.id}`);
+  if (/—/.test(a.label + a.normal)) err('קטלוג הבדיקות', `מקף ארוך: ${a.id}`);
+});
 CASES.forEach((c, i) => {
   const w = `מקרה ${c.id ?? i}`;
-  for (const k of ['id', 'title', 'teaser', 'story', 'findings', 'nerves', 'where', 'explain', 'links', 'sources']) {
+  for (const k of ['id', 'title', 'teaser', 'story', 'exam', 'key', 'nerves', 'where', 'explain', 'links', 'sources']) {
     if (c[k] == null || (Array.isArray(c[k]) && !c[k].length)) err(w, `חסר שדה ${k}`);
   }
   if (caseIds.has(c.id)) err(w, 'מזהה כפול'); caseIds.add(c.id);
@@ -57,6 +65,10 @@ CASES.forEach((c, i) => {
   if (!opts.some((o) => o.id === c.where?.answer)) err(w, 'התשובה הנכונה לשאלת המקום לא נמצאת באפשרויות');
   c.links?.forEach((l) => { if (!pageExists(l.href)) err(w, `קישור שבור: ${l.href}`); });
   c.sources?.forEach((s) => { if (!/^https:\/\//.test(s.url ?? '') || !s.label) err(w, 'מקור לא תקין'); });
+  Object.keys(c.exam ?? {}).forEach((id) => { if (!actionById[id]) err(w, `בדיקה לא קיימת בקטלוג: ${id}`); });
+  REQUIRED.forEach((id) => { if (!c.exam?.[id]) err(w, `חסרה תשובה מותאמת ל-${id}`); });
+  (c.key ?? []).forEach((id) => { if (!actionById[id]) err(w, `ממצא מפתח לא קיים: ${id}`); else if (!c.exam?.[id]) err(w, `לממצא המפתח ${id} אין תשובה מותאמת`); });
+  (c.redFlags ?? []).forEach((id) => { if (!actionById[id]) err(w, `סימן אזהרה לא קיים: ${id}`); });
   const txt = JSON.stringify(c);
   if (/[„“”]/.test(txt)) err(w, 'מירכאות לא ישרות');
   if (/—/.test(txt)) err(w, 'מקף ארוך בטקסט');
