@@ -58,7 +58,10 @@ ACTIONS.forEach((a) => {
 });
 CASES.forEach((c, i) => {
   const w = `מקרה ${c.id ?? i}`;
-  for (const k of ['id', 'title', 'teaser', 'story', 'exam', 'key', 'nerves', 'where', 'explain', 'links', 'sources']) {
+  if (typeof c.cns !== 'boolean') err(w, `חסר שדה cns (true/false: האם יש גם פגיעה במוח או בגזע המוח)`);
+  if (!Array.isArray(c.nerves) || (!c.nerves.length && !c.cns)) err(w, `צריך לפחות עצב אחד, או cns: true`);
+  Object.keys(c.q1Notes ?? {}).forEach((id) => { if (!byId[id] && id !== 'cns') err(w, `q1Notes: עצב לא קיים ${id}`); });
+  for (const k of ['id', 'title', 'teaser', 'story', 'exam', 'key', 'where', 'explain', 'links', 'sources']) {
     if (c[k] == null || (Array.isArray(c[k]) && !c[k].length)) err(w, `חסר שדה ${k}`);
   }
   if (caseIds.has(c.id)) err(w, 'מזהה כפול'); caseIds.add(c.id);

@@ -1851,12 +1851,12 @@ html.a11y-still .case-findings li { animation: none; }
 /* פס הלשוניות: דביק מתחת לכותרת האתר */
 .case-bar { position: sticky; top: 60px; z-index: 20; display: flex; align-items: center; gap: 0.5rem; margin: 1.25rem -0.25rem 0; padding: 0.5rem 0.25rem; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border); }
 .case-tabs { display: flex; gap: 0.25rem; flex: 1; min-width: 0; }
-.case-tab { position: relative; flex: 1; min-height: 44px; padding: 0.35rem 0.5rem; border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text-2); font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.case-tab { position: relative; flex: 1; min-width: 0; min-height: 44px; padding: 0.35rem 0.25rem; border: 1px solid transparent; border-radius: var(--radius); background: transparent; color: var(--text-2); font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
 .case-tab:hover { color: var(--text); background: var(--surface); }
 .case-tab[aria-selected='true'] { color: var(--text); background: var(--surface); border-color: var(--border-strong); box-shadow: inset 0 -2px 0 var(--accent); }
 .case-tab-n { display: inline-block; min-width: 1.3em; margin-inline-start: 0.35rem; padding: 0 0.3rem; border-radius: 999px; background: rgba(240, 196, 107, 0.16); color: var(--accent); font-size: 0.72rem; line-height: 1.4; vertical-align: middle; }
 .case-tab-n:empty { display: none; }
-.case-ready-mini { flex: none; min-height: 40px; padding-inline: 0.85rem; font-size: 0.875rem; }
+.case-ready-mini { margin-inline-start: auto; min-height: 36px; padding: 0.25rem 0.85rem; font-size: 0.85rem; }
 .case-panel { padding: 1.1rem 0 0.5rem; scroll-margin-top: 130px; }
 .case-panel[hidden] { display: none; }
 
@@ -1974,3 +1974,5 @@ html.a11y-still .act-chips .act-out { animation: none; }
 .cond-link-kind { font-size: 0.75rem; color: var(--accent); font-weight: 600; }
 .cond-link-label { font-size: 0.925rem; line-height: 1.45; }
 .cond-pic { margin-top: 1rem; }
+.case-cns { grid-column: 1 / -1; --rc: #b5a8dc; border-style: dashed; }
+.case-cns .case-nerve-roman { font-family: inherit; }

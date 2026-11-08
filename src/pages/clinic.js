@@ -32,6 +32,7 @@ const wide = () => matchMedia('(min-width: 860px)').matches;
 const HISTORY = ACTIONS.filter((a) => a.group === 'history');
 const regionActs = (r) => ACTIONS.filter((a) => a.region === r);
 const kindOf = (id) => (actionById[id].group === 'history' ? 'talk' : actionById[id].group === 'vitals' ? 'vitals' : 'exam');
+const CNS_LABEL = 'פגיעה במוח או בגזע המוח (מערכת העצבים המרכזית)';
 const nervesTag = (id) => (actionById[id].nerves ? ` <span class="debrief-nerves" dir="ltr">(${esc(actionById[id].nerves)})</span>` : '');
 
 function showList(focusId) {
@@ -110,12 +111,12 @@ function openCase(c) {
 
   view.innerHTML = `<nav class="breadcrumb case-crumb" aria-label="נתיב"><a href="#" data-back>קליניקה</a> / מקרה ${idx + 1}</nav>`
     + `<article class="case" aria-labelledby="case-h">`
-    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span></p>`
+    + `<p class="case-meta"><span class="case-num">מקרה ${idx + 1} מתוך ${CASES.length}</span><span class="case-level case-level-${c.level}">${LEVELS[c.level]}</span><button type="button" class="btn btn-primary case-ready-mini" data-ready>אני מוכן לאבחנה</button></p>`
     + `<h1 id="case-h">${esc(c.title)}</h1>`
     + `<p class="lead case-story">${esc(c.story)}</p>`
     + `<div class="case-bar"><div class="case-tabs" role="tablist" aria-label="שלבי הביקור">`
     + TABS.map((t, i) => `<button type="button" role="tab" id="tab-${t.id}" class="case-tab" aria-controls="panel-${t.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${t.id}">${t.label}<span class="case-tab-n" data-n="${t.id}" aria-hidden="true"></span></button>`).join('')
-    + `</div><button type="button" class="btn btn-primary case-ready-mini" data-ready>לאבחנה</button></div>`
+    + `</div></div>`
 
     // שיחה
     + `<section class="case-panel" role="tabpanel" id="panel-talk" aria-labelledby="tab-talk">`
@@ -150,9 +151,10 @@ function openCase(c) {
     + `<button type="button" class="btn btn-primary case-ready" data-ready>אני מוכן לאבחנה</button>`
     + `</section>`
 
-    + `<section class="lesson case-step" aria-labelledby="q1-h" hidden data-q1><h2 id="q1-h">שאלה 1: אילו עצבים מעורבים?</h2>`
-    + `<p class="muted">אפשר לבחור יותר מעצב אחד. לחיצה נוספת מבטלת בחירה. אפשר גם לחזור ולבדוק עוד לפני שעונים.</p>`
-    + `<div class="case-nerves" role="group" aria-label="בחירת עצבים">${NERVES.map((n) => `<button type="button" class="chip case-nerve t-${n.type}" data-id="${n.id}" aria-pressed="false"><span class="case-nerve-roman">${n.roman}</span><span class="visually-hidden">, </span><span class="case-nerve-name">${esc(n.name)}</span></button>`).join('')}</div>`
+    + `<section class="lesson case-step" aria-labelledby="q1-h" hidden data-q1><h2 id="q1-h">שאלה 1: מה נפגע?</h2>`
+    + `<p class="muted">אפשר לבחור יותר מתשובה אחת: עצבים, ולפעמים גם פגיעה במוח או בגזע המוח עצמם. לחיצה נוספת מבטלת בחירה. אפשר גם לחזור ולבדוק עוד לפני שעונים.</p>`
+    + `<div class="case-nerves" role="group" aria-label="מה נפגע">${NERVES.map((n) => `<button type="button" class="chip case-nerve t-${n.type}" data-id="${n.id}" aria-pressed="false"><span class="case-nerve-roman">${n.roman}</span><span class="visually-hidden">, </span><span class="case-nerve-name">${esc(n.name)}</span></button>`).join('')}`
+    + `<button type="button" class="chip case-nerve case-cns" data-id="cns" aria-pressed="false"><span class="case-nerve-roman" aria-hidden="true">✦</span><span class="case-nerve-name">${CNS_LABEL}</span></button></div>`
     + `<div class="btn-row"><button type="button" class="btn btn-primary" data-check1>בדיקה</button><button type="button" class="btn btn-ghost" data-reveal1 hidden>הצגת התשובה</button></div>`
     + `<p class="try-feedback" role="status" data-fb1></p></section>`
     + `<section class="lesson case-step" aria-labelledby="q2-h" hidden data-q2><h2 id="q2-h">שאלה 2: איפה הבעיה?</h2>`
@@ -163,7 +165,7 @@ function openCase(c) {
     + `<h3 class="case-sub">ההסבר</h3>`
     + `<div class="case-explain-grid"><div>${caseSummary(c)}</div>`
     + `<figure class="case-fig">${brainstemSvg({ active: c.nerves.length === 1 ? c.nerves[0] : null, title: c.nerves.length === 1 ? `גזע המוח מלמטה, ועליו מודגש ${byId[c.nerves[0]].name}` : 'גזע המוח מלמטה' })}`
-    + `<figcaption class="muted">${c.nerves.length === 1 ? `${esc(byId[c.nerves[0]].name)} מודגש` : `העצבים במקרה: ${c.nerves.map((id) => byId[id].roman).join(' · ')}`}</figcaption></figure></div>`
+    + `<figcaption class="muted">${!c.nerves.length ? 'העצבים הקרניאליים תקינים. הבעיה מעליהם, במוח.' : c.nerves.length === 1 ? `${esc(byId[c.nerves[0]].name)} מודגש` : `העצבים במקרה: ${c.nerves.map((id) => byId[id].roman).join(' · ')}`}</figcaption></figure></div>`
     + `<div class="btn-row case-end"><a class="btn btn-primary" href="#case-${next.id}">למקרה הבא ←</a><a class="btn" href="#" data-back>לכל המקרים</a></div></section>`
     + `</article>`;
 
@@ -318,38 +320,45 @@ function openCase(c) {
   const fb1 = $('[data-fb1]');
   let q1Done = false, tries = 0;
   chips.forEach((b) => b.addEventListener('click', () => { if (!q1Done) b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); }));
+  const target = [...c.nerves, ...(c.cns ? ['cns'] : [])];
+  const nameOf = (id) => (id === 'cns' ? 'פגיעה במוח או בגזע המוח' : `${byId[id].roman} (${byId[id].name})`);
   const finishQ1 = () => {
     q1Done = true;
     chips.forEach((b) => {
       const id = b.dataset.id;
       b.setAttribute('aria-disabled', 'true');
-      b.classList.toggle('is-answer', c.nerves.includes(id));
-      b.setAttribute('aria-pressed', String(c.nerves.includes(id)));
+      b.classList.toggle('is-answer', target.includes(id));
+      b.setAttribute('aria-pressed', String(target.includes(id)));
     });
     $('[data-check1]').hidden = true; $('[data-reveal1]').hidden = true;
     $('[data-q2]').hidden = false; focusEl($('#q2-h'));
   };
   $('[data-check1]').addEventListener('click', () => {
     const picked = chips.filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.id);
-    if (!picked.length) { fb1.className = 'try-feedback is-wrong'; fb1.textContent = 'בחרו לפחות עצב אחד.'; return; }
+    if (!picked.length) { fb1.className = 'try-feedback is-wrong'; fb1.textContent = 'בחרו לפחות תשובה אחת.'; return; }
     tries++;
-    const missing = c.nerves.filter((id) => !picked.includes(id));
-    const extra = picked.filter((id) => !c.nerves.includes(id) && !(c.alsoOk ?? []).includes(id));
+    const missing = target.filter((id) => !picked.includes(id));
+    const extra = picked.filter((id) => !target.includes(id) && !(c.alsoOk ?? []).includes(id));
     if (!missing.length && !extra.length) {
       fb1.className = 'try-feedback is-correct';
-      fb1.textContent = c.nerves.length > 1 ? `נכון! כל ${c.nerves.length} העצבים.` : 'נכון!';
+      fb1.textContent = target.length > 1 ? `נכון! כל ${target.length} התשובות.` : 'נכון!';
       finishQ1();
       return;
     }
+    const mNerves = missing.filter((id) => id !== 'cns'), xNerves = extra.filter((id) => id !== 'cns');
     const parts = [];
-    if (missing.length) parts.push(missing.length === 1 ? 'חסר עצב אחד' : `חסרים ${missing.length} עצבים`);
-    if (extra.length) parts.push(extra.length === 1 ? 'בחרתם עצב אחד שלא מעורב' : `בחרתם ${extra.length} עצבים שלא מעורבים`);
+    if (mNerves.length) parts.push(mNerves.length === 1 ? 'חסר עצב אחד' : `חסרים ${mNerves.length} עצבים`);
+    if (missing.includes('cns')) parts.push('חסר עוד משהו שנפגע, מעבר לעצבים');
+    if (xNerves.length) parts.push(xNerves.length === 1 ? 'בחרתם עצב אחד שלא נפגע' : `בחרתם ${xNerves.length} עצבים שלא נפגעו`);
+    const notes = [];
+    if (extra.includes('cns')) notes.push('המוח וגזע המוח תקינים כאן: הממצאים מתאימים לפגיעה מחוץ להם, בעצב עצמו או בדרכו.');
+    extra.forEach((id) => { if (c.q1Notes?.[id]) notes.push(c.q1Notes[id]); });
     fb1.className = 'try-feedback is-wrong';
-    fb1.textContent = `עוד לא. ${parts.join(', ו')}. אפשר לחזור ולבדוק עוד, ולנסות שוב.`;
+    fb1.textContent = `עוד לא.${parts.length ? ` ${parts.join(', ו')}.` : ''}${notes.length ? ` ${notes.join(' ')}` : ''} אפשר לחזור ולבדוק עוד, ולנסות שוב.`;
     if (tries >= 2) $('[data-reveal1]').hidden = false;
   });
   $('[data-reveal1]').addEventListener('click', () => {
-    fb1.className = 'try-feedback'; fb1.textContent = `התשובה: ${c.nerves.map((id) => `${byId[id].roman} (${byId[id].name})`).join(', ')}.`;
+    fb1.className = 'try-feedback'; fb1.textContent = `התשובה: ${target.map(nameOf).join(', ')}.`;
     finishQ1();
   });
 

@@ -15,7 +15,10 @@ export function caseCards(cases) {
 
 // הסיכום שמופיע בסוף מקרה: התשובות, ההסבר, הקישורים והמקורות
 export function caseSummary(c) {
-  return `<p class="case-answer"><strong>העצבים:</strong> ${romans(c.nerves)} <span class="muted">(${c.nerves.map((id) => esc(byId[id].name)).join(', ')})</span></p>`
+  const nervesLine = c.nerves.length
+    ? `${romans(c.nerves)} <span class="muted">(${c.nerves.map((id) => esc(byId[id].name)).join(', ')})</span>`
+    : 'אף עצב קרניאלי לא נפגע בעצמו';
+  return `<p class="case-answer"><strong>מה נפגע:</strong> ${nervesLine}${c.cns ? `${c.nerves.length ? ', ו' : '. '}פגיעה ${c.nerves.length ? 'בגזע המוח' : 'במוח'} (מערכת העצבים המרכזית)` : ''}</p>`
     + `<p class="case-answer"><strong>המקום:</strong> ${esc(c.where.options.find((o) => o.id === c.where.answer).text)}</p>`
     + `<div class="prose">${c.explain.map((p) => `<p>${esc(p)}</p>`).join('')}</div>`
     + `<p class="case-links">${c.links.map((l) => `<a class="lab-link" href="./${esc(l.href)}">${esc(l.label)} ←</a>`).join(' ')}</p>`
