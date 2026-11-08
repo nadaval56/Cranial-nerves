@@ -14,9 +14,9 @@ fig.innerHTML = brainstemSvg({ interactive: true });
 const svg = fig.querySelector('svg');
 
 picker.innerHTML = NERVES.map((n) => `<button type="button" class="pick t-${n.type}" data-id="${n.id}" aria-pressed="false">`
-  + `<span class="pick-roman">${n.roman}</span><span class="visually-hidden">, </span><span class="pick-name">${esc(n.name)}</span></button>`).join('')
+  + `<span class="pick-roman">${n.roman}</span><span class="visually-hidden">, </span><span class="pick-name">${esc(n.name)}<span class="pick-en" lang="en" dir="ltr">${esc(n.en.replace(/ nerve$/, ''))}</span></span></button>`).join('')
   // עצב 0 — לא חלק מ-12 הזוגות, אבל מקבל כפתור משלו בסוף
-  + `<button type="button" class="pick pick-zero" data-id="terminal" aria-pressed="false"><span class="pick-roman">0</span><span class="visually-hidden">, </span><span class="pick-name">העצב הטרמינלי</span></button>`;
+  + `<button type="button" class="pick pick-zero" data-id="terminal" aria-pressed="false"><span class="pick-roman">0</span><span class="visually-hidden">, </span><span class="pick-name">העצב הטרמינלי<span class="pick-en" lang="en" dir="ltr">Terminal</span></span></button>`;
 
 const intro = `<div class="panel-intro"><p class="panel-kicker">בחרו עצב</p>`
   + `<p>לחצו על עצב במפה או על אחד הכפתורים. הצבעים: <span class="type-tag type-sensory">תחושתי</span> <span class="type-tag type-motor">תנועתי</span> <span class="type-tag type-mixed">מעורב</span></p>`
