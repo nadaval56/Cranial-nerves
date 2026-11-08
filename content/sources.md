@@ -203,3 +203,23 @@
 - [Goldbrunner et al., EANO guideline, Neuro-Oncology 2020](https://pubmed.ncbi.nlm.nih.gov/31504802/): מעקב, קרינה ממוקדת וניתוח; MRI עם גדוליניום.
 - [NHS: Acoustic neuroma](https://www.nhs.uk/conditions/acoustic-neuroma/).
 - [Wikipedia: Vestibular schwannoma](https://en.wikipedia.org/wiki/Vestibular_schwannoma), [Neurofibromatosis type II](https://en.wikipedia.org/wiki/Neurofibromatosis_type_II).
+
+## מצבים: קבוצה שנייה (content/conditions.js)
+
+### תסמונת רמזי האנט
+- [Sweeney & Gilden 2001, PMID 11459884](https://pubmed.ncbi.nlm.nih.gov/11459884/); [Ananthapadmanabhan 2022, PMID 34687339](https://pubmed.ncbi.nlm.nih.gov/34687339/); [AAO-HNS Bell's palsy guideline 2013, PMID 24189771](https://pubmed.ncbi.nlm.nih.gov/24189771/); [Wikipedia: Ramsay Hunt syndrome type 2](https://en.wikipedia.org/wiki/Ramsay_Hunt_syndrome_type_2).
+
+### עווית חצי-פנים
+- [Chaudhry et al. 2015, PMID 26111430](https://pubmed.ncbi.nlm.nih.gov/26111430/); [Wikipedia: Hemifacial spasm](https://en.wikipedia.org/wiki/Hemifacial_spasm); [Wikipedia: Microvascular decompression](https://en.wikipedia.org/wiki/Microvascular_decompression).
+
+### נוירלגיה של העצב הלשוני-לועי
+- [Rohde et al. 2026, PMID 41793136](https://pubmed.ncbi.nlm.nih.gov/41793136/); [Hajikarimloo et al. 2026 (MVD), PMID 41428184](https://pubmed.ncbi.nlm.nih.gov/41428184/); [Hajikarimloo et al. 2025 (radiosurgery), PMID 40816446](https://pubmed.ncbi.nlm.nih.gov/40816446/); [Wikipedia: Glossopharyngeal neuralgia](https://en.wikipedia.org/wiki/Glossopharyngeal_neuralgia).
+
+### שיתוק העצב השישי
+- [Abducens nerve palsy consensus 2026, PMID 41794394](https://pubmed.ncbi.nlm.nih.gov/41794394/); [III, IV, VI real-world data 2026, PMID 42260440](https://pubmed.ncbi.nlm.nih.gov/42260440/); [Wikipedia: Sixth nerve palsy](https://en.wikipedia.org/wiki/Sixth_nerve_palsy).
+
+### תסמונת הורנר
+- [Kanagalingam & Miller 2015, PMID 28539793](https://pubmed.ncbi.nlm.nih.gov/28539793/); [Wikipedia: Horner's syndrome](https://en.wikipedia.org/wiki/Horner%27s_syndrome); [Wikipedia: Carotid artery dissection](https://en.wikipedia.org/wiki/Carotid_artery_dissection).
+
+### גירוי העצב התועה
+- [FDA P970003](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMA/pma.cfm?id=P970003); [Panebianco et al., Cochrane 2022, PMID 35833911](https://pubmed.ncbi.nlm.nih.gov/35833911/); [Dawson et al., VNS-REHAB, Lancet 2021, PMID 33894832](https://pubmed.ncbi.nlm.nih.gov/33894832/); [Wikipedia: Vagus nerve stimulation](https://en.wikipedia.org/wiki/Vagus_nerve_stimulation).
