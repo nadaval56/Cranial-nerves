@@ -356,8 +356,12 @@ function openCase(c, variant) {
       box.innerHTML = `<div class="mon-ecg-head"><p class="mon-k">אק"ג, 3 לידים</p></div>`
         + ecgSvg({ rhythm: c.ecg?.rhythm ?? 'sinus', rate, seed: c.id, title: `אק"ג, 3 לידים. ${answer('v_ecg')}` });
       box.hidden = false;
-      liveOn = true; syncLive();
-      line = `אק"ג: ${answer('v_ecg')}`;
+      // מוניטור אק"ג מראה גם את קצב הלב (אבל לא לחץ דם)
+      const p = answer('v_pulse');
+      mon('hr', num(p)); $('[data-mon="hrx"]').textContent = /לא סדיר/.test(p) ? '· לא סדיר' : '';
+      startPulse();
+      record('v_pulse');
+      line = `אק"ג: ${answer('v_ecg')} דופק: ${p}`;
     }
     note.textContent = line;
     b.classList.add('is-done');
