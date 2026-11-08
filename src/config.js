@@ -46,7 +46,7 @@ export const LAB = [
 // שורה קצרה בפוטר, שמקשרת להבהרה המלאה בעמוד אודות (about.html#medical).
 export const DISCLAIMER = 'ללימוד בלבד, לא לאבחון רפואי';
 
-// פס "עוד אתרים שלי" בתחתית כל עמוד — אותו פס כמו בשאר האתרים של נדב (geniza-explorer, RATA, רנטגן).
+// פס "עוד אתרים שלי" בתחתית כל עמוד — אותו פס כמו בשאר האתרים של נדב (geniza-explorer, RATA, רנטגן, השמש, רעידות אדמה, עב"מים, לוח עברי, מזג האוויר).
 // קישורים בלבד: שום דבר לא נטען מהאתרים האלה. [אימוג'י, כתובת, טקסט הקישור, המשך שאינו קישור]
 export const SISTER_INVITE = 'https://chat.whatsapp.com/JPkp1hyk4J938apVTFu6J1';
 export const SISTER_SITES = [
@@ -57,6 +57,10 @@ export const SISTER_SITES = [
   ['🛠️', 'https://making-il.co.il/', 'מייקינג', ' · יצירה טכנולוגית'],
   ['💶', 'https://banknote.co.il/', 'Banknote · שטרות ומטבעות', ''],
   ['🛩️', 'https://dronexam.co.il/', 'לעוף לשמיים · מבחן רת"א לרחפנים', ''],
+  ['🌱', 'https://holisticcenter.co.il/', 'מעט צרי · רפואה משלימה', ''],
+  ['🛸', 'https://pursue.co.il/', 'PURSUE · ארכיון עב"מים', ''],
+  ['🌍', 'https://quake.co.il/', 'רעידת אדמה · רעידות היסטוריות', ''],
+  ['📅', 'https://heb-cal.co.il/', 'לוח עברי', ''],
   ['🌱', 'https://holisticcenter.co.il/', 'מעט צרי · רפואה משלימה', ''],
   ['🛸', 'https://pursue.co.il/', 'PURSUE · ארכיון עב"מים', ''],
   ['🌍', 'https://quake.co.il/', 'רעידת אדמה · רעידות היסטוריות', ''],
