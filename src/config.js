@@ -4,7 +4,7 @@ export const SITE = {
   name: 'עצבי הגולגולת',
   tagline: '12 זוגות, מהריח ועד הלשון',
   // TODO: דומיין סופי. עד אז — כתובת GitHub Pages של הריפו (לקישורים מלאים ב-sitemap וב-Open Graph).
-  url: 'https://nadaval56.github.io/Cranial-nerves/',
+  url: 'https://cranialnerves.co.il/',
 };
 
 // icon: תוכן ה-SVG (viewBox 0 0 36 36). מוצג רק בתפריט הנפתח בנייד ובקוביות בעמוד הבית.

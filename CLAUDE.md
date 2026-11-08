@@ -6,7 +6,7 @@
 
 - קהל יעד: סטודנטים למקצועות הבריאות, תלמידי ביולוגיה בתיכון ומבוגרים סקרנים.
 - האתר **אינו כלי אבחון**. הבהרה קבועה בפוטר ובעמוד "אודות" (`about.html#medical`).
-- דומיין: טרם נקבע. `SITE.url` ב-`src/config.js` מצביע בינתיים על GitHub Pages.
+- דומיין: https://cranialnerves.co.il (מוגדר ב-GitHub Pages; ה-DNS ב-MyNames: ארבע רשומות A של GitHub ו-CNAME ל-www). `SITE.url` ב-`src/config.js` מצביע עליו.
 
 ## עקרונות
 
