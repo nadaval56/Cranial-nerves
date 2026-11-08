@@ -6,6 +6,7 @@ import { IMAGES } from './images.js';
 export const EVENTS = [
   {
     id: `galen`,
+    image: IMAGES.galen,
     year: `~170`,
     date: `המאה ה-2 לספירה`,
     title: `גלנוס סופר שבעה זוגות`,
@@ -34,6 +35,7 @@ export const EVENTS = [
   },
   {
     id: `whytt`,
+    image: IMAGES.whytt,
     year: `1751`,
     date: `1751`,
     title: `רפלקס האישון לאור`,
@@ -42,6 +44,7 @@ export const EVENTS = [
   },
   {
     id: `soemmerring`,
+    image: IMAGES.soemmerring,
     year: `1778`,
     date: `1778`,
     title: `זמרינג: שנים-עשר זוגות`,
@@ -90,6 +93,7 @@ export const EVENTS = [
   },
   {
     id: `vns`,
+    image: IMAGES.autonomic,
     year: `1997`,
     date: `1997`,
     title: `קוצב לעצב התועה`,
@@ -99,6 +103,7 @@ export const EVENTS = [
   },
   {
     id: `anosmia`,
+    image: IMAGES.olfactory,
     year: `2020`,
     date: `2020`,
     title: `העולם שם לב לחוש הריח`,

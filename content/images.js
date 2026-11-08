@@ -4,6 +4,7 @@
 const commons = (file) => `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, '_'))}`;
 const PD = { license: `נחלת הכלל`, licenseUrl: `https://creativecommons.org/publicdomain/mark/1.0/deed.he` };
 const CCBY4 = { license: `CC BY 4.0`, licenseUrl: `https://creativecommons.org/licenses/by/4.0/deed.he` };
+const CCBY2 = { license: `CC BY 2.0`, licenseUrl: `https://creativecommons.org/licenses/by/2.0/deed.he` };
 const CC0 = { license: `CC0`, licenseUrl: `https://creativecommons.org/publicdomain/zero/1.0/deed.he` };
 const GRAY = (n) => ({ title: `Gray${n}.png`, author: `"האנטומיה של גריי", מהדורה 20 (1918)`, url: commons(`Gray${n}.png`), ...PD });
 
@@ -86,6 +87,66 @@ export const IMAGES = {
     caption: `ראש הפסל של אוגוסטוס (25-1 לפני הספירה), בסיס למפת ענפי עצב הפנים.`,
     source: { title: `Portrait Head of Augustus, left profile - Getty Museum (78.AA.261).jpg`, author: `J. Paul Getty Museum (צילום); הפסל: אמן רומי`, url: commons(`Portrait Head of Augustus, left profile - Getty Museum (78.AA.261).jpg`), ...CC0, modifications: `הרקע הוסר, נחתך והוקטן; הענפים צוירו מעליו` },
   },
+  galen: {
+    file: `galen-portrait.webp`, w: 500, h: 661,
+    alt: `ליתוגרפיה של גלנוס: אדם מזוקן עם כובע, בפרופיל חלקי`,
+    caption: `גלנוס (Galen), בליתוגרפיה מהמאה ה-19. אין דיוקן אמיתי שלו מימי חייו, וזו דמות מדומיינת.`,
+    source: { title: `Galen. Lithograph by P. R. Vignéron (Wellcome V0002113)`, author: `פ. ר. ויניירון; Wellcome Collection`, url: commons(`Galen. Lithograph by P. R. Vignéron. Wellcome V0002113.jpg`), ...CCBY2, modifications: `הוקטן` },
+  },
+  whytt: {
+    file: `whytt-portrait.webp`, w: 500, h: 679,
+    alt: `דיוקן של רוברט וויט בפאה לבנה, במסגרת אליפטית`,
+    caption: `רוברט וויט (Robert Whytt, 1714–1766), שתיאר את רפלקס האישון לאור.`,
+    source: { title: `Portrait of Robert Whytt (Wellcome L0008120)`, author: `Wellcome Collection`, url: commons(`Portrait of Robert Whytt Wellcome L0008120.jpg`), ...CCBY4, modifications: `הוקטן` },
+  },
+  soemmerring: {
+    file: `soemmerring-portrait.webp`, w: 500, h: 662,
+    alt: `ציור שמן של סמואל תומאס פון זמרינג, אדם מבוגר בשיער לבן ובמעיל כהה`,
+    caption: `סמואל תומאס פון זמרינג (Soemmerring), בציור של וונדלין מוסברוגר מ-1813. הוא קבע את החלוקה ל-12 זוגות.`,
+    source: { title: `Wendelin Moosbrugger, Samuel Thomas Soemmerring, 1813`, author: `וונדלין מוסברוגר`, url: commons(`Wendelin Moosbrugger, Samuel Thomas Soemmerring, 1813 aus A.jpg`), ...PD, modifications: `הוקטן` },
+  },
+  faceMuscles: {
+    file: `gray378-face-muscles.webp`, w: 620, h: 700,
+    alt: `איור של שרירי הראש, הפנים והצוואר מהצד, בצבע אדום`,
+    caption: `שרירי ההבעה של הפנים, שעצב הפנים מפעיל, מאטלס האנטומיה של גריי (1918). התוויות באנגלית.`,
+    source: GRAY(378),
+  },
+  autonomic: {
+    file: `gray839-autonomic.webp`, w: 664, h: 987,
+    alt: `תרשים של מערכת העצבים האוטונומית: חוט השדרה במרכז, וקווים כחולים ואדומים אל האיברים`,
+    caption: `מערכת העצבים האוטונומית: הסימפתטית באדום והפאראסימפתטית בכחול. רוב הסיבים הכחולים אל הלב, הריאות ומערכת העיכול עוברים בעצב התועה. מגריי, 1918.`,
+    source: GRAY(839),
+  },
+  ear: {
+    file: `gray907-ear.webp`, w: 600, h: 530,
+    alt: `חתך של האוזן: האפרכסת, תעלת השמע, עור התוף, עצמות השמע והאוזן הפנימית`,
+    caption: `האוזן החיצונית, התיכונה והפנימית בחתך אחד. הצליל עובר מתעלת השמע לעור התוף, דרך עצמות השמע, אל השבלול. מגריי, 1918.`,
+    source: GRAY(907),
+  },
+  labyrinth: {
+    file: `gray920-labyrinth.webp`, w: 500, h: 365,
+    alt: `איור של המבוך הגרמי: שלוש תעלות חצי-מעגליות, המבואה והשבלול המסולסל`,
+    caption: `המבוך באוזן הפנימית: השבלול (לשמיעה) ושלוש התעלות החצי-מעגליות (לשיווי המשקל). שני החלקים של עצב VIII מתחילים כאן. מגריי, 1918.`,
+    source: GRAY(920),
+  },
+  membranous: {
+    file: `gray925-membranous-labyrinth.webp`, w: 500, h: 361,
+    alt: `תרשים של המבוך הקרומי עם התעלות החצי-מעגליות והשבלול, וענפי העצב אליהם`,
+    caption: `המבוך הקרומי, עם ענפי העצב שיוצאים מאיברי שיווי המשקל ומהשבלול. מגריי, 1918.`,
+    source: GRAY(925),
+  },
+  cochlea: {
+    file: `gray928-cochlea.webp`, w: 600, h: 408,
+    alt: `חתך אורך סכמטי של השבלול, עם הסיבובים שלו וסיבי עצב השמיעה במרכז`,
+    caption: `חתך של השבלול: הסיבים של עצב השמיעה יוצאים ממרכז השבלול אל תאי השערה בכל סיבוב. מגריי, 1918.`,
+    source: GRAY(928),
+  },
+  pharynx: {
+    file: `gray994-pharynx.webp`, w: 600, h: 861,
+    alt: `חתך באמצע הראש והצוואר: האף, הפה, הלוע והגרון`,
+    caption: `חתך של האף, הפה, הלוע והגרון. העצב הלשוני-לועי נותן תחושה ללוע ולבסיס הלשון. מגריי, 1918.`,
+    source: GRAY(994),
+  },
 };
 
 // תמונות בעמודי העצבים (בסעיף "מה הוא עושה")
@@ -95,6 +156,7 @@ export const ATLAS = {
   oculomotor: [`orbit`],
   trochlear: [`orbit`],
   trigeminal: [`trigeminal`],
+  vestibulocochlear: [`labyrinth`],
   abducens: [`orbit`],
   facial: [`face`],
   glossopharyngeal: [`vagus`],
@@ -110,7 +172,7 @@ export const CREDITS = [
   [`bell`, `ציר הזמן (1821), שיתוק בל`],
   [`loewi`, `ציר הזמן (1921)`],
   [`base`, `יסודות`],
-  [`olfactory`, `עצב הריח`],
+  [`olfactory`, `עצב הריח, ציר הזמן (2020)`],
   [`optic`, `עצב הראייה`],
   [`orbit`, `העצבים III, IV ו-VI`],
   [`trigeminal`, `העצב התלת-ראשי`],
@@ -118,4 +180,14 @@ export const CREDITS = [
   [`vagus`, `העצבים IX, X ו-XI`],
   [`hypoglossal`, `העצב התת-לשוני`],
   [`profile`, `עצב הפנים: מפת חמשת הענפים`],
+  [`galen`, `ציר הזמן (גלנוס)`],
+  [`whytt`, `ציר הזמן (1751)`],
+  [`soemmerring`, `ציר הזמן (1778)`],
+  [`labyrinth`, `עצב השמיעה ושיווי המשקל`],
+  [`ear`, `מצבים: שמיעה ושיווי משקל`],
+  [`cochlea`, `מצבים: ירידת שמיעה פתאומית`],
+  [`membranous`, `מצבים: שיווי משקל`],
+  [`faceMuscles`, `מצבים: עצב הפנים`],
+  [`pharynx`, `מצבים: העצב הלשוני-לועי`],
+  [`autonomic`, `ציר הזמן (1997), מצבים: העצב התועה`],
 ].map(([k, where]) => ({ im: IMAGES[k], where }));

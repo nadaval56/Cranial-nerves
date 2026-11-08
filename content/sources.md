@@ -223,3 +223,10 @@
 
 ### גירוי העצב התועה
 - [FDA P970003](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMA/pma.cfm?id=P970003); [Panebianco et al., Cochrane 2022, PMID 35833911](https://pubmed.ncbi.nlm.nih.gov/35833911/); [Dawson et al., VNS-REHAB, Lancet 2021, PMID 33894832](https://pubmed.ncbi.nlm.nih.gov/33894832/); [Wikipedia: Vagus nerve stimulation](https://en.wikipedia.org/wiki/Vagus_nerve_stimulation).
+
+## תמונות נוספות (נבדקו בנובמבר 2026)
+הרישיון נבדק בקוד של עמוד הקובץ בוויקישיתוף:
+- איורי גריי (1918), נחלת הכלל (`PD-scan|PD-old-100-1923`): Gray378 (שרירי הפנים), Gray839 (מערכת העצבים האוטונומית), Gray907 (האוזן בחתך), Gray920 (המבוך הגרמי), Gray925 (המבוך הקרומי), Gray928 (חתך השבלול), Gray994 (חתך האף, הפה, הלוע והגרון).
+- גלנוס, ליתוגרפיה של P. R. Vignéron (Wellcome V0002113): `{{cc-by-2.0}}`.
+- רוברט וויט (Wellcome L0008120): `{{cc-by-4.0}}`.
+- זמרינג, ציור של Wendelin Moosbrugger (1813): `{{PD-art-old-100}}`.
