@@ -4,6 +4,7 @@ import { FORAMINA } from '../../content/foramina.js';
 import { brainstemSvg } from '../lib/brainstem.js';
 import { esc, romanBadge, typeTag } from '../lib/render.js';
 import { ICONS } from '../config.js';
+import { mountQuiz } from '../lib/quiz.js';
 
 const fig = document.getElementById('explorer-figure');
 const panel = document.getElementById('explorer-panel');
@@ -194,3 +195,6 @@ const CARDS = [
 document.getElementById('home-cards').innerHTML = CARDS.map(([ico, href, title, text]) => `<article class="card"><div class="card-body">`
   + `<svg class="card-icon" viewBox="0 0 36 36" aria-hidden="true">${ICONS[ico]}</svg>`
   + `<h3><a class="card-link" href="${href}">${title}</a></h3><p>${text}</p></div></article>`).join('');
+
+// המבחן העצמי בתחתית העמוד
+mountQuiz(document.getElementById('quiz-root'));

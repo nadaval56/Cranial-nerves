@@ -15,6 +15,22 @@ export const SECTION_TITLES = {
   redFlags: `מתי לפנות מיד`,
 };
 
+// טיפול דרך עצב (kind: `treatment`): אותם סעיפים, בכותרות של טיפול. לא מופיע ברשימת "מצבים ומחלות",
+// אלא בעמוד העצב שלו (בסעיף "עוד משהו מעניין").
+export const TREATMENT_TITLES = {
+  what: `מה זה`,
+  epidemiology: `למי זה מיועד`,
+  causes: `איך זה עובד`,
+  symptoms: `תופעות לוואי`,
+  diagnosis: `איך מחליטים ואיך משתילים`,
+  differential: `חלופות`,
+  treatment: `מה ידוע על היעילות`,
+  course: `לאורך זמן`,
+  redFlags: `מתי לפנות לצוות המטפל`,
+};
+export const titlesFor = (c) => (c.kind === `treatment` ? TREATMENT_TITLES : SECTION_TITLES);
+export const isTreatment = (c) => c.kind === `treatment`;
+
 export const CONDITIONS = [
   {
     id: `bell`,
@@ -1175,6 +1191,7 @@ export const CONDITIONS = [
   },
   {
     id: `vagus-nerve-stimulation`,
+    kind: `treatment`,
     nerve: `vagus`,
     title: `גירוי העצב התועה`,
     en: `Vagus nerve stimulation (VNS)`,

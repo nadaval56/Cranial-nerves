@@ -1,9 +1,9 @@
-// מבחן עצמי: 10 שאלות שנוצרות מנתוני העצבים, מסוגים שונים. כלום לא נשמר — הכול בזיכרון הדף.
+// מבחן עצמי (בתחתית עמוד הבית, #quiz): 10 שאלות שנוצרות מנתוני העצבים, מסוגים שונים. כלום לא נשמר — הכול בזיכרון הדף.
 import { NERVES, TYPES, BRAIN, nerveUrl } from '../../content/nerves.js';
 import { FORAMINA } from '../../content/foramina.js';
-import { esc } from '../lib/render.js';
+import { esc } from './render.js';
 
-const root = document.getElementById('lab-root');
+let root;
 const ROUND = 10;
 
 const shuffle = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
@@ -110,4 +110,7 @@ function end() {
   root.querySelector('.score-big').focus();
 }
 
-start(false);
+export function mountQuiz(el) {
+  root = el;
+  start(false);
+}

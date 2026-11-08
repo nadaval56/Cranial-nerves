@@ -9,7 +9,7 @@ import { DIAGRAMS } from './diagrams.js';
 import { RESEARCH, RESEARCH_UPDATED } from '../../content/research.js';
 import { PRESS } from '../../content/press.js';
 import { IMAGES } from '../../content/images.js';
-import { CONDITIONS, SECTION_TITLES } from '../../content/conditions.js';
+import { CONDITIONS, titlesFor, isTreatment } from '../../content/conditions.js';
 
 export const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -89,14 +89,16 @@ export function nerveBody(n) {
     `<ol class="exam-steps">${n.test.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>`
     + `<p class="callout">${esc(n.test.tip)}</p>`);
 
-  const conds = CONDITIONS.filter((c) => c.nerve === n.id);
+  const conds = CONDITIONS.filter((c) => c.nerve === n.id && !isTreatment(c));
+  const treats = CONDITIONS.filter((c) => c.nerve === n.id && isTreatment(c));
   const lesion = section('lesion', 'warn', 'כשמשהו משתבש',
     `<div class="prose"><p>${esc(n.lesion.text)}</p></div><ul class="sign-list">${n.lesion.signs.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
     + (conds.length ? `<p class="cond-links">${conds.map((c) => `<a class="lab-link" href="${conditionUrl(c.id)}">לעמוד המלא: ${esc(c.title)} ←</a>`).join(' ')}</p>` : ''), 'lesson-warn');
 
   const facts2 = section('facts', 'star', 'עוד משהו מעניין',
     `<ul class="fact-list">${n.facts.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>`
-    + (n.lab ? `<p><a class="lab-link" href="./${n.lab.href}">${esc(n.lab.label)} ←</a></p>` : ''));
+    + (n.lab ? `<p><a class="lab-link" href="./${n.lab.href}">${esc(n.lab.label)} ←</a></p>` : '')
+    + treats.map((c) => `<div class="treat-card"><p class="panel-kicker">טיפול דרך העצב</p><h3><a href="${conditionUrl(c.id)}">${esc(c.title)}</a> <span class="cond-en" lang="en" dir="ltr">${esc(c.en)}</span></h3><p>${esc(c.short)}</p></div>`).join(''));
 
   const papers = RESEARCH[n.id] ?? [];
   const research = papers.length ? section('research', 'lab', 'מהמחקר החדש',
@@ -234,8 +236,10 @@ export function conditionCards(items) {
 
 export function conditionPage(c) {
   const n = byId[c.nerve];
+  const T = titlesFor(c);
+  const treat = isTreatment(c);
   const order = ['what', 'epidemiology', 'causes', 'symptoms', 'diagnosis', 'differential', 'treatment', 'course', 'redFlags'];
-  const toc = `<nav class="cond-toc" aria-label="בעמוד הזה"><p class="cond-toc-title">בעמוד הזה</p><ol>${order.map((k) => `<li><a href="#c-${k}">${SECTION_TITLES[k]}</a></li>`).join('')}</ol></nav>`;
+  const toc = `<nav class="cond-toc" aria-label="בעמוד הזה"><p class="cond-toc-title">בעמוד הזה</p><ol>${order.map((k) => `<li><a href="#c-${k}">${T[k]}</a></li>`).join('')}</ol></nav>`;
   const body = order.map((k) => {
     const v = c.sections[k];
     let inner;
@@ -244,14 +248,15 @@ export function conditionPage(c) {
     if (k === 'treatment') inner = `<p class="callout cond-note">${DISCLAIMER_NOTE}</p>` + inner;
     inner += (c.images ?? []).filter((im) => im.after === k).map((im) => figure(IMAGES[im.key], 'pic-atlas cond-pic')).join('');
     const cls = k === 'redFlags' ? ' cond-red' : k === 'treatment' ? ' cond-treat' : '';
-    return `<section id="c-${k}" class="cond-sec${cls}" aria-labelledby="c-${k}-h"><h2 id="c-${k}-h">${SECTION_TITLES[k]}</h2><div class="prose">${inner}</div></section>`;
+    return `<section id="c-${k}" class="cond-sec${cls}" aria-labelledby="c-${k}-h"><h2 id="c-${k}-h">${T[k]}</h2><div class="prose">${inner}</div></section>`;
   }).join('');
-  return `<nav class="breadcrumb" aria-label="נתיב"><a href="./nerves.html">העצבים</a> / <a href="./conditions.html">מצבים ומחלות</a> / ${esc(c.title)}</nav>`
+  const parent = treat ? `<a href="${nerveUrl(n.id)}">${esc(n.name)} (${n.roman})</a>` : `<a href="./conditions.html">מצבים ומחלות</a>`;
+  return `<nav class="breadcrumb" aria-label="נתיב"><a href="./nerves.html">העצבים</a> / ${parent} / ${esc(c.title)}</nav>`
     + `<header class="page-head cond-head"><p class="press-date">${esc(n.name)} (${n.roman}) · עודכן ב-${heDate(c.updated)}</p>`
     + `<h1>${esc(c.title)} <span class="cond-en" lang="en" dir="ltr">${esc(c.en)}</span></h1><p class="lead">${esc(c.short)}</p>`
-    + `<p class="callout cond-note">${DISCLAIMER_NOTE} מי שיש לו תסמינים כאלה צריך לפנות לרופא.</p></header>`
+    + `<p class="callout cond-note">${DISCLAIMER_NOTE}${treat ? '' : ' מי שיש לו תסמינים כאלה צריך לפנות לרופא.'}</p></header>`
     + toc + `<div class="cond-body">${body}</div>`
     + `<section class="cond-sec" aria-labelledby="c-links-h"><h2 id="c-links-h">עוד באתר</h2><ul class="cond-links">${c.links.map((l) => `<li><a href="./${esc(l.href)}"><span class="cond-link-kind">${esc(l.kind ?? '')}</span><span class="cond-link-label">${esc(l.label)}</span></a></li>`).join('')}</ul></section>`
     + `<p class="press-sources muted">מקורות: ${c.sources.map((x) => `<a href="${esc(x.url)}" rel="noopener" target="_blank">${esc(x.label)}</a>`).join(' · ')}</p>`
-    + `<p class="press-back"><a href="./conditions.html">→ לכל המצבים</a></p>`;
+    + (treat ? `<p class="press-back"><a href="${nerveUrl(n.id)}">→ לעמוד של ${esc(n.name)}</a></p>` : `<p class="press-back"><a href="./conditions.html">→ לכל המצבים</a></p>`);
 }

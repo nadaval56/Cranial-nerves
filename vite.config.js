@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite';
 import { resolve, basename } from 'node:path';
 import { SITE, NAV, LAB, DISCLAIMER, SISTER_SITES, SISTER_INVITE } from './src/config.js';
-import { NERVES } from './content/nerves.js';
+import { NERVES, byId } from './content/nerves.js';
 import { EVENTS } from './content/timeline.js';
 import { nerveBody, nervesList, timeline, examList, pressCards, pressStory, conditionCards, conditionPage, figure, creditsList } from './src/lib/render.js';
 import { IMAGES, CREDITS } from './content/images.js';
 import { PRESS } from './content/press.js';
-import { CONDITIONS } from './content/conditions.js';
+import { CONDITIONS, isTreatment } from './content/conditions.js';
 import { CASES } from './content/cases.js';
 import { caseCards } from './src/lib/clinic.js';
 
@@ -33,9 +33,10 @@ const CRUMB = {
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
   ...Object.fromEntries(PRESS.map((x) => [`press-${x.id}`, ['בתקשורת', x.title]])),
-  ...Object.fromEntries(CONDITIONS.map((c) => [`condition-${c.id}`, ['העצבים', 'מצבים ומחלות', c.title]])),
+  ...Object.fromEntries(CONDITIONS.map((c) => [`condition-${c.id}`, ['העצבים', isTreatment(c) ? `${byId[c.nerve].name} (${byId[c.nerve].roman})` : 'מצבים ומחלות', c.title]])),
 };
-const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab', 'בתקשורת': 'press', 'מצבים ומחלות': 'conditions' };
+const CRUMB_PAGE = { 'העצבים': 'nerves', 'המעבדה': 'lab', 'בתקשורת': 'press', 'מצבים ומחלות': 'conditions',
+  ...Object.fromEntries(NERVES.map((n) => [`${n.name} (${n.roman})`, `nerve-${n.id}`])) };
 const WEBSITE = { '@type': 'WebSite', '@id': `${SITE.url}#website`, name: SITE.name, url: SITE.url, inLanguage: 'he' };
 const EDU_LEVEL = 'תיכון, סטודנטים למקצועות הבריאות';
 
@@ -57,6 +58,7 @@ function jsonLd({ page, title, description, nerve, condition }) {
     const about = nerve
       ? { '@type': 'AnatomicalStructure', name: nerve.en, alternateName: [nerve.latin, nerve.name] }
       : page === 'nerve-zero' ? { '@type': 'AnatomicalStructure', name: 'Terminal nerve', alternateName: ['Nervus terminalis', 'Cranial nerve zero', 'העצב הטרמינלי'] }
+      : condition && isTreatment(condition) ? { '@type': 'MedicalTherapy', name: condition.en, alternateName: condition.title }
       : condition ? { '@type': 'MedicalCondition', name: condition.en, alternateName: condition.title }
       : null;
     const isLesson = !!about || page === 'basics' || page === 'exam' || page === 'history' || page === 'clinic' || LAB.some((t) => t.page === page);
@@ -187,7 +189,7 @@ function staticPages() {
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
       page('clinic.html', (html) => fill(html, '<div id="case-list">', caseCards(CASES)));
       page('press.html', (html) => fill(html, '<div id="press-root">', pressCards(PRESS)));
-      page('conditions.html', (html) => fill(html, '<div id="conditions-root">', conditionCards(CONDITIONS)));
+      page('conditions.html', (html) => fill(html, '<div id="conditions-root">', conditionCards(CONDITIONS.filter((c) => !isTreatment(c)))));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
       page('about.html', (html) => fill(html, '<div id="credits-root">', creditsList(CREDITS)));
@@ -230,7 +232,7 @@ function staticPages() {
       // עמוד סטטי לכל מצב ב"מצבים ומחלות"
       const condBase = String(bundle['condition.html'].source);
       for (const c of CONDITIONS) {
-        const title = `${c.title} · מצבים ומחלות · ${SITE.name}`;
+        const title = `${c.title} · ${isTreatment(c) ? byId[c.nerve].name : 'מצבים ומחלות'} · ${SITE.name}`;
         const description = c.short.slice(0, 158);
         let html = condBase
           .replace('<html lang="he" dir="rtl">', `<html lang="he" dir="rtl" data-condition-id="${attr(c.id)}">`)
@@ -238,6 +240,8 @@ function staticPages() {
           .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${attr(description)}"`)
           .replace(/<!--og-->[\s\S]*?<!--\/og-->/, metaTags({ page: `condition-${c.id}`, title, description, condition: c }));
         html = fill(html, '<div class="container" id="condition-root">', conditionPage(c));
+        // טיפול שייך לעמוד העצב, לא לרשימת המצבים: בתפריט מודגש "העצבים"
+        if (isTreatment(c)) html = html.replaceAll('href="./conditions.html" aria-current="page"', 'href="./conditions.html"').replaceAll('<li><a href="./nerves.html"><svg', '<li><a href="./nerves.html" aria-current="page"><svg');
         this.emitFile({ type: 'asset', fileName: `condition-${c.id}.html`, source: html });
       }
       delete bundle['condition.html'];
@@ -250,6 +254,8 @@ function staticPages() {
       ].map((u) => `  <url><loc>${SITE.url}${u}</loc></url>`).join('\n');
       this.emitFile({ type: 'asset', fileName: 'sitemap.xml',
         source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n` });
+      // המבחן העצמי עבר לתחתית עמוד הבית: הכתובת הישנה מפנה לשם
+      this.emitFile({ type: 'asset', fileName: 'lab-quiz.html', source: `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="${SITE.url}#quiz"><meta http-equiv="refresh" content="0; url=./#quiz"><title>מבחן עצמי</title></head><body><p><a href="./#quiz">המבחן העצמי עבר לעמוד הבית</a></p></body></html>\n` });
       this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `User-agent: *\nAllow: /\nSitemap: ${SITE.url}sitemap.xml\n` });
     },
   };
