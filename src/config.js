@@ -21,7 +21,7 @@ export const ICONS = {
 };
 
 export const NAV = [
-  { href: 'nerves.html', label: 'העצבים', pages: ['nerves', 'nerve', 'nerve-zero'], icon: ICONS.nerves },
+  { href: 'nerves.html', label: 'העצבים', pages: ['nerves', 'nerve', 'nerve-zero', 'research'], icon: ICONS.nerves },
   { href: 'conditions.html', label: 'פגיעות', pages: ['conditions', 'condition'], icon: ICONS.conditions },
   { href: 'basics.html', label: 'היסודות', pages: ['basics'], icon: ICONS.basics },
   { href: 'exam.html', label: 'הבדיקה', pages: ['exam'], icon: ICONS.exam },

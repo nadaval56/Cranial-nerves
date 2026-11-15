@@ -1,4 +1,4 @@
-// "מהמחקר החדש": 5 מאמרים עדכניים לכל עצב מ-PubMed, עם כותרת מתורגמת וקישור.
+// "מהמחקר החדש": 5 מאמרים עדכניים לכל עצב מ-PubMed, עם כותרת מתורגמת וקישור. מאמרים ישנים יותר ב-RESEARCH_ARCHIVE (למטה).
 // נוצר מ-PubMed E-utilities (סקירות, ניסויים ומטה-אנליזות מהשנה האחרונה, באנגלית, עם תקציר).
 // הכותרות בעברית הן תרגום חופשי שלנו; הקישור מוביל למאמר המקורי.
 
@@ -89,4 +89,32 @@ export const RESEARCH = {
     { pmid: `40927950`, he: `פגיעה בעצב התת-לשוני ותפקידה האפשרי בקשיי בליעה שמופיעים שנים אחרי הקרנות לראש ולצוואר`, en: `Hypoglossal Neuropathy in the Pathogenesis of Fibrosis-Related Late-Radiation Associated Dysphagia: A Correlative Analysis Utilizing Electromyography to Explore the Frequency of Clinical and Subclinical Neuropathy in a Pilot Dysphagia Trial`, journal: `Head & neck`, date: `פברואר 2026`, kind: `ניסוי קליני` },
     { pmid: `40679129`, he: `אנטומיה של העצב התת-לשוני מחוץ לגולגולת בבדיקת אולטרסאונד`, en: `Sonographic Anatomy and Imaging of the Extracranial Component of the Hypoglossal Nerve (CNXII)`, journal: `Journal of medical radiation sciences`, date: `דצמבר 2025`, kind: `סקירה` },
   ],
+};
+
+// ארכיון: מאמרים שיצאו מחמשת העדכניים. לא מוחקים: בעדכון השבועי המאמר שיוצא מ-RESEARCH עובר לראש הרשימה כאן.
+// מוצג בעמוד העצב ("מאמרים קודמים", מקופל) ובעמוד research.html עם כל המאמרים.
+export const RESEARCH_ARCHIVE = {
+  olfactory: [],
+  optic: [
+    { pmid: `42663284`, he: `אבחון טרשת נפוצה: איך מיושמים קריטריוני מקדונלד החדשים (2024), ומה ההשפעות הלא-מכוונות שלהם`, en: `Diagnosing multiple sclerosis: implementation and unintended effects of the 2024 McDonald criteria`, journal: `Brain`, date: `נובמבר 2026`, kind: `סקירה` },
+  ],
+  oculomotor: [
+    { pmid: `41792540`, he: `עגבת של מערכת העצבים שמתבטאת בשיתוק של עצבי העיניים: שני מקרים וסקירה שיטתית`, en: `Neurosyphilis presenting as ocular motor nerve palsy: two cases and a systematic literature review`, journal: `Neurological sciences`, date: `מרץ 2026`, kind: `סקירה שיטתית` },
+  ],
+  trochlear: [],
+  trigeminal: [
+    { pmid: `41813571`, he: `האם תחושות שמגיעות דרך העצב התלת-ראשי משפיעות על תפיסת המליחות?`, en: `Can trigeminal sensations impact saltiness perception? A mini-review`, journal: `Journal of the science of food and agriculture`, date: `אוקטובר 2026`, kind: `סקירה` },
+    { pmid: `42802273`, he: `נוירלגיה טריגמינלית: כאב ובטיחות בטיפול בבלון בהשוואה לניתוח לשחרור לחץ`, en: `Pain outcomes and safety in trigeminal neuralgia: a systematic review and meta-analysis comparing percutaneous balloon compression with microvascular decompression`, journal: `Neurosurgical review`, date: `ספטמבר 2026`, kind: `מטה-אנליזה` },
+  ],
+  abducens: [],
+  facial: [],
+  vestibulocochlear: [],
+  glossopharyngeal: [
+    { pmid: `41844954`, he: `ההיסטוריה של ניתוחי שחרור הלחץ על עצבים קרניאליים, מאז ג'אנטה`, en: `Historical evolution of microvascular decompression after Jannetta's establishment: Anatomical maps and physiological compasses-a narrative review`, journal: `Acta neurochirurgica`, date: `מרץ 2026`, kind: `סקירה` },
+  ],
+  vagus: [
+    { pmid: `42826532`, he: `שפה אנטומית אחידה: למה חשוב לאחד את השמות של עצבי הגרון`, en: `Speaking the same anatomical language: standardizing laryngeal nerve terminology matters in anatomy and medicine`, journal: `Brazilian journal of otorhinolaryngology`, date: `נובמבר 2026`, kind: `סקירה` },
+  ],
+  accessory: [],
+  hypoglossal: [],
 };

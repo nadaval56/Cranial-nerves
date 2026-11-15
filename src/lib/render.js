@@ -6,7 +6,7 @@ import { NERVES, TYPES, COMPONENTS, BRAIN, byId, nerveUrl } from '../../content/
 import { FORAMINA } from '../../content/foramina.js';
 import { brainstemSvg } from './brainstem.js';
 import { DIAGRAMS } from './diagrams.js';
-import { RESEARCH, RESEARCH_UPDATED } from '../../content/research.js';
+import { RESEARCH, RESEARCH_ARCHIVE, RESEARCH_UPDATED } from '../../content/research.js';
 import { PRESS } from '../../content/press.js';
 import { IMAGES } from '../../content/images.js';
 import { CONDITIONS, titlesFor, isTreatment } from '../../content/conditions.js';
@@ -101,12 +101,12 @@ export function nerveBody(n) {
     + treats.map((c) => `<div class="treat-card"><p class="panel-kicker">טיפול דרך העצב</p><h3><a href="${conditionUrl(c.id)}">${esc(c.title)}</a> <span class="cond-en" lang="en" dir="ltr">${esc(c.en)}</span></h3><p>${esc(c.short)}</p></div>`).join(''));
 
   const papers = RESEARCH[n.id] ?? [];
+  const older = RESEARCH_ARCHIVE[n.id] ?? [];
   const research = papers.length ? section('research', 'lab', 'מהמחקר החדש',
     `<p class="muted">מאמרים מהשנה האחרונה על ${esc(n.name)}, מתוך PubMed, מאגר המאמרים הרפואיים של הספרייה הלאומית לרפואה של ארצות הברית. הכותרות תורגמו לעברית; המאמרים עצמם באנגלית.</p>`
-    + `<ul class="papers">${papers.map((a) => `<li><a class="paper-title" href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" rel="noopener" target="_blank">${esc(a.he)}</a>`
-      + `<p class="paper-en" lang="en" dir="ltr">${esc(a.en)}</p>`
-      + `<p class="paper-meta"><span class="paper-kind">${esc(a.kind)}</span> <span lang="en" dir="ltr">${esc(a.journal)}</span> · ${esc(a.date)}</p></li>`).join('')}</ul>`
-    + `<p class="paper-note muted">עודכן ב-${heDate(RESEARCH_UPDATED)}. הרשימה מתעדכנת מדי שבוע. המאמרים מוצגים לעיון ולא כהמלצה רפואית.</p>`) : '';
+    + `<ul class="papers">${papers.map((a) => paperItem(a)).join('')}</ul>`
+    + (older.length ? `<details class="papers-archive"><summary>מאמרים קודמים (${older.length})</summary><ul class="papers">${older.map((a) => paperItem(a)).join('')}</ul></details>` : '')
+    + `<p class="paper-note muted">עודכן ב-${heDate(RESEARCH_UPDATED)}. הרשימה מתעדכנת מדי שבוע. המאמרים מוצגים לעיון ולא כהמלצה רפואית. <a href="./research.html#${esc(n.id)}">כל המאמרים, מכל העצבים ←</a></p>`) : '';
 
   const report = `<p class="report-error muted">מצאתם טעות בעמוד? נשמח לשמוע: <a href="mailto:nadaval56@gmail.com?subject=${encodeURIComponent(`טעות בעמוד ${n.name}`)}">nadaval56@gmail.com</a></p>`;
 
@@ -259,4 +259,25 @@ export function conditionPage(c) {
     + `<section class="cond-sec" aria-labelledby="c-links-h"><h2 id="c-links-h">עוד באתר</h2><ul class="cond-links">${c.links.map((l) => `<li><a href="./${esc(l.href)}"><span class="cond-link-kind">${esc(l.kind ?? '')}</span><span class="cond-link-label">${esc(l.label)}</span></a></li>`).join('')}</ul></section>`
     + `<p class="press-sources muted">מקורות: ${c.sources.map((x) => `<a href="${esc(x.url)}" rel="noopener" target="_blank">${esc(x.label)}</a>`).join(' · ')}</p>`
     + (treat ? `<p class="press-back"><a href="${nerveUrl(n.id)}">→ לעמוד של ${esc(n.name)}</a></p>` : `<p class="press-back"><a href="./conditions.html">→ לכל הפגיעות</a></p>`);
+}
+
+// "מהמחקר החדש": פריט מאמר (בעמוד העצב ובעמוד research.html)
+function paperItem(a, nerve) {
+  return `<li${nerve ? ` data-nerve="${esc(nerve.id)}"` : ''}><a class="paper-title" href="https://pubmed.ncbi.nlm.nih.gov/${esc(a.pmid)}/" rel="noopener" target="_blank">${esc(a.he)}</a>`
+    + `<p class="paper-en" lang="en" dir="ltr">${esc(a.en)}</p>`
+    + `<p class="paper-meta">${nerve ? `<a class="paper-nerve t-${nerve.type}" href="${nerveUrl(nerve.id)}#research">${nerve.roman} · ${esc(nerve.name)}</a> ` : ''}<span class="paper-kind">${esc(a.kind)}</span> <span lang="en" dir="ltr">${esc(a.journal)}</span> · ${esc(a.date)}</p></li>`;
+}
+
+// תאריך פרסום בעברית ("נובמבר 2026") למספר שאפשר למיין לפיו
+const paperKey = (d) => { const [m, y] = String(d).split(' '); const i = HE_MONTHS.indexOf(m); return Number(y) * 12 + (i < 0 ? 0 : i); };
+
+// עמוד research.html: כל המאמרים (העדכניים והארכיון), מהחדש לישן, עם סינון לפי עצב
+export function researchPage(nerves) {
+  const all = nerves.flatMap((n) => [...(RESEARCH[n.id] ?? []), ...(RESEARCH_ARCHIVE[n.id] ?? [])].map((a) => ({ a, n })));
+  all.sort((x, y) => paperKey(y.a.date) - paperKey(x.a.date));
+  const chips = `<div class="chip-set research-filter" role="group" aria-label="סינון לפי עצב"><button type="button" class="chip" data-filter="all" aria-pressed="true">כל העצבים (${all.length})</button>`
+    + nerves.map((n) => `<button type="button" class="chip" data-filter="${esc(n.id)}" aria-pressed="false">${n.roman} · ${esc(n.name)}</button>`).join('') + '</div>';
+  return chips + `<p class="research-count muted" role="status" aria-live="polite"></p>`
+    + `<ul class="papers research-list">${all.map(({ a, n }) => paperItem(a, n)).join('')}</ul>`
+    + `<p class="paper-note muted">עודכן ב-${heDate(RESEARCH_UPDATED)}. הרשימה מתעדכנת מדי שבוע. המאמרים מוצגים לעיון ולא כהמלצה רפואית.</p>`;
 }

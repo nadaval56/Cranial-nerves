@@ -2026,3 +2026,16 @@ html.a11y-still .mon-ecg.is-running .ecg-track { animation: none; }
 .zero-figs { display: grid; gap: 1rem; align-items: start; }
 .zero-figs .pic { margin: 0; }
 @media (min-width: 760px) { .zero-figs { grid-template-columns: 1fr 1.6fr; } }
+
+/* "מהמחקר החדש": מאמרים קודמים (מקופל) בעמוד העצב, ועמוד research.html */
+.papers-archive { margin-top: 0.9rem; }
+.papers-archive > summary { cursor: pointer; color: var(--accent); font-weight: 600; padding: 0.35rem 0; }
+.papers-archive > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.papers-archive[open] > summary { margin-bottom: 0.25rem; }
+.research-filter { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 0.75rem; }
+.research-count { min-height: 1.4em; margin: 0 0 0.25rem; font-size: 0.85rem; }
+.paper-nerve { display: inline-block; margin-inline-end: 0.35rem; font-weight: 600; text-decoration: none; }
+.paper-nerve.t-sensory { color: var(--t-sensory); }
+.paper-nerve.t-motor { color: var(--t-motor); }
+.paper-nerve.t-mixed { color: var(--t-mixed); }
+.research-list li[hidden] { display: none; }

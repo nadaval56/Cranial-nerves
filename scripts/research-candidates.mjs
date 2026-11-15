@@ -2,7 +2,7 @@
 // מושך מ-PubMed את המאמרים האחרונים לכל עצב (סקירות, ניסויים ומטה-אנליזות, באנגלית, עם תקציר)
 // ומדפיס רק את מה שעוד לא נמצא ברשימה. הבחירה והתרגום לעברית נעשים ידנית.
 // הרצה: node scripts/research-candidates.mjs [ימים אחורה, ברירת מחדל 30]
-import { RESEARCH } from '../content/research.js';
+import { RESEARCH, RESEARCH_ARCHIVE } from '../content/research.js';
 
 const days = Number(process.argv[2] ?? 30);
 const Q = {
@@ -30,7 +30,7 @@ const get = async (path, params) => {
 
 const out = {};
 for (const [id, q] of Object.entries(Q)) {
-  const have = new Set((RESEARCH[id] ?? []).map((a) => a.pmid));
+  const have = new Set([...(RESEARCH[id] ?? []), ...(RESEARCH_ARCHIVE[id] ?? [])].map((a) => a.pmid)); // גם מה שכבר בארכיון
   const term = `(${q}) AND ${TYPES} AND english[la] AND hasabstract`;
   const s = await get('esearch.fcgi', { db: 'pubmed', term, sort: 'pub_date', retmax: 20, datetype: 'edat', reldate: days });
   await sleep(400);

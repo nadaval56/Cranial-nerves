@@ -9,6 +9,7 @@ import { ACTIONS, actionById, REQUIRED, REGIONS, DEVICES } from '../content/clin
 import { DISTRACTORS, distractorById, ADD_KEYS } from '../content/distractors.js';
 import { tpl, leftover } from '../src/lib/persona.js';
 import { existsSync } from 'node:fs';
+import { RESEARCH, RESEARCH_ARCHIVE } from '../content/research.js';
 import { CONDITIONS, SECTION_TITLES } from '../content/conditions.js';
 
 const errors = [];
@@ -134,6 +135,20 @@ DISTRACTORS.forEach((d) => {
   if (/—/.test(txt)) err(w, 'מקף ארוך');
   if (/\((?:[IVX]+(?:, ?[IVX]+)*)\)/.test(d.label)) err(w, 'שם עצב בסוגריים בתווית');
 });
+
+// מהמחקר החדש: 5 עדכניים לכל עצב, ומאמר שיצא עובר לארכיון (לא נמחק). בלי כפילויות.
+for (const n of NERVES) {
+  const cur = RESEARCH[n.id] ?? [], old = RESEARCH_ARCHIVE[n.id];
+  const w = `מחקר ${n.id}`;
+  if (cur.length !== 5) err(w, `צריך 5 מאמרים עדכניים, יש ${cur.length}`);
+  if (!Array.isArray(old)) err(w, 'חסרה רשימה ב-RESEARCH_ARCHIVE');
+  const ids = [...cur, ...(old ?? [])].map((a) => a.pmid);
+  if (new Set(ids).size !== ids.length) err(w, 'מאמר כפול (בעדכניים או בארכיון)');
+  for (const a of [...cur, ...(old ?? [])]) {
+    for (const k of ['pmid', 'he', 'en', 'journal', 'date', 'kind']) if (!a[k]) err(w, `חסר שדה ${k} (${a.pmid})`);
+    if (/[„“”]/.test(a.he) || /—/.test(a.he)) err(w, `מירכאות לא ישרות או מקף ארוך (${a.pmid})`);
+  }
+}
 
 // פגיעות ומחלות
 const condIds = new Set();

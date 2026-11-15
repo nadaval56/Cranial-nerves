@@ -3,7 +3,7 @@ import { resolve, basename } from 'node:path';
 import { SITE, NAV, LAB, DISCLAIMER, SISTER_SITES, SISTER_INVITE } from './src/config.js';
 import { NERVES, byId } from './content/nerves.js';
 import { EVENTS } from './content/timeline.js';
-import { nerveBody, nervesList, timeline, examList, pressCards, pressStory, conditionCards, conditionPage, figure, creditsList } from './src/lib/render.js';
+import { nerveBody, nervesList, timeline, examList, pressCards, pressStory, conditionCards, conditionPage, figure, creditsList, researchPage } from './src/lib/render.js';
 import { IMAGES, CREDITS } from './content/images.js';
 import { PRESS } from './content/press.js';
 import { CONDITIONS, isTreatment } from './content/conditions.js';
@@ -11,7 +11,7 @@ import { CASES } from './content/cases.js';
 import { caseCards } from './src/lib/clinic.js';
 
 const PAGES = [
-  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'clinic', 'history', 'press', 'press-story', 'conditions', 'condition', 'about',
+  'index', 'nerves', 'nerve', 'nerve-zero', 'basics', 'exam', 'clinic', 'history', 'press', 'press-story', 'research', 'conditions', 'condition', 'about',
   'lab', ...LAB.map((t) => t.page), 'privacy', 'accessibility', '404',
 ];
 
@@ -29,7 +29,7 @@ const pageUrl = (page) => `${SITE.url}${page === 'index' ? '' : `${page}.html`}`
 // ולעמודי העצבים תמונה משלהם (public/og/nerve-<id>.png, נוצרת ב-scripts/make-images.cjs).
 const CRUMB = {
   nerves: ['העצבים'], 'nerve-zero': ['העצבים', 'עצב 0'], basics: ['היסודות'], exam: ['הבדיקה'],
-  history: ['היסטוריה'], clinic: ['קליניקה'], press: ['בתקשורת'], conditions: ['העצבים', 'פגיעות ומחלות'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
+  history: ['היסטוריה'], clinic: ['קליניקה'], press: ['בתקשורת'], conditions: ['העצבים', 'פגיעות ומחלות'], research: ['העצבים', 'מהמחקר החדש'], about: ['אודות'], lab: ['המעבדה'], privacy: ['מדיניות פרטיות'], accessibility: ['הצהרת נגישות'],
   ...Object.fromEntries(LAB.map((t) => [t.page, ['המעבדה', t.label]])),
   ...Object.fromEntries(NERVES.map((n) => [`nerve-${n.id}`, ['העצבים', `${n.name} (${n.roman})`]])),
   ...Object.fromEntries(PRESS.map((x) => [`press-${x.id}`, ['בתקשורת', x.title]])),
@@ -189,6 +189,7 @@ function staticPages() {
       page('nerves.html', (html) => fill(html, '<div id="nerves-root">', nervesList(NERVES)));
       page('clinic.html', (html) => fill(html, '<div id="case-list">', caseCards(CASES)));
       page('press.html', (html) => fill(html, '<div id="press-root">', pressCards(PRESS)));
+      page('research.html', (html) => fill(html, '<div id="research-root">', researchPage(NERVES)));
       page('conditions.html', (html) => fill(html, '<div id="conditions-root">', conditionCards(CONDITIONS.filter((c) => !isTreatment(c)))));
       page('history.html', (html) => fill(html, '<div id="timeline-root">', timeline(EVENTS)));
       page('basics.html', (html) => fill(html, '<div id="basics-atlas">', figure(IMAGES.base, 'pic-atlas')));
