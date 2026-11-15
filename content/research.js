@@ -2,7 +2,7 @@
 // נוצר מ-PubMed E-utilities (סקירות, ניסויים ומטה-אנליזות מהשנה האחרונה, באנגלית, עם תקציר).
 // הכותרות בעברית הן תרגום חופשי שלנו; הקישור מוביל למאמר המקורי.
 
-export const RESEARCH_UPDATED = `2026-11-08`;
+export const RESEARCH_UPDATED = `2026-11-15`;
 
 export const RESEARCH = {
   olfactory: [
@@ -20,11 +20,11 @@ export const RESEARCH = {
     { pmid: `42125905`, he: `נזק לעצב הראייה אחרי ניתוח לתיקון היפרדות רשתית: גורמי סיכון ומנגנונים`, en: `Risk factors and pathophysiological insights into optic neuropathy after rhegmatogenous retinal detachment repair: A literature review`, journal: `European journal of ophthalmology`, date: `נובמבר 2026`, kind: `סקירה` },
   ],
   oculomotor: [
+    { pmid: `43022733`, he: `טיפול עדכני בשיתוק העצב השלישי: מיון בעזרת הדמיה ושיקום ניתוחי`, en: `Modern management of third nerve palsy: neuroimaging triage and surgical rehabilitation`, journal: `Frontiers in neurology`, date: `אוקטובר 2026`, kind: `סקירה` },
     { pmid: `41351389`, he: `שיתוק העצב השלישי בגלל מפרצת בעורק המקשר האחורי: סקירה והצעה לאלגוריתם טיפול`, en: `Oculomotor Nerve Palsy Secondary to Posterior Communicating Artery Aneurysm: A Narrative Review and Proposed Treatment Algorithm`, journal: `Revista de neurologia`, date: `נובמבר 2025`, kind: `סקירה` },
     { pmid: `41325007`, he: `הדמיית MRI תלת-ממדית ברזולוציה גבוהה של העצב השלישי, לאורך כל המקטעים שלו`, en: `High-Resolution 3-Dimensional MRI of the Oculomotor Nerve: Anatomic and Pathologic Considerations by Segment`, journal: `Journal of neuro-ophthalmology`, date: `דצמבר 2025`, kind: `סקירה` },
     { pmid: `41870107`, he: `עדכון על הפרעות מולדות בעצבוב שרירי העיניים (CCDDs)`, en: `Update on Congenital Cranial Dysinnervation Disorders (CCDDs)`, journal: `International ophthalmology clinics`, date: `אפריל 2026`, kind: `סקירה` },
     { pmid: `41772964`, he: `שיתוק של העצב השלישי שלא נובע מאספקת דם לקויה: סדרת מקרים וסקירה`, en: `Spectrum of non-ischemic oculomotor nerve palsies at a tertiary care centre - case series and literature review`, journal: `Strabismus`, date: `ספטמבר 2026`, kind: `סקירה` },
-    { pmid: `41792540`, he: `עגבת של מערכת העצבים שמתבטאת בשיתוק של עצבי העיניים: שני מקרים וסקירה שיטתית`, en: `Neurosyphilis presenting as ocular motor nerve palsy: two cases and a systematic literature review`, journal: `Neurological sciences`, date: `מרץ 2026`, kind: `סקירה שיטתית` },
   ],
   trochlear: [
     { pmid: `42808790`, he: `סריקת OCT ככלי אובייקטיבי למדידת הסיבוב של העין בשיתוק העצב הרביעי`, en: `Optical Coherence Tomography as an Objective Tool for Assessing Ocular Torsion in Fourth Cranial Nerve Palsy`, journal: `Journal of neuro-ophthalmology`, date: `ספטמבר 2026`, kind: `מחקר` },
@@ -34,11 +34,11 @@ export const RESEARCH = {
     { pmid: `41190566`, he: `הטיית ראש ממושכת בשיתוק מולד של העצב הרביעי: ההשפעה על זרימת הדם בעורקי התרדמה`, en: `Impact of Long-term Abnormal Head Position on Carotid Artery Flow in Congenital Fourth Nerve Palsy`, journal: `Journal of pediatric ophthalmology and strabismus`, date: `מאי 2026`, kind: `מחקר` },
   ],
   trigeminal: [
+    { pmid: `43013145`, he: `הסיכון הסמוי: שכיחות, טיפול ותוצאות של הרפלקס הטריגמינו-קרדיאלי בניתוחי בסיס הגולגולת`, en: `The unseen risk: a systematic review of the incidence, management, and outcomes of the trigeminocardiac reflex in skull-base surgery`, journal: `Neurosurgical review`, date: `נובמבר 2026`, kind: `סקירה שיטתית` },
     { pmid: `42972164`, he: `קרינה ממוקדת לנוירלגיה טריגמינלית בשני צדי הפנים: סקירה שיטתית והצעה לטיפול בשלבים`, en: `Stereotactic radiosurgery for bilateral trigeminal neuralgia: A systematic review and proposed framework for staged treatment`, journal: `Neurosurgical review`, date: `נובמבר 2026`, kind: `סקירה שיטתית` },
     { pmid: `42568178`, he: `ניתוח לשחרור הלחץ שכלי דם מפעיל על העצב בנוירלגיה טריגמינלית: אנדוסקופ מול מיקרוסקופ`, en: `Endoscopic vs microscopic microvascular decompression for trigeminal neuralgia: a systematic review and meta-analysis`, journal: `British journal of neurosurgery`, date: `אוקטובר 2026`, kind: `מטה-אנליזה` },
     { pmid: `42484626`, he: `נוירלגיה טריגמינלית: מבוא לרופאי שיניים`, en: `Trigeminal neuralgia: a primer for dental practitioners`, journal: `Quintessence international`, date: `אוקטובר 2026`, kind: `סקירה` },
     { pmid: `42839184`, he: `כמה יעילים ניתוחים לנוירלגיה טריגמינלית אצל חולי טרשת נפוצה?`, en: `The efficacy of surgical interventions for trigeminal neuralgia in multiple sclerosis: A systematic review`, journal: `Neurosurgical review`, date: `אוקטובר 2026`, kind: `סקירה שיטתית` },
-    { pmid: `41813571`, he: `האם תחושות שמגיעות דרך העצב התלת-ראשי משפיעות על תפיסת המליחות?`, en: `Can trigeminal sensations impact saltiness perception? A mini-review`, journal: `Journal of the science of food and agriculture`, date: `אוקטובר 2026`, kind: `סקירה` },
   ],
   abducens: [
     { pmid: `42142158`, he: `האם סטרואידים משפרים את ההחלמה משיתוק העצב השישי ללא סיבה ידועה בילדים?`, en: `Do steroids improve outcomes of idiopathic sixth nerve palsy in children?`, journal: `Graefe's archive for clinical and experimental ophthalmology`, date: `נובמבר 2026`, kind: `מחקר` },
@@ -62,18 +62,18 @@ export const RESEARCH = {
     { pmid: `41723407`, he: `גירוי חשמלי של עצב שיווי המשקל כטיפול בנדודי שינה`, en: `Electrical vestibular nerve stimulation as a novel therapeutic approach for insomnia: a systematic review and meta-analysis`, journal: `BMC psychiatry`, date: `פברואר 2026`, kind: `מטה-אנליזה` },
   ],
   glossopharyngeal: [
+    { pmid: `43026375`, he: `אילו כלי דם לוחצים על העצב בנוירלגיה של העצב הלשוני-לועי, ומה התוצאות אחרי ניתוח לשחרור הלחץ`, en: `Neurovascular conflict patterns in glossopharyngeal neuralgia: a systematic review and meta-analysis of offending vessels and outcomes after microvascular decompression`, journal: `Neurosurgical review`, date: `נובמבר 2026`, kind: `מטה-אנליזה` },
     { pmid: `41793136`, he: `טיפול בנוירלגיה של העצב הלשוני-לועי`, en: `Treatment of Glossopharyngeal Neuralgia: A Systematic Review`, journal: `Pain practice`, date: `מרץ 2026`, kind: `סקירה שיטתית` },
     { pmid: `41428184`, he: `ניתוח לשחרור הלחץ שכלי דם מפעיל על העצב בנוירלגיה של העצב הלשוני-לועי`, en: `Microvascular decompression in glossopharyngeal neuralgia: a systematic review and meta-analysis`, journal: `Acta neurologica Belgica`, date: `יוני 2026`, kind: `מטה-אנליזה` },
     { pmid: `40987863`, he: `שוואנומה (גידול שפיר במעטפת העצב) של העצב הלשוני-לועי: ביטויים וטיפול`, en: `An overview on manifestation and management of glossopharyngeal schwannoma: a systematic review`, journal: `European archives of oto-rhino-laryngology`, date: `מרץ 2026`, kind: `סקירה שיטתית` },
     { pmid: `42552476`, he: `חסימה של העצב הלשוני-לועי מול הזרקה מקומית לשיכוך כאב אחרי כריתת שקדים בילדים`, en: `Glossopharyngeal nerve block versus tonsillar fossa ropivacaine infiltration within multimodal analgesia for pediatric post-tonsillectomy pain: a randomized controlled clinical trial`, journal: `European archives of oto-rhino-laryngology`, date: `ספטמבר 2026`, kind: `ניסוי קליני מבוקר` },
-    { pmid: `41844954`, he: `ההיסטוריה של ניתוחי שחרור הלחץ על עצבים קרניאליים, מאז ג'אנטה`, en: `Historical evolution of microvascular decompression after Jannetta's establishment: Anatomical maps and physiological compasses-a narrative review`, journal: `Acta neurochirurgica`, date: `מרץ 2026`, kind: `סקירה` },
   ],
   vagus: [
+    { pmid: `43021851`, he: `גירוי של העצב התועה דרך האוזן בהפרעות קוגניטיביות סביב ניתוח: ראיות קליניות ומנגנונים`, en: `Transcutaneous auricular vagus nerve stimulation in perioperative neurocognitive disorders: clinical evidence and mechanistic perspectives`, journal: `Frontiers in neurology`, date: `אוקטובר 2026`, kind: `מטה-אנליזה` },
     { pmid: `42705023`, he: `גירוי העצב התועה בילדים עם תסמונת לנוקס-גאסטו (סוג קשה של אפילפסיה)`, en: `Vagus nerve stimulation in pediatric patients with Lennox-Gastaut syndrome: a systematic review`, journal: `Epilepsy & behavior`, date: `דצמבר 2026`, kind: `סקירה שיטתית` },
     { pmid: `42385861`, he: `גירוי העצב התועה דרך העור בדיכאון קשה: ההשפעה על המוטיבציה`, en: `Transcutaneous vagus nerve stimulation enhances reward-effort efficiency in severe major depressive disorder`, journal: `Journal of affective disorders`, date: `נובמבר 2026`, kind: `ניסוי קליני מבוקר` },
     { pmid: `42826854`, he: `גירוי העצב התועה דרך האוזן בתדר 40 הרץ משפר זיכרון מילולי במבוגרים בריאים`, en: `40 Hz transcutaneous auricular vagus nerve stimulation enhances verbal free recall in healthy adults by modulating frontal theta oscillations`, journal: `NeuroImage`, date: `נובמבר 2026`, kind: `ניסוי קליני מבוקר` },
     { pmid: `42867124`, he: `שיטות גירוי עצבי לשיקום התנועה אחרי שבץ: עדכון 2026`, en: `Current and emerging neuromodulation techniques for motor recovery after ischemic stroke: a 2026 update`, journal: `Expert review of neurotherapeutics`, date: `נובמבר 2026`, kind: `סקירה` },
-    { pmid: `42826532`, he: `שפה אנטומית אחידה: למה חשוב לאחד את השמות של עצבי הגרון`, en: `Speaking the same anatomical language: standardizing laryngeal nerve terminology matters in anatomy and medicine`, journal: `Brazilian journal of otorhinolaryngology`, date: `נובמבר 2026`, kind: `סקירה` },
   ],
   accessory: [
     { pmid: `42924661`, he: `שיקום אחרי פגיעה בעצב הנלווה ובכתף בעקבות ניתוח בצוואר לסרטן ראש וצוואר`, en: `Rehabilitation of Spinal Accessory Nerve Injury and Shoulder Dysfunction Following Neck Dissection for Head and Neck Cancer: A Narrative Review`, journal: `Journal of functional morphology and kinesiology`, date: `ספטמבר 2026`, kind: `סקירה` },
